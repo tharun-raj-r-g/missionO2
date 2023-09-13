@@ -4,14 +4,14 @@ import {
   TouchableOpacity,
   StyleSheet,
   TextInput,
-  Dimensions
+  Dimensions,
 } from "react-native";
 import Text from "../fonts/Text";
 import TextB from "../fonts/TextBold";
 import Icon from "react-native-vector-icons/Feather";
 import { useNavigation } from "@react-navigation/native";
 const { width, height } = Dimensions.get("window");
-const DeliveryAddressComp = ({ liveAddress,selectedValue,onChange }) => {
+const DeliveryAddressComp = ({ liveAddress, selectedValue, onChange }) => {
   const navigation = useNavigation();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [addressInput, setAddressInput] = useState("");
@@ -19,9 +19,9 @@ const DeliveryAddressComp = ({ liveAddress,selectedValue,onChange }) => {
   const [isLiveSelected, setLiveSelected] = useState(1);
   const options = ["Select Live Location", liveAddress, ...savedAddresses];
 
-  const handleAddressChange=(newValue)=>{
+  const handleAddressChange = (newValue) => {
     onChange(newValue);
-  }
+  };
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
@@ -96,8 +96,8 @@ const DeliveryAddressComp = ({ liveAddress,selectedValue,onChange }) => {
                     {
                       backgroundColor:
                         option === liveAddress ? "#fff" : "#00b388",
-                      borderRadius:10,
-                      marginBottom:"5%"
+                      borderRadius: 10,
+                      marginBottom: "5%",
                     },
                   ]}
                 >
@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
     shadowRadius: 3,
-    width: width*0.92,
+    width: width * 0.92,
   },
   dropdownContainer: {
     flexDirection: "row",
@@ -175,7 +175,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
     shadowRadius: 3,
-    width: width*0.92,
+    width: width * 0.92,
   },
   optionButton: {
     paddingVertical: 15,
@@ -192,6 +192,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     borderBottomWidth: 1,
     borderBottomColor: "#eee",
+    fontFamily: "Montserrat",
+    width: "100%",
   },
   saveButton: {
     alignSelf: "flex-end",

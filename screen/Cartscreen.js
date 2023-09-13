@@ -236,7 +236,11 @@ const Cartscreen = ({ navigation }) => {
               }}
             >
               <TextInput
-                style={{ color: "#005f48", fontSize: 17 }}
+                style={{
+                  color: "#005f48",
+                  fontSize: 17,
+                  fontFamily: "Montserrat",
+                }}
                 value={isName}
                 onChangeText={setName}
               />
@@ -257,7 +261,7 @@ const Cartscreen = ({ navigation }) => {
               }}
             >
               <TextInput
-                style={{ color: "#005f48", fontSize: 17 }}
+                style={{ color: "#005f48", fontSize: 17, fontFamily: "Montserrat", }}
                 value={isEmail}
                 onChangeText={setEmail}
               />
@@ -277,7 +281,7 @@ const Cartscreen = ({ navigation }) => {
               }}
             >
               <TextInput
-                style={{ color: "#005f48", fontSize: 17 }}
+                style={{ color: "#005f48", fontSize: 17, fontFamily: "Montserrat", }}
                 value={isDOB}
                 onChangeText={setDOB}
               />
@@ -825,11 +829,7 @@ const Cartscreen = ({ navigation }) => {
                 }}
                 onPress={handleConfirm}
               >
-                <TextB
-                  style={{ fontSize: 18, color: "white" }}
-                >
-                  Confirm
-                </TextB>
+                <TextB style={{ fontSize: 18, color: "white" }}>Confirm</TextB>
               </TouchableOpacity>
             ) : (
               <View
@@ -847,11 +847,7 @@ const Cartscreen = ({ navigation }) => {
                   alignItems: "center",
                 }}
               >
-                <TextB
-                  style={{ fontSize: 18, color: "grey" }}
-                >
-                  Confirm
-                </TextB>
+                <TextB style={{ fontSize: 18, color: "grey" }}>Confirm</TextB>
               </View>
             )}
 
@@ -896,9 +892,7 @@ const Cartscreen = ({ navigation }) => {
               shadowRadius: 8,
             }}
           >
-            <TextB style={{ color: "white", fontSize: 20 }}>
-              Add plants
-            </TextB>
+            <TextB style={{ color: "white", fontSize: 20 }}>Add plants</TextB>
           </TouchableOpacity>
         </View>
       )}

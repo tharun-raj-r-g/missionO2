@@ -186,7 +186,7 @@ const VerificationPage = ({ navigation }) => {
               }}
             />
             <TextInput
-              style={{ color: "white", fontSize: 16 }}
+              style={{ color: "white", fontSize: 16, fontFamily: "Montserrat" }}
               placeholder="Enter phone no"
               placeholderTextColor="white"
             />
@@ -314,5 +314,6 @@ const styles = StyleSheet.create({
     color: "#fff",
     marginBottom: 50,
     marginTop: 10,
+    fontFamily: "Montserrat",
   },
 });

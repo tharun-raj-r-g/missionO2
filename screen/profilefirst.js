@@ -144,7 +144,7 @@ const ProfileFirst = ({ navigation }) => {
             <TextInput
               placeholder="Enter Name"
               placeholderTextColor={"#fff"}
-              style={{ color: "white", fontSize: 16 }}
+              style={{ color: "white", fontSize: 16, fontFamily: "Montserrat" }}
               value={name}
               onChangeText={(text) => {
                 setName(text);
@@ -169,7 +169,7 @@ const ProfileFirst = ({ navigation }) => {
             <TextInput
               placeholder="Enter Email"
               placeholderTextColor={"#fff"}
-              style={{ color: "white", fontSize: 16 }}
+              style={{ color: "white", fontSize: 16, fontFamily: "Montserrat" }}
               value={email}
               onChangeText={(text) => {
                 setEmail(text);
@@ -193,7 +193,7 @@ const ProfileFirst = ({ navigation }) => {
             <TextInput
               placeholder="Enter Address"
               placeholderTextColor={"#fff"}
-              style={{ color: "white", fontSize: 16 }}
+              style={{ color: "white", fontSize: 16, fontFamily: "Montserrat" }}
               value={address}
               onChangeText={(text) => {
                 setAddress(text);
@@ -223,7 +223,11 @@ const ProfileFirst = ({ navigation }) => {
               <TextInput
                 placeholder="Enter City"
                 placeholderTextColor={"#fff"}
-                style={{ color: "white", fontSize: 16 }}
+                style={{
+                  color: "white",
+                  fontSize: 16,
+                  fontFamily: "Montserrat",
+                }}
                 value={city}
                 onChangeText={(text) => {
                   setCity(text);
@@ -244,7 +248,11 @@ const ProfileFirst = ({ navigation }) => {
               <TextInput
                 placeholder="Enter State"
                 placeholderTextColor={"#fff"}
-                style={{ color: "white", fontSize: 16 }}
+                style={{
+                  color: "white",
+                  fontSize: 16,
+                  fontFamily: "Montserrat",
+                }}
                 value={state}
                 onChangeText={(text) => {
                   setState(text);
@@ -270,7 +278,7 @@ const ProfileFirst = ({ navigation }) => {
             <TextInput
               placeholder="Enter DOB"
               placeholderTextColor={"#fff"}
-              style={{ color: "white", fontSize: 16 }}
+              style={{ color: "white", fontSize: 16, fontFamily: "Montserrat" }}
               value={dob}
               onChangeText={(text) => {
                 setDOB(text);

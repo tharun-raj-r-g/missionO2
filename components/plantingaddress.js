@@ -225,6 +225,8 @@ const CustomDropdown = ({
                       fontSize: 16,
                       alignSelf: "flex-start",
                       marginLeft: "4%",
+                      fontFamily: "Montserrat",
+                      width: "100%",
                     }}
                     placeholder="Enter Address Line 1"
                     value={addressLine1}
@@ -248,6 +250,8 @@ const CustomDropdown = ({
                       fontSize: 16,
                       alignSelf: "flex-start",
                       marginLeft: "4%",
+                      fontFamily: "Montserrat",
+                      width: "100%",
                     }}
                     placeholder="Enter Address Line 2"
                     value={addressLine2}
@@ -271,6 +275,8 @@ const CustomDropdown = ({
                       fontSize: 16,
                       alignSelf: "flex-start",
                       marginLeft: "4%",
+                      fontFamily: "Montserrat",
+                      width: "100%",
                     }}
                     placeholder="Enter Pin Code"
                     value={pinCode}

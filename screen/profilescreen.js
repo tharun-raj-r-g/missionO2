@@ -123,17 +123,17 @@ const Profile = () => {
               borderBottomWidth: 1,
               borderColor: "white",
               marginBottom: "3%",
-              justifyContent:"space-between"
+              justifyContent: "space-between",
             }}
           >
-            <Text
-              style={{ color: "#005f48", fontSize: 20 }}
-            >
-              Name
-            </Text>
+            <Text style={{ color: "#005f48", fontSize: 20 }}>Name</Text>
             {isEditing ? (
               <TextInput
-                style={{ color: "white", fontSize: 16 }}
+                style={{
+                  color: "white",
+                  fontSize: 16,
+                  fontFamily: "Montserrat",
+                }}
                 value={name}
                 onChangeText={setName}
               />
@@ -148,17 +148,17 @@ const Profile = () => {
               borderBottomWidth: 1,
               borderColor: "white",
               marginBottom: "3%",
-              justifyContent:"space-between"
+              justifyContent: "space-between",
             }}
           >
-            <Text
-              style={{ color: "#005f48", fontSize: 20}}
-            >
-              Email
-            </Text>
+            <Text style={{ color: "#005f48", fontSize: 20 }}>Email</Text>
             {isEditing ? (
               <TextInput
-                style={{ color: "white", fontSize: 16 }}
+                style={{
+                  color: "white",
+                  fontSize: 16,
+                  fontFamily: "Montserrat",
+                }}
                 value={email}
                 onChangeText={setEmail}
               />
@@ -172,18 +172,20 @@ const Profile = () => {
               width: width * 0.85,
               borderBottomWidth: 1,
               borderColor: "white",
-              justifyContent:"space-between",
-              marginBottom:"3%"
+              justifyContent: "space-between",
+              marginBottom: "3%",
             }}
           >
-            <Text
-              style={{ color: "#005f48", fontSize: 20 }}
-            >
+            <Text style={{ color: "#005f48", fontSize: 20 }}>
               Permanent Address
             </Text>
             {isEditing ? (
               <TextInput
-                style={{ color: "white", fontSize: 16 }}
+                style={{
+                  color: "white",
+                  fontSize: 16,
+                  fontFamily: "Montserrat",
+                }}
                 value={address}
                 onChangeText={setAddress}
               />
@@ -213,7 +215,11 @@ const Profile = () => {
             >
               {isEditing ? (
                 <TextInput
-                  style={{ color: "white", fontSize: 16 }}
+                  style={{
+                    color: "white",
+                    fontSize: 16,
+                    fontFamily: "Montserrat",
+                  }}
                   value={city}
                   onChangeText={setCity}
                 />
@@ -232,7 +238,11 @@ const Profile = () => {
             >
               {isEditing ? (
                 <TextInput
-                  style={{ color: "white", fontSize: 16 }}
+                  style={{
+                    color: "white",
+                    fontSize: 16,
+                    fontFamily: "Montserrat",
+                  }}
                   value={state}
                   onChangeText={setState}
                 />
@@ -247,18 +257,18 @@ const Profile = () => {
               width: width * 0.85,
               borderBottomWidth: 1,
               borderColor: "white",
-              justifyContent:"space-between",
-              marginBottom:"3%"
+              justifyContent: "space-between",
+              marginBottom: "3%",
             }}
           >
-            <Text
-              style={{ color: "#005f48", fontSize: 20}}
-            >
-              D.O.B
-            </Text>
+            <Text style={{ color: "#005f48", fontSize: 20 }}>D.O.B</Text>
             {isEditing ? (
               <TextInput
-                style={{ color: "white", fontSize: 16 }}
+                style={{
+                  color: "white",
+                  fontSize: 16,
+                  fontFamily: "Montserrat",
+                }}
                 value={dob}
                 onChangeText={setDOB}
               />
