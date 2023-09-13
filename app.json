@@ -22,14 +22,14 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.rahulvijayanand10.missiono2"
+      "package": "com.rahulvijay8a.missiono2"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
       "eas": {
-        "projectId": "9d8a4935-fc72-498a-8b64-b68a2e71ebd8"
+        "projectId": "0ab07125-2cd7-4658-a67b-0395a7e0a5eb"
       }
     }
   }

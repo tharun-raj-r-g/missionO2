@@ -143,6 +143,16 @@ const MapScreen = ({ navigation }) => {
         <Text style={styles.addressText}>
           {currentAddress ? currentAddress : "Searching address..."}
         </Text>
+        {centerCoordinate && (
+          <View style={styles.coordinateContainer}>
+            <Text style={styles.coordinateText}>
+              Latitude: {centerCoordinate.latitude.toFixed(6)}
+            </Text>
+            <Text style={styles.coordinateText}>
+              Longitude: {centerCoordinate.longitude.toFixed(6)}
+            </Text>
+          </View>
+        )}
         <TouchableOpacity
           onPress={handleConfirmAndContinue}
           style={{
@@ -188,6 +198,12 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
     fontSize: 16,
+  },
+  coordinateContainer: {
+    marginBottom: 10,
+  },
+  coordinateText: {
+    fontSize: 12,
   },
 });
 

@@ -1,11 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import {
-  View,
-  Image,
-  ScrollView,
-  Dimensions,
-  StyleSheet,
-} from "react-native";
+import { View, Image, ScrollView, Dimensions, StyleSheet } from "react-native";
 import Text from "../fonts/Text";
 import TextB from "../fonts/TextBold";
 
@@ -95,17 +89,18 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   title: {
-    fontSize: 16,
+    fontSize: 14,
     marginBottom: 6,
     color: "#005F48",
   },
   description: {
-    fontSize: 12,
+    fontSize: 10.5,
     marginBottom: 6,
     color: "#595959",
+    textAlign: "justify",
   },
   date: {
-    fontSize: 12,
+    fontSize: 10.5,
   },
   dotContainer: {
     flexDirection: "row",

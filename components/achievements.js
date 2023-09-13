@@ -1,15 +1,16 @@
 import React from "react";
 import { View, Image, Pressable, StyleSheet } from "react-native";
 import Text from "../fonts/Text";
+import TextB from "../fonts/TextBold";
 
 const Achievements = ({ title, description }) => {
   return (
     <Pressable style={styles.container}>
       <Image source={require("../assets/medal.png")} style={styles.image} />
       <View style={styles.content}>
-        <Text style={styles.title}>{title}</Text>
+        <TextB style={styles.title}>{title}</TextB>
         <Text style={styles.description}>{description}</Text>
-        <Text style={styles.learnMoreText}>Learn More</Text>
+        <TextB style={styles.learnMoreText}>Learn More</TextB>
       </View>
     </Pressable>
   );

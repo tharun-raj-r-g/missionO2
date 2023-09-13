@@ -18,7 +18,40 @@ import { useEffect, useState } from "react";
 import OrderCard from "../components/OrderCard";
 import Text from "../fonts/Text";
 import TextB from "../fonts/TextBold";
+import MyCarousel from "../components/carousel";
+import Achievements from "../components/achievements";
 const HomePage = ({ navigation }) => {
+  const carouselData = [
+    {
+      image: require("../assets/image3.png"),
+      title: "Farm culture 23’",
+      description:
+        "The event focus on awareness of trees and its need in the wor...",
+      date: "12/3/23 - Chennai",
+    },
+    {
+      image: require("../assets/image3.png"),
+      title: "Farm culture 23’",
+      description:
+        "The event focus on awareness of trees and its need in the wor...",
+      date: "12/3/23 - Chennai",
+    },
+    {
+      image: require("../assets/image3.png"),
+      title: "Farm culture 23’",
+      description:
+        "The event focus on awareness of trees and its need in the wor...",
+      date: "12/3/23 - Chennai",
+    },
+    {
+      image: require("../assets/image3.png"),
+      title: "Farm culture 23’",
+      description:
+        "The event focus on awareness of trees and its need in the wor...",
+      date: "12/3/23 - Chennai",
+    },
+  ];
+
   const products = useSelector((state) => state.product.product);
   const [plantdata, setplantdata] = useState([]);
   const dispatch = useDispatch();
@@ -233,14 +266,34 @@ const HomePage = ({ navigation }) => {
         </View>
 
         <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={styles.carouselcontainer}>
+            <TextB style={styles.text}>Recent endeavor</TextB>
+            <MyCarousel items={carouselData} />
+          </View>
+
+          <TextB style={[styles.text, { marginTop: "5%" }]}>Achievements</TextB>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            style={{ marginTop: "2%" }}
+          >
+            <Achievements
+              title="Social welfare award"
+              description=" The was to encourage the social welfare activity of us"
+            />
+            <Achievements
+              title="Social welfare award"
+              description=" The was to encourage the social welfare activity of us"
+            />
+          </ScrollView>
+
           <View
             style={{
               height: height * 0.06,
               width: "100%",
               flexDirection: "row",
               justifyContent: "space-between",
-              marginTop: "10%",
-
+              marginTop: "3%",
               alignItems: "center",
             }}
           >
@@ -324,9 +377,7 @@ const HomePage = ({ navigation }) => {
                 navigation.navigate("OrderStack");
               }}
             >
-              <TextB
-                style={{ fontSize: 16, color: "#005f48" }}
-              >
+              <TextB style={{ fontSize: 16, color: "#005f48" }}>
                 Explore More !
               </TextB>
             </TouchableOpacity>
@@ -414,11 +465,12 @@ const styles = StyleSheet.create({
     height: "100%",
   },
   carouselcontainer: {
-    marginTop: width * 0.03,
+    marginTop: width * 0.06,
   },
   text: {
-    fontSize: 16,
+    fontSize: 20,
     marginLeft: 15,
+    color: "#005f48",
   },
   profilecontainer: {
     paddingTop: 10,

@@ -283,6 +283,13 @@ const Cartscreen = ({ navigation }) => {
               />
             </View>
 
+            <PlantAddressComp
+              liveAddress={liveAddress}
+              selectedValue={selectedDeliveryAddress}
+              onChange={handleDeliverySelect}
+              addressLabel={"Delivery Address"}
+            />
+
             <View
               style={{
                 width: width * 0.92,
