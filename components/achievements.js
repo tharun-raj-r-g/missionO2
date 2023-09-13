@@ -1,5 +1,6 @@
 import React from "react";
-import { View, Text, Image, Pressable, StyleSheet } from "react-native";
+import { View, Image, Pressable, StyleSheet } from "react-native";
+import Text from "../fonts/Text";
 
 const Achievements = ({ title, description }) => {
   return (

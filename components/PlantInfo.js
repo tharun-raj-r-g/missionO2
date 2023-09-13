@@ -1,11 +1,13 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet, Dimensions } from 'react-native';
+import { View, Image, StyleSheet, Dimensions } from 'react-native';
+import Text from '../fonts/Text';
+import TextB from '../fonts/TextBold';
 const { width, height } = Dimensions.get("window");
 const PlantInfo = ({ plant, image}) => {
   return (
     <View style={styles.plantInfoContainer}>
       <Image source={{ uri: `data:image/jpeg;base64,${image}` }} style={styles.image} />
-      <Text style={styles.name}>{plant.name}</Text>
+      <TextB style={styles.name}>{plant.name}</TextB>
       <Text style={styles.description}>{plant.name}</Text>
     </View>
   );
@@ -29,7 +31,6 @@ const styles = StyleSheet.create({
   },
   name: {
     fontSize: 20,
-    fontWeight: 'bold',
     marginBottom: 5,
     textAlign:"center"
   },

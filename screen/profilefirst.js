@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import {
   StyleSheet,
-  Text,
   View,
   Dimensions,
   Image,
@@ -10,9 +9,9 @@ import {
   ScrollView,
   TouchableOpacity,
 } from "react-native";
-import Icon from "react-native-vector-icons/Feather";
 import * as ImagePicker from "expo-image-picker";
-
+import Text from "../fonts/Text";
+import TextB from "../fonts/TextBold";
 const { width, height } = Dimensions.get("window");
 
 const ProfileFirst = ({ navigation }) => {
@@ -279,92 +278,6 @@ const ProfileFirst = ({ navigation }) => {
               }}
             />
           </View>
-          <View
-            style={{
-              height: height * 0.08,
-              width: width * 0.85,
-              borderBottomWidth: 1,
-              borderColor: "white",
-              marginBottom: "3%",
-            }}
-          >
-            <Text
-              style={{ color: "#005f48", fontSize: 20, marginBottom: "2%" }}
-            >
-              Govt Id
-            </Text>
-            <TouchableOpacity
-              style={{
-                height: height * 0.05,
-                width: width * 0.85,
-                borderWidth: 1,
-                borderRadius: 20,
-                borderColor: "white",
-                flexDirection: "row",
-                alignItems: "center",
-                backgroundColor: "#00b388",
-                elevation: 4,
-                shadowColor: "black",
-                shadowOffset: { width: 0, height: 5 },
-                shadowOpacity: 0.5,
-                shadowRadius: 10,
-                marginBottom: "2%",
-              }}
-              onPress={handleAttachPhoto}
-            >
-              <Icon
-                name="paperclip"
-                size={16}
-                color="white"
-                style={{ marginHorizontal: width * 0.03 }}
-              />
-              <Text style={{ color: "white", fontSize: 16 }}>Govt proof</Text>
-            </TouchableOpacity>
-          </View>
-
-          {isImageSelected && (
-            <View
-              style={{
-                height: height * 0.25,
-                width: width * 0.8,
-                alignItems: "center",
-                justifyContent: "center",
-                alignSelf: "center",
-                marginTop: height * 0.05,
-              }}
-            >
-              <Image
-                source={{ uri: selectedImageURI }}
-                style={{
-                  position: "absolute",
-                  width: "100%",
-                  height: "100%",
-                  resizeMode: "contain",
-                }}
-              />
-              <Image
-                source={{ uri: selectedImageURI }}
-                style={{ width: "100%", height: "100%", resizeMode: "cover" }}
-              />
-              <TouchableOpacity
-                onPress={() => {
-                  setSelectedImageURI(null);
-                  setIsImageSelected(false);
-                }}
-                style={{
-                  position: "absolute",
-                  top: 10,
-                  right: 10,
-                  backgroundColor: "rgba(0, 0, 0, 0.3)",
-                  borderRadius: 20,
-                  padding: 5,
-                }}
-              >
-                <Icon name="trash-2" size={24} color="white" />
-              </TouchableOpacity>
-            </View>
-          )}
-
           <TouchableOpacity
             onPress={() => navigation.navigate("Navi")}
             style={{
@@ -384,9 +297,9 @@ const ProfileFirst = ({ navigation }) => {
             }}
             disabled={!isAllFieldsFilled}
           >
-            <Text style={{ color: "white", fontWeight: "bold", fontSize: 18 }}>
+            <TextB style={{ color: "white", fontSize: 18 }}>
               Confirm Profile
-            </Text>
+            </TextB>
           </TouchableOpacity>
 
           <View style={{ height: height * 0.2 }}></View>

@@ -1,10 +1,12 @@
-import { View, Text, Dimensions, Image } from "react-native";
+import { View, Dimensions, Image } from "react-native";
 import React from "react";
 import Icon from "react-native-vector-icons/Feather";
 const { width, height } = Dimensions.get("window");
-import { useState,useEffect } from "react";
+import Text from "../fonts/Text";
+import TextB from "../fonts/TextBold";
+import { useState, useEffect } from "react";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { useDispatch,useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import axiosInstance from "../api/api";
 import MyModal from "./MyModal";
 import {
@@ -28,11 +30,11 @@ const OrderCard = ({ item, name, fullname, image }) => {
   };
   const [modalVisible, setModalVisible] = useState(false);
   const plant = {
-    name: 'Example Plant',
-    description: 'This is a beautiful example plant with lush green leaves.',
-    imageSource: 'https://example.com/path-to-your-plant-image.jpg',
+    name: "Example Plant",
+    description: "This is a beautiful example plant with lush green leaves.",
+    imageSource: "https://example.com/path-to-your-plant-image.jpg",
   };
-  const [isimage,setImage]=useState("");
+  const [isimage, setImage] = useState("");
   const toggleModal = () => {
     setModalVisible(!modalVisible);
   };
@@ -41,9 +43,7 @@ const OrderCard = ({ item, name, fullname, image }) => {
   }, []);
   const getImage = () => {
     axiosInstance
-      .get(
-        `/plant/image/${image}`
-      )
+      .get(`/plant/image/${image}`)
       .then((response) => {
         setImage(response.data.image);
       })
@@ -54,7 +54,6 @@ const OrderCard = ({ item, name, fullname, image }) => {
   return (
     <View
       style={{
-        
         width: width * 0.9,
         backgroundColor: "#fafafa",
         borderRadius: 10,
@@ -84,7 +83,7 @@ const OrderCard = ({ item, name, fullname, image }) => {
             marginLeft: "10%",
             borderRadius: 10,
           }}
-          source={{ uri: `data:image/jpeg;base64,${isimage}`}}
+          source={{ uri: `data:image/jpeg;base64,${isimage}` }}
         ></Image>
       </View>
       <View
@@ -95,18 +94,24 @@ const OrderCard = ({ item, name, fullname, image }) => {
           justifyContent: "center",
         }}
       >
-        <Text
-        numberOfLines={1} ellipsizeMode="tail"
+        <TextB
+          numberOfLines={1}
+          ellipsizeMode="tail"
           style={{
             fontSize: 17,
-            fontWeight: "bold",
             color: "#005f48",
             marginTop: "3%",
           }}
         >
           {name}
+        </TextB>
+        <Text
+          numberOfLines={1}
+          ellipsizeMode="tail"
+          style={{ fontSize: 15, marginVertical: "3%" }}
+        >
+          {fullname}
         </Text>
-        <Text numberOfLines={1} ellipsizeMode="tail" style={{ fontSize: 15, marginVertical: "3%" }}>{fullname}</Text>
         {cart.some((value) => value.id === item.id) ? (
           <View
             style={{
@@ -123,15 +128,23 @@ const OrderCard = ({ item, name, fullname, image }) => {
               marginLeft: "0%",
             }}
           >
-            <TouchableOpacity  onPress={() => {
+            <TouchableOpacity
+              onPress={() => {
                 dispatch(decrementQty(item));
                 dispatch(decrementQuantity(item));
-              }}><Text style={{ color: "#005f48",fontWeight:"bold",fontSize:22}}>-</Text></TouchableOpacity>
-            <Text style={{ fontWeight: "bold", color: "#005f48" }}>{item.quantity}</Text>
-            <TouchableOpacity  onPress={() => {
+              }}
+            >
+              <TextB style={{ color: "#005f48", fontSize: 22 }}>-</TextB>
+            </TouchableOpacity>
+            <TextB style={{ color: "#005f48" }}>{item.quantity}</TextB>
+            <TouchableOpacity
+              onPress={() => {
                 dispatch(incrementQty(item));
                 dispatch(incrementQuantity(item));
-              }}><Text style={{ color: "#005f48",fontWeight:"bold", fontSize:22}}>+</Text></TouchableOpacity>
+              }}
+            >
+              <TextB style={{ color: "#005f48", fontSize: 22 }}>+</TextB>
+            </TouchableOpacity>
           </View>
         ) : (
           <TouchableOpacity
@@ -143,12 +156,11 @@ const OrderCard = ({ item, name, fullname, image }) => {
               padding: "4%",
               borderRadius: 10,
               marginVertical: "3%",
-              backgroundColor:"#005f48" ,
-              
+              backgroundColor: "#005f48",
             }}
             onPress={HandlePress}
           >
-            <Text style={{ fontWeight: "bold", color: "white" }}>Add</Text>
+            <TextB style={{ color: "white" }}>Add</TextB>
           </TouchableOpacity>
         )}
       </View>
@@ -157,8 +169,8 @@ const OrderCard = ({ item, name, fullname, image }) => {
           width: width * 0.1,
           height: height * 0.15,
           alignItems: "center",
-          alignSelf:"center",
-          paddingTop:"8%",
+          alignSelf: "center",
+          paddingTop: "8%",
         }}
         onPress={toggleModal}
       >

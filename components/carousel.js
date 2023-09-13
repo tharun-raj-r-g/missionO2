@@ -1,12 +1,13 @@
 import React, { useState, useRef, useEffect } from "react";
 import {
   View,
-  Text,
   Image,
   ScrollView,
   Dimensions,
   StyleSheet,
 } from "react-native";
+import Text from "../fonts/Text";
+import TextB from "../fonts/TextBold";
 
 const Carousel = ({ items }) => {
   const [currentPage, setCurrentPage] = useState(0);
@@ -43,7 +44,7 @@ const Carousel = ({ items }) => {
           <View key={index} style={styles.carouselItem}>
             <Image source={item.image} style={styles.image} />
             <View style={styles.infoContainer}>
-              <Text style={styles.title}>{item.title}</Text>
+              <TextB style={styles.title}>{item.title}</TextB>
               <Text style={styles.description}>{item.description}</Text>
               <Text style={styles.date}>{item.date}</Text>
             </View>
@@ -95,7 +96,6 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 16,
-    fontWeight: "bold",
     marginBottom: 6,
     color: "#005F48",
   },

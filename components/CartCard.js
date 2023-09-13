@@ -1,17 +1,16 @@
 import {
   View,
-  Text,
-  StyleSheet,
   Dimensions,
   TouchableOpacity,
   Image,
 } from "react-native";
 import React from "react";
 const { width, height } = Dimensions.get("window");
-import Icon from "react-native-vector-icons/Feather";
 import Icon2 from "react-native-vector-icons/MaterialCommunityIcons";
 import { useEffect,useState } from "react";
 import { useDispatch } from "react-redux";
+import Text from "../fonts/Text";
+import TextB from "../fonts/TextBold";
 import axiosInstance from "../api/api";
 import {
   addToCart,
@@ -100,9 +99,9 @@ const CartCard = ({ name, fullname, image, item }) => {
           justifyContent: "center",
         }}
       >
-        <Text style={{ color: "white", fontWeight: "bold", fontSize: 14,width:width*0.4 }} numberOfLines={1}>
+        <TextB style={{ color: "white", fontSize: 14,width:width*0.4 }} numberOfLines={1}>
           {name}
-        </Text>
+        </TextB>
         <Text style={{ color: "white", fontSize: 10, opacity: 0.8,width:width*0.4 }} numberOfLines={1}>
           {name}
         </Text>
@@ -139,22 +138,22 @@ const CartCard = ({ name, fullname, image, item }) => {
             dispatch(decrementQuantity(item));
           }}
         >
-          <Text style={{ color: "white", fontWeight: "bold", fontSize: 20 }}>
+          <TextB style={{ color: "white", fontSize: 20 }}>
             -
-          </Text>
+          </TextB>
         </TouchableOpacity>
-        <Text style={{ fontWeight: "bold", color: "white" }}>
+        <TextB style={{ color: "white" }}>
           {item.quantity}
-        </Text>
+        </TextB>
         <TouchableOpacity
           onPress={() => {
             dispatch(incrementQty(item));
             dispatch(incrementQuantity(item));
           }}
         >
-          <Text style={{ color: "white", fontWeight: "bold", fontSize: 20 }}>
+          <TextB style={{ color: "white", fontSize: 20 }}>
             +
-          </Text>
+          </TextB>
         </TouchableOpacity>
       </View>
     </View>

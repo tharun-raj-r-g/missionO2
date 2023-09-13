@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import {
   View,
-  Text,
   TouchableOpacity,
   StyleSheet,
   TextInput,
   Dimensions,
 } from "react-native";
+import Text from "../fonts/Text";
+import TextB from "../fonts/TextBold";
 import Icon from "react-native-vector-icons/Feather";
 import { useNavigation } from "@react-navigation/native";
 const { width, height } = Dimensions.get("window");
@@ -193,15 +194,14 @@ const CustomDropdown = ({
                     }}
                     onPress={handleDeliveryAddressSelectByLive}
                   >
-                    <Text
+                    <TextB
                       style={{
                         fontSize: 16,
-                        fontWeight: "bold",
                         color: "white",
                       }}
                     >
                       Select
-                    </Text>
+                    </TextB>
                   </TouchableOpacity>
                 )}
               </View>
@@ -295,15 +295,14 @@ const CustomDropdown = ({
                       }}
                       onPress={handleDeliveryAddressSelectByManual}
                     >
-                      <Text
+                      <TextB
                         style={{
                           fontSize: 16,
-                          fontWeight: "bold",
                           color: "white",
                         }}
                       >
                         Select
-                      </Text>
+                      </TextB>
                     </TouchableOpacity>
                   )}
               </View>
@@ -316,11 +315,6 @@ const CustomDropdown = ({
 };
 
 const styles = StyleSheet.create({
-  title: {
-    fontSize: 28,
-    fontWeight: "bold",
-    marginBottom: 20,
-  },
   dropdownButton: {
     backgroundColor: "#fff",
     borderRadius: 10,
@@ -387,10 +381,6 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
     shadowRadius: 3,
-  },
-  saveButtonText: {
-    color: "#fff",
-    fontWeight: "bold",
   },
 });
 

@@ -1,7 +1,6 @@
 import React from "react";
 import {
   View,
-  Text,
   Image,
   TouchableOpacity,
   StyleSheet,
@@ -17,6 +16,8 @@ import { getProducts } from "../redux/reducers/productReducer";
 import axiosInstance from "../api/api";
 import { useEffect, useState } from "react";
 import OrderCard from "../components/OrderCard";
+import Text from "../fonts/Text";
+import TextB from "../fonts/TextBold";
 const HomePage = ({ navigation }) => {
   const products = useSelector((state) => state.product.product);
   const [plantdata, setplantdata] = useState([]);
@@ -148,10 +149,9 @@ const HomePage = ({ navigation }) => {
               alignItems: "center",
             }}
           >
-            <Text
+            <TextB
               style={{
                 fontSize: 60,
-                fontWeight: "bold",
                 color: "#004B39",
                 marginRight: 8,
                 textShadowColor: "rgba(0, 0, 0, 0.25)",
@@ -160,7 +160,7 @@ const HomePage = ({ navigation }) => {
               }}
             >
               23,240
-            </Text>
+            </TextB>
             <Image
               source={require("../assets/image2.png")}
               style={{
@@ -196,21 +196,19 @@ const HomePage = ({ navigation }) => {
               shadowRadius: 10,
             }}
           >
-            <Text
+            <TextB
               style={{
                 fontSize: 20,
                 color: "#005f48",
                 alignSelf: "center",
                 marginRight: "4%",
-                fontWeight: "bold",
               }}
             >
               Last 24 hours
-            </Text>
-            <Text
+            </TextB>
+            <TextB
               style={{
                 fontSize: 35,
-                fontWeight: "bold",
                 color: "#004B39",
                 marginRight: "4%",
                 textShadowColor: "rgba(0, 0, 0, 0.25)",
@@ -220,18 +218,17 @@ const HomePage = ({ navigation }) => {
               }}
             >
               54
-            </Text>
-            <Text
+            </TextB>
+            <TextB
               style={{
                 fontSize: 20,
                 color: "#005f48",
                 alignSelf: "center",
                 marginRight: "5%",
-                fontWeight: "bold",
               }}
             >
               Plants...
-            </Text>
+            </TextB>
           </View>
         </View>
 
@@ -247,25 +244,21 @@ const HomePage = ({ navigation }) => {
               alignItems: "center",
             }}
           >
-            <TouchableOpacity
+            <View
               style={{
                 height: height * 0.06,
                 marginLeft: "5%",
               }}
-              onPress={() => {
-                navigation.navigate("OrderStack");
-              }}
             >
-              <Text
+              <TextB
                 style={{
                   fontSize: 20,
                   color: "#005f48",
-                  fontWeight: "bold",
                 }}
               >
                 Our Plants
-              </Text>
-            </TouchableOpacity>
+              </TextB>
+            </View>
             <TouchableOpacity
               onPress={() => {
                 navigation.navigate("OrderStack");
@@ -281,9 +274,8 @@ const HomePage = ({ navigation }) => {
               </Text>
             </TouchableOpacity>
           </View>
-          {products.length==0 ? (
+          {products.length == 0 ? (
             <View style={{ marginTop: "20%" }}>
-              
               <ActivityIndicator size="large" color="#00b388" />
             </View>
           ) : (
@@ -309,7 +301,7 @@ const HomePage = ({ navigation }) => {
               ) : null}
             </ScrollView>
           )}
-          {(products.length) ? (
+          {products.length ? (
             <TouchableOpacity
               style={{
                 height: height * 0.05,
@@ -332,11 +324,11 @@ const HomePage = ({ navigation }) => {
                 navigation.navigate("OrderStack");
               }}
             >
-              <Text
-                style={{ fontSize: 16, color: "#005f48", fontWeight: "bold" }}
+              <TextB
+                style={{ fontSize: 16, color: "#005f48" }}
               >
                 Explore More !
-              </Text>
+              </TextB>
             </TouchableOpacity>
           ) : null}
         </ScrollView>
@@ -392,7 +384,6 @@ const styles = StyleSheet.create({
   },
   plantedCount: {
     fontSize: 60,
-    fontWeight: "bold",
     color: "#004B39",
     marginRight: 8,
     textShadowColor: "rgba(0, 0, 0, 0.25)",

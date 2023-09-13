@@ -1,11 +1,12 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { View, Text } from "react-native";
+import { View } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import HomeStack from "./homestack";
 import OrderStack from "./orderstack";
 import ProfileStack from "./profilestack";
 import LoginStack from "./loginstack";
+import TextB from "../fonts/TextBold";
 
 const Tab = createBottomTabNavigator();
 
@@ -39,7 +40,7 @@ const App = () => {
                 ]}
               >
                 <Ionicons name="earth" size={25} color="white" />
-                <Text
+                <TextB
                   style={{
                     color: "white",
                     margin: 2.5,
@@ -47,7 +48,7 @@ const App = () => {
                   }}
                 >
                   {focused ? "Order" : null}
-                </Text>
+                </TextB>
               </View>
             );
           },
@@ -70,7 +71,7 @@ const App = () => {
                 ]}
               >
                 <Ionicons name="home" size={25} color="white" />
-                <Text
+                <TextB
                   style={{
                     color: "white",
                     margin: 2.5,
@@ -78,7 +79,7 @@ const App = () => {
                   }}
                 >
                   {focused ? "Home" : null}
-                </Text>
+                </TextB>
               </View>
             );
           },
@@ -101,7 +102,7 @@ const App = () => {
                 ]}
               >
                 <Ionicons name="person" size={25} color="white" />
-                <Text
+                <TextB
                   style={{
                     color: "white",
                     margin: 2.5,
@@ -109,7 +110,7 @@ const App = () => {
                   }}
                 >
                   {focused ? "Profile" : null}
-                </Text>
+                </TextB>
               </View>
             );
           },

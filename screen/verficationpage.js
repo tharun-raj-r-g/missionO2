@@ -1,6 +1,5 @@
 import {
   StyleSheet,
-  Text,
   View,
   Dimensions,
   Image,
@@ -8,10 +7,10 @@ import {
   StatusBar,
 } from "react-native";
 import React, { useState, useRef } from "react";
-import { withSafeAreaInsets } from "react-native-safe-area-context";
 import Icon from "react-native-vector-icons/Feather";
 import { TouchableOpacity } from "react-native-gesture-handler";
 const { width, height } = Dimensions.get("window");
+import Text from "../fonts/Text";
 const VerificationPage = ({ navigation }) => {
   const [code, setCode] = useState("");
   const [digit1, setDigit1] = useState("");

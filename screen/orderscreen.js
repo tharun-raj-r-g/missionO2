@@ -1,6 +1,5 @@
 import {
   StyleSheet,
-  Text,
   View,
   Dimensions,
   ScrollView,
@@ -14,60 +13,8 @@ import OrderCard from "../components/OrderCard";
 const { width, height } = Dimensions.get("window");
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { useDispatch, useSelector } from "react-redux";
-import { getProducts } from "../redux/reducers/productReducer";
-import { useEffect } from "react";
-import axiosInstance from "../api/api";
-import MyModal from "../components/MyModal";
-const plantlist = [
-  {
-    id: 0,
-    name: "Tulsi",
-    fullname: "Indian Tulsi",
-    image:
-      "https://balconygardenweb.b-cdn.net/wp-content/uploads/2015/10/how-to-grow-tulsi_mini.jpg",
-    quantity: 0,
-  },
-  {
-    id: 1,
-    name: "Aloe Vera",
-    fullname: "Indian Aloe Vera",
-    image:
-      "https://www.almanac.com/sites/default/files/styles/or/public/image_nodes/aloe-vera-white-pot_sunwand24-ss_edit.jpg?itok=BVzzldrw",
-    quantity: 0,
-  },
-  {
-    id: 2,
-    name: "Calendula",
-    fullname: "Indian Calendula",
-    image:
-      "https://cdn.pixabay.com/photo/2018/07/10/11/11/marigold-3528402_640.jpg",
-    quantity: 0,
-  },
-  {
-    id: 3,
-    name: "Thyme",
-    fullname: "Indian Thyme",
-    image:
-      "https://cdn-prod.medicalnewstoday.com/content/images/articles/266/266016/thyme.jpg",
-    quantity: 0,
-  },
-  {
-    id: 4,
-    name: "Peppermint",
-    fullname: "Indian Peppermint",
-    image:
-      "https://www.stylecraze.com/wp-content/uploads/2013/08/1634-23-Amazing-Benefits-Of-Peppermint-Leaves-For-Skin-Hair-And-Health-ss.jpg",
-    quantity: 0,
-  },
-  {
-    id: 5,
-    name: "Vasaka",
-    fullname: "Indian Vasaka",
-    image:
-      "https://5.imimg.com/data5/KT/SS/MY-29231069/vasaka-leaf-500x500.jpg",
-    quantity: 0,
-  },
-];
+import TextB from "../fonts/TextBold";
+
 const Order = ({ navigation }) => {
   const products = useSelector((state) => state.product.product);
   const dispatch = useDispatch();
@@ -100,16 +47,16 @@ const Order = ({ navigation }) => {
           paddingTop: "5%",
         }}
       >
-        <Text
+        <TextB
           style={{
             color: "white",
-            fontWeight: "bold",
+
             fontSize: 25,
             marginLeft: "15%",
           }}
         >
           Order
-        </Text>
+        </TextB>
         <TouchableOpacity
           onPress={() => {
             navigation.navigate("Cart");

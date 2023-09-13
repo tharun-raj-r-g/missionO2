@@ -1,6 +1,5 @@
 import {
   View,
-  Text,
   StyleSheet,
   Dimensions,
   TouchableOpacity,
@@ -9,7 +8,7 @@ import {
   ScrollView,
   ImageBackground,
   Modal,
-  TextInput
+  TextInput,
 } from "react-native";
 import { useRoute } from "@react-navigation/native";
 import React, { useState } from "react";
@@ -22,14 +21,14 @@ import * as ImagePicker from "expo-image-picker";
 import axiosInstance from "../api/api";
 import { useEffect } from "react";
 import { emptyCart } from "../redux/reducers/cartReducers";
+import Text from "../fonts/Text";
+import TextB from "../fonts/TextBold";
 
 const Cartscreen = ({ navigation }) => {
   const route = useRoute();
   const liveAddress = route.params?.liveAddress;
   const cart = useSelector((state) => state.cart.cart);
-  const [selectedImages, setSelectedImages] = useState([]);
   const [selectedValue, setSelectedValue] = useState("select");
-  const [isdelete, setdelete] = useState(-1);
   const [statelist, setstatelist] = useState([]);
   const [districtlist, setdistrictlist] = useState([]);
   const [taluklist, settaluklist] = useState([]);
@@ -41,13 +40,13 @@ const Cartscreen = ({ navigation }) => {
   const [selectedTaluk, setSelectedTaluk] = useState("Select");
   const [selectedDeliveryAddress, setSelectedDeliveryAddress] = useState(null);
   const [selectedPlantAddress, setSelectedPlantAddress] = useState(null);
-  const [images, setImages] = useState(Array(6).fill(null));
+  const [images, setImages] = useState(Array(8).fill(null));
   const [imageList, setImageList] = useState([]);
   const [selectedFrame, setSelectedFrame] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
-  const [isName,setName]=useState("");
-  const [isEmail,setEmail]=useState("");
-  const [isDOB,setDOB]=useState('');
+  const [isName, setName] = useState("");
+  const [isEmail, setEmail] = useState("");
+  const [isDOB, setDOB] = useState("");
   useEffect(() => {
     getState();
   }, []);
@@ -221,31 +220,69 @@ const Cartscreen = ({ navigation }) => {
             showsVerticalScrollIndicator={false}
             nestedScrollEnabled={true}
           >
-            <Text style={{fontSize:18,color:"black",marginBottom:'2%'}}>Enter your name:</Text>
-            <View style={{height:height*0.05,width:width*0.92,justifyContent:"center",borderWidth:2,borderColor:"#00b388",borderRadius:10,marginBottom:"5%",padding:"2%"}}>
-            <TextInput
+            <Text style={{ fontSize: 18, color: "black", marginBottom: "2%" }}>
+              Enter your name:
+            </Text>
+            <View
+              style={{
+                height: height * 0.05,
+                width: width * 0.92,
+                justifyContent: "center",
+                borderWidth: 2,
+                borderColor: "#00b388",
+                borderRadius: 10,
+                marginBottom: "5%",
+                padding: "2%",
+              }}
+            >
+              <TextInput
                 style={{ color: "#005f48", fontSize: 17 }}
                 value={isName}
                 onChangeText={setName}
               />
             </View>
-            <Text style={{fontSize:18,color:"black",marginBottom:'2%'}}>Enter your Email:</Text>
-            <View style={{height:height*0.05,width:width*0.92,justifyContent:"center",borderWidth:2,borderColor:"#00b388",borderRadius:10,padding:'2%',marginBottom:"5%"}}>
-            <TextInput
+            <Text style={{ fontSize: 18, color: "black", marginBottom: "2%" }}>
+              Enter your Email:
+            </Text>
+            <View
+              style={{
+                height: height * 0.05,
+                width: width * 0.92,
+                justifyContent: "center",
+                borderWidth: 2,
+                borderColor: "#00b388",
+                borderRadius: 10,
+                padding: "2%",
+                marginBottom: "5%",
+              }}
+            >
+              <TextInput
                 style={{ color: "#005f48", fontSize: 17 }}
                 value={isEmail}
                 onChangeText={setEmail}
               />
             </View>
-            <Text style={{fontSize:18,color:"black",marginBottom:'2%'}}>Enter DOB:</Text>
-            <View style={{height:height*0.05,width:width*0.92,justifyContent:"center",borderWidth:2,borderColor:"#00b388",borderRadius:10,padding:'2%'}}>
-            <TextInput
+            <Text style={{ fontSize: 18, color: "black", marginBottom: "2%" }}>
+              Enter DOB:
+            </Text>
+            <View
+              style={{
+                height: height * 0.05,
+                width: width * 0.92,
+                justifyContent: "center",
+                borderWidth: 2,
+                borderColor: "#00b388",
+                borderRadius: 10,
+                padding: "2%",
+              }}
+            >
+              <TextInput
                 style={{ color: "#005f48", fontSize: 17 }}
                 value={isDOB}
                 onChangeText={setDOB}
               />
             </View>
-            
+
             <View
               style={{
                 width: width * 0.92,
@@ -325,7 +362,7 @@ const Cartscreen = ({ navigation }) => {
                 </Text>
               </TouchableOpacity>
             </View>
-            
+
             <Text
               style={{
                 alignSelf: "flex-start",
@@ -339,7 +376,7 @@ const Cartscreen = ({ navigation }) => {
             </Text>
 
             <View style={styles.row}>
-              {images.slice(0, 3).map((image, index) => (
+              {images.slice(0, 4).map((image, index) => (
                 <TouchableOpacity
                   key={index}
                   style={[styles.frame, { marginLeft: index === 0 ? 0 : 10 }]}
@@ -354,11 +391,11 @@ const Cartscreen = ({ navigation }) => {
               ))}
             </View>
             <View style={styles.row}>
-              {images.slice(3, 6).map((image, index) => (
+              {images.slice(4, 8).map((image, index) => (
                 <TouchableOpacity
-                  key={index}
+                  key={index + 4}
                   style={[styles.frame, { marginLeft: index === 0 ? 0 : 10 }]}
-                  onPress={() => pickImage(index + 3)}
+                  onPress={() => pickImage(index + 4)}
                 >
                   {image ? (
                     <Image source={{ uri: image }} style={styles.image} />
@@ -377,7 +414,7 @@ const Cartscreen = ({ navigation }) => {
             >
               <View style={styles.modalContainer}>
                 <View style={styles.modalContent}>
-                  <Text style={styles.modalTitle}>Select an option</Text>
+                  <TextB style={styles.modalTitle}>Select an option</TextB>
                   <TouchableOpacity
                     style={styles.modalOption}
                     onPress={() => handleModalOption("gallery")}
@@ -762,40 +799,40 @@ const Cartscreen = ({ navigation }) => {
                   ))}
                 </ScrollView>
               </View>
-            ):null}
-            {(imageList.length == 6 &&
-              selectedDeliveryAddress != null &&
-              selectedPlantAddress != null &&
-              selectedState != "Select" &&
-              selectedDistrict != "Select" &&
-              selectedTaluk != "Select") ? (
-                <TouchableOpacity
-                  style={{
-                    height: height * 0.06,
-                    width: width * 0.7,
-                    borderRadius: 50,
-                    backgroundColor: "#00b388",
-                    elevation: 4,
-                    shadowColor: "black",
-                    shadowOffset: { width: 0, height: 5 },
-                    shadowOpacity: 0.5,
-                    shadowRadius: 10,
-                    alignItems: "center",
-                    flexDirection: "row",
-                    marginTop: "10%",
-                    alignSelf: "center",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                  onPress={handleConfirm}
+            ) : null}
+            {imageList.length == 6 &&
+            selectedDeliveryAddress != null &&
+            selectedPlantAddress != null &&
+            selectedState != "Select" &&
+            selectedDistrict != "Select" &&
+            selectedTaluk != "Select" ? (
+              <TouchableOpacity
+                style={{
+                  height: height * 0.06,
+                  width: width * 0.7,
+                  borderRadius: 50,
+                  backgroundColor: "#00b388",
+                  elevation: 4,
+                  shadowColor: "black",
+                  shadowOffset: { width: 0, height: 5 },
+                  shadowOpacity: 0.5,
+                  shadowRadius: 10,
+                  alignItems: "center",
+                  flexDirection: "row",
+                  marginTop: "10%",
+                  alignSelf: "center",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+                onPress={handleConfirm}
+              >
+                <TextB
+                  style={{ fontSize: 18, color: "white" }}
                 >
-                  <Text
-                    style={{ fontSize: 18, fontWeight: "bold", color: "white" }}
-                  >
-                    Confirm
-                  </Text>
-                </TouchableOpacity>
-              ) : (
+                  Confirm
+                </TextB>
+              </TouchableOpacity>
+            ) : (
               <View
                 style={{
                   height: height * 0.06,
@@ -811,11 +848,11 @@ const Cartscreen = ({ navigation }) => {
                   alignItems: "center",
                 }}
               >
-                <Text
-                  style={{ fontSize: 18, fontWeight: "bold", color: "grey" }}
+                <TextB
+                  style={{ fontSize: 18, color: "grey" }}
                 >
                   Confirm
-                </Text>
+                </TextB>
               </View>
             )}
 
@@ -831,9 +868,9 @@ const Cartscreen = ({ navigation }) => {
             alignItems: "center",
           }}
         >
-          <Text style={{ fontSize: 22, color: "white", fontWeight: "bold" }}>
+          <TextB style={{ fontSize: 22, color: "white" }}>
             Your cart is empty !
-          </Text>
+          </TextB>
           <Image
             source={require("../assets/cartempty.png")}
             style={{
@@ -860,9 +897,9 @@ const Cartscreen = ({ navigation }) => {
               shadowRadius: 8,
             }}
           >
-            <Text style={{ color: "white", fontWeight: "bold", fontSize: 20 }}>
+            <TextB style={{ color: "white", fontSize: 20 }}>
               Add plants
-            </Text>
+            </TextB>
           </TouchableOpacity>
         </View>
       )}
@@ -921,7 +958,6 @@ const styles = StyleSheet.create({
   },
   modalTitle: {
     fontSize: 20,
-    fontWeight: "bold",
     marginBottom: 20,
   },
   modalOption: {

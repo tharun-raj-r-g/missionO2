@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import {
   View,
-  Text,
   TouchableOpacity,
   StyleSheet,
   TextInput,
   Dimensions
 } from "react-native";
+import Text from "../fonts/Text";
+import TextB from "../fonts/TextBold";
 import Icon from "react-native-vector-icons/Feather";
 import { useNavigation } from "@react-navigation/native";
 const { width, height } = Dimensions.get("window");
@@ -127,7 +128,7 @@ const DeliveryAddressComp = ({ liveAddress,selectedValue,onChange }) => {
             onPress={handleAddressSave}
             style={styles.saveButton}
           >
-            <Text style={styles.saveButtonText}>Save Address</Text>
+            <TextB style={styles.saveButtonText}>Save Address</TextB>
           </TouchableOpacity>
         </View>
       )}
@@ -138,7 +139,6 @@ const DeliveryAddressComp = ({ liveAddress,selectedValue,onChange }) => {
 const styles = StyleSheet.create({
   title: {
     fontSize: 28,
-    fontWeight: "bold",
     marginBottom: 20,
   },
   dropdownButton: {
@@ -210,7 +210,6 @@ const styles = StyleSheet.create({
   },
   saveButtonText: {
     color: "#fff",
-    fontWeight: "bold",
   },
 });
 
