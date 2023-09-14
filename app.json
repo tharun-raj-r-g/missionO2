@@ -11,9 +11,12 @@
       "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.rahulvijay12b.missiono2"
     },
     "android": {
       "adaptiveIcon": {
@@ -27,7 +30,7 @@
     },
     "extra": {
       "eas": {
-        "projectId": "4ed10c7a-697c-474e-a6a3-9a5ac57e605b"
+        "projectId": "0ab07125-2cd7-4658-a67b-0395a7e0a5eb"
       }
     }
   }
