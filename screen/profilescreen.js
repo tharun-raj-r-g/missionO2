@@ -1,6 +1,5 @@
 import {
   StyleSheet,
-  Text,
   View,
   Dimensions,
   Image,
@@ -9,9 +8,9 @@ import {
   ScrollView,
   TouchableOpacity,
 } from "react-native";
+import Text from "../fonts/Text";
+import TextB from "../fonts/TextBold";
 import React, { useState } from "react";
-import { withSafeAreaInsets } from "react-native-safe-area-context";
-import Icon from "react-native-vector-icons/Feather";
 const { width, height } = Dimensions.get("window");
 const Profile = () => {
   const [isEditing, setIsEditing] = useState(false);
@@ -29,7 +28,6 @@ const Profile = () => {
   };
 
   const handleUpdateProfile = () => {
-    // Perform update logic here, e.g., sending updated data to a server
     setIsEditing(false);
   };
 
@@ -125,17 +123,17 @@ const Profile = () => {
               borderBottomWidth: 1,
               borderColor: "white",
               marginBottom: "3%",
-              justifyContent:"space-between"
+              justifyContent: "space-between",
             }}
           >
-            <Text
-              style={{ color: "#005f48", fontSize: 20 }}
-            >
-              Name
-            </Text>
+            <Text style={{ color: "#005f48", fontSize: 20 }}>Name</Text>
             {isEditing ? (
               <TextInput
-                style={{ color: "white", fontSize: 16 }}
+                style={{
+                  color: "white",
+                  fontSize: 16,
+                  fontFamily: "Montserrat",
+                }}
                 value={name}
                 onChangeText={setName}
               />
@@ -150,17 +148,17 @@ const Profile = () => {
               borderBottomWidth: 1,
               borderColor: "white",
               marginBottom: "3%",
-              justifyContent:"space-between"
+              justifyContent: "space-between",
             }}
           >
-            <Text
-              style={{ color: "#005f48", fontSize: 20}}
-            >
-              Email
-            </Text>
+            <Text style={{ color: "#005f48", fontSize: 20 }}>Email</Text>
             {isEditing ? (
               <TextInput
-                style={{ color: "white", fontSize: 16 }}
+                style={{
+                  color: "white",
+                  fontSize: 16,
+                  fontFamily: "Montserrat",
+                }}
                 value={email}
                 onChangeText={setEmail}
               />
@@ -174,18 +172,20 @@ const Profile = () => {
               width: width * 0.85,
               borderBottomWidth: 1,
               borderColor: "white",
-              justifyContent:"space-between",
-              marginBottom:"3%"
+              justifyContent: "space-between",
+              marginBottom: "3%",
             }}
           >
-            <Text
-              style={{ color: "#005f48", fontSize: 20 }}
-            >
+            <Text style={{ color: "#005f48", fontSize: 20 }}>
               Permanent Address
             </Text>
             {isEditing ? (
               <TextInput
-                style={{ color: "white", fontSize: 16 }}
+                style={{
+                  color: "white",
+                  fontSize: 16,
+                  fontFamily: "Montserrat",
+                }}
                 value={address}
                 onChangeText={setAddress}
               />
@@ -215,7 +215,11 @@ const Profile = () => {
             >
               {isEditing ? (
                 <TextInput
-                  style={{ color: "white", fontSize: 16 }}
+                  style={{
+                    color: "white",
+                    fontSize: 16,
+                    fontFamily: "Montserrat",
+                  }}
                   value={city}
                   onChangeText={setCity}
                 />
@@ -234,7 +238,11 @@ const Profile = () => {
             >
               {isEditing ? (
                 <TextInput
-                  style={{ color: "white", fontSize: 16 }}
+                  style={{
+                    color: "white",
+                    fontSize: 16,
+                    fontFamily: "Montserrat",
+                  }}
                   value={state}
                   onChangeText={setState}
                 />
@@ -249,18 +257,18 @@ const Profile = () => {
               width: width * 0.85,
               borderBottomWidth: 1,
               borderColor: "white",
-              justifyContent:"space-between",
-              marginBottom:"3%"
+              justifyContent: "space-between",
+              marginBottom: "3%",
             }}
           >
-            <Text
-              style={{ color: "#005f48", fontSize: 20}}
-            >
-              D.O.B
-            </Text>
+            <Text style={{ color: "#005f48", fontSize: 20 }}>D.O.B</Text>
             {isEditing ? (
               <TextInput
-                style={{ color: "white", fontSize: 16 }}
+                style={{
+                  color: "white",
+                  fontSize: 16,
+                  fontFamily: "Montserrat",
+                }}
                 value={dob}
                 onChangeText={setDOB}
               />
@@ -268,62 +276,6 @@ const Profile = () => {
               <Text style={{ color: "white", fontSize: 16 }}>{dob}</Text>
             )}
           </View>
-          <View
-            style={{
-              height: height * 0.1,
-              width: width * 0.85,
-              marginBottom: "3%",
-              justifyContent:"space-between"
-            }}
-          >
-            <Text
-              style={{ color: "#005f48", fontSize: 20}}
-            >
-              Govt Id
-            </Text>
-            <TouchableOpacity
-              style={{
-                height: height * 0.05,
-                width: width * 0.85,
-                borderWidth: 1,
-                borderRadius: 20,
-                borderColor: "white",
-                flexDirection: "row",
-                alignItems: "center",
-                backgroundColor: "#00b388",
-                elevation: 4,
-                shadowColor: "black",
-                shadowOffset: { width: 0, height: 5 },
-                shadowOpacity: 0.5,
-                shadowRadius: 10,
-              }}
-              onPress={() => {
-                setProofOpen(!proofOpen);
-              }}
-            >
-              <Icon
-                name="paperclip"
-                size={16}
-                color="white"
-                style={{ marginHorizontal: width * 0.03 }}
-              />
-              <Text style={{ color: "white", fontSize: 16 }}>Govt proof</Text>
-            </TouchableOpacity>
-          </View>
-          {proofOpen && (
-            <Image
-              style={{
-                marginBottom: "2%",
-                height: height * 0.4,
-                width: width * 0.8,
-                alignSelf: "center",
-                resizeMode: "contain",
-              }}
-              source={{
-                uri: "https://aadhaarcard.co.in/wp-content/uploads/2023/04/aadhaar-card.webp",
-              }}
-            />
-          )}
           <TouchableOpacity
             style={{
               height: height * 0.07,
@@ -342,9 +294,9 @@ const Profile = () => {
             }}
             onPress={isEditing ? handleUpdateProfile : handleEditProfile}
           >
-            <Text style={{ color: "white", fontWeight: "bold", fontSize: 18 }}>
+            <TextB style={{ color: "white", fontSize: 18 }}>
               {isEditing ? "Update Profile" : "Edit Profile"}
-            </Text>
+            </TextB>
           </TouchableOpacity>
           <View style={{ height: height * 0.2 }}></View>
         </ScrollView>

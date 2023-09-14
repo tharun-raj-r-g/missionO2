@@ -2,6 +2,8 @@ import { View, Text, Dimensions, Image,TextInput } from "react-native";
 import React from "react";
 import Icon from "react-native-vector-icons/Feather";
 const { width, height } = Dimensions.get("window");
+import Text from "../fonts/Text";
+import TextB from "../fonts/TextBold";
 import { useState, useEffect } from "react";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useDispatch, useSelector } from "react-redux";
@@ -21,19 +23,14 @@ import {
 const OrderCard = ({ item, name, fullname, image }) => {
   const dispatch = useDispatch();
   const addItemToCart = (item) => {
-    dispatch(addToCart(item)); // cart array being used
-    dispatch(incrementQuantity(item)); // product array being used
+    dispatch(addToCart(item));
+    dispatch(incrementQuantity(item));
   };
   const cart = useSelector((state) => state.cart.cart);
   const HandlePress = () => {
     addItemToCart(item);
   };
   const [modalVisible, setModalVisible] = useState(false);
-  const plant = {
-    name: "Example Plant",
-    description: "This is a beautiful example plant with lush green leaves.",
-    imageSource: "https://example.com/path-to-your-plant-image.jpg",
-  };
   const [isimage, setImage] = useState("");
   const toggleModal = () => {
     setModalVisible(!modalVisible);
@@ -66,6 +63,7 @@ const OrderCard = ({ item, name, fullname, image }) => {
     <View
       style={{
         width: width * 0.9,
+        height: height * 0.15,
         backgroundColor: "#fafafa",
         borderRadius: 10,
         elevation: 5,
@@ -74,7 +72,7 @@ const OrderCard = ({ item, name, fullname, image }) => {
         shadowOpacity: 0.2,
         shadowRadius: 8,
         flexDirection: "row",
-        marginVertical: 10,
+        marginVertical: 6,
       }}
     >
       <View
@@ -105,17 +103,23 @@ const OrderCard = ({ item, name, fullname, image }) => {
           justifyContent: "center",
         }}
       >
-        <Text
+        <TextB
           numberOfLines={1}
           ellipsizeMode="tail"
           style={{
             fontSize: 17,
-            fontWeight: "bold",
             color: "#005f48",
             marginTop: "3%",
           }}
         >
           {name}
+        </TextB>
+        <Text
+          numberOfLines={1}
+          ellipsizeMode="tail"
+          style={{ fontSize: 15, marginVertical: "3%" }}
+        >
+          {fullname}
         </Text>
         <Text
           numberOfLines={1}
@@ -182,7 +186,7 @@ const OrderCard = ({ item, name, fullname, image }) => {
             }}
             onPress={HandlePress}
           >
-            <Text style={{ fontWeight: "bold", color: "white" }}>Add</Text>
+            <TextB style={{ color: "white" }}>Add</TextB>
           </TouchableOpacity>
         )}
       </View>

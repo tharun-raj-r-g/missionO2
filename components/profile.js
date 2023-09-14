@@ -1,6 +1,7 @@
 import React from "react";
-import { View, Text, Image, StyleSheet } from "react-native";
-
+import { View, Image, StyleSheet } from "react-native";
+import Text from "../fonts/Text";
+import TextB from "../fonts/TextBold";
 const ProfileComponent = ({ profileData }) => {
   const { name, place, description, imageSource } = profileData;
 
@@ -10,7 +11,7 @@ const ProfileComponent = ({ profileData }) => {
         <Image source={imageSource} style={styles.image} />
       </View>
       <View style={styles.textContainer}>
-        <Text style={styles.name}>{name}</Text>
+        <TextB style={styles.name}>{name}</TextB>
         <Text style={styles.place}>{place}</Text>
         <Text style={styles.description}>{description} trees planted</Text>
       </View>
@@ -49,7 +50,6 @@ const styles = StyleSheet.create({
   },
   name: {
     fontSize: 15,
-    fontWeight: "bold",
   },
   place: {
     fontSize: 15,

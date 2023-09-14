@@ -1,12 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
-import {
-  View,
-  Text,
-  Image,
-  ScrollView,
-  Dimensions,
-  StyleSheet,
-} from "react-native";
+import { View, Image, ScrollView, Dimensions, StyleSheet } from "react-native";
+import Text from "../fonts/Text";
+import TextB from "../fonts/TextBold";
 
 const Carousel = ({ items }) => {
   const [currentPage, setCurrentPage] = useState(0);
@@ -43,7 +38,7 @@ const Carousel = ({ items }) => {
           <View key={index} style={styles.carouselItem}>
             <Image source={item.image} style={styles.image} />
             <View style={styles.infoContainer}>
-              <Text style={styles.title}>{item.title}</Text>
+              <TextB style={styles.title}>{item.title}</TextB>
               <Text style={styles.description}>{item.description}</Text>
               <Text style={styles.date}>{item.date}</Text>
             </View>
@@ -73,7 +68,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 20,
-    marginTop: 10,
+    marginTop: "5%",
   },
   carouselItem: {
     flexDirection: "row",
@@ -94,18 +89,18 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   title: {
-    fontSize: 16,
-    fontWeight: "bold",
+    fontSize: 14,
     marginBottom: 6,
     color: "#005F48",
   },
   description: {
-    fontSize: 12,
+    fontSize: 10.5,
     marginBottom: 6,
     color: "#595959",
+    textAlign: "justify",
   },
   date: {
-    fontSize: 12,
+    fontSize: 10.5,
   },
   dotContainer: {
     flexDirection: "row",

@@ -14,9 +14,9 @@ function HomeStack() {
       }}
     >
       <Stack.Screen name="Home" component={Home} />
-      <Stack.Screen name="Cart" component={Cartscreen}/>
-      <Stack.Screen name="Order" component={Order}/>
-      <Stack.Screen name="OrderConfirm" component={OrderConfirmedScreen}/>
+      <Stack.Screen name="Cart" component={Cartscreen} />
+      <Stack.Screen name="Order" component={Order} />
+      <Stack.Screen name="OrderConfirm" component={OrderConfirmedScreen} />
     </Stack.Navigator>
   );
 }

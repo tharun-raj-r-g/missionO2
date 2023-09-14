@@ -1,7 +1,6 @@
 import React from "react";
 import {
   View,
-  Text,
   Image,
   TouchableOpacity,
   StyleSheet,
@@ -17,7 +16,43 @@ import { getProducts } from "../redux/reducers/productReducer";
 import axiosInstance from "../api/api";
 import { useEffect, useState } from "react";
 import OrderCard from "../components/OrderCard";
+import Text from "../fonts/Text";
+import TextB from "../fonts/TextBold";
+import MyCarousel from "../components/carousel";
+import Achievements from "../components/achievements";
+import OrderCompleteCard from "../components/OrderComplete";
 const HomePage = ({ navigation }) => {
+  const carouselData = [
+    {
+      image: require("../assets/image3.png"),
+      title: "Farm culture 23’",
+      description:
+        "The event focus on awareness of trees and its need in the wor...",
+      date: "12/3/23 - Chennai",
+    },
+    {
+      image: require("../assets/image3.png"),
+      title: "Farm culture 23’",
+      description:
+        "The event focus on awareness of trees and its need in the wor...",
+      date: "12/3/23 - Chennai",
+    },
+    {
+      image: require("../assets/image3.png"),
+      title: "Farm culture 23’",
+      description:
+        "The event focus on awareness of trees and its need in the wor...",
+      date: "12/3/23 - Chennai",
+    },
+    {
+      image: require("../assets/image3.png"),
+      title: "Farm culture 23’",
+      description:
+        "The event focus on awareness of trees and its need in the wor...",
+      date: "12/3/23 - Chennai",
+    },
+  ];
+
   const products = useSelector((state) => state.product.product);
   const [plantdata, setplantdata] = useState([]);
   const dispatch = useDispatch();
@@ -148,10 +183,9 @@ const HomePage = ({ navigation }) => {
               alignItems: "center",
             }}
           >
-            <Text
+            <TextB
               style={{
                 fontSize: 60,
-                fontWeight: "bold",
                 color: "#004B39",
                 marginRight: 8,
                 textShadowColor: "rgba(0, 0, 0, 0.25)",
@@ -160,7 +194,7 @@ const HomePage = ({ navigation }) => {
               }}
             >
               23,240
-            </Text>
+            </TextB>
             <Image
               source={require("../assets/image2.png")}
               style={{
@@ -196,21 +230,19 @@ const HomePage = ({ navigation }) => {
               shadowRadius: 10,
             }}
           >
-            <Text
+            <TextB
               style={{
                 fontSize: 20,
                 color: "#005f48",
                 alignSelf: "center",
                 marginRight: "4%",
-                fontWeight: "bold",
               }}
             >
               Last 24 hours
-            </Text>
-            <Text
+            </TextB>
+            <TextB
               style={{
                 fontSize: 35,
-                fontWeight: "bold",
                 color: "#004B39",
                 marginRight: "4%",
                 textShadowColor: "rgba(0, 0, 0, 0.25)",
@@ -220,52 +252,123 @@ const HomePage = ({ navigation }) => {
               }}
             >
               54
-            </Text>
-            <Text
+            </TextB>
+            <TextB
               style={{
                 fontSize: 20,
                 color: "#005f48",
                 alignSelf: "center",
                 marginRight: "5%",
-                fontWeight: "bold",
               }}
             >
               Plants...
-            </Text>
+            </TextB>
           </View>
         </View>
 
         <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={styles.carouselcontainer}>
+            <TextB style={styles.text}>Recent endeavor</TextB>
+            <MyCarousel items={carouselData} />
+          </View>
+
+          <TextB style={[styles.text, { marginTop: "5%", marginLeft: "6%" }]}>
+            Achievements
+          </TextB>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            style={{ marginTop: "2%" }}
+          >
+            <Achievements
+              title="Social welfare award"
+              description=" The was to encourage the social welfare activity of us"
+            />
+            <Achievements
+              title="Social welfare award"
+              description=" The was to encourage the social welfare activity of us"
+            />
+          </ScrollView>
+
           <View
             style={{
               height: height * 0.06,
               width: "100%",
               flexDirection: "row",
               justifyContent: "space-between",
-              marginTop: "10%",
-
+              marginTop: "4%",
               alignItems: "center",
             }}
           >
-            <TouchableOpacity
+            <View
               style={{
                 height: height * 0.06,
-                marginLeft: "5%",
-              }}
-              onPress={() => {
-                navigation.navigate("OrderStack");
+                marginLeft: "6%",
               }}
             >
-              <Text
+              <TextB
                 style={{
                   fontSize: 20,
                   color: "#005f48",
-                  fontWeight: "bold",
+                }}
+              >
+                Recent Orders
+              </TextB>
+            </View>
+          </View>
+          {products.length == 0 ? (
+            <View style={{ marginTop: "20%" }}>
+              <ActivityIndicator size="large" color="#00b388" />
+            </View>
+          ) : (
+            <ScrollView
+              showsVerticalScrollIndicator={false}
+              style={{ width: width }}
+            >
+              {products ? (
+                <View style={{ alignItems: "center" }}>
+                  {products.map((item, index) => {
+                    if (index < 3) {
+                      return (
+                        <OrderCompleteCard
+                          item={item}
+                          name={item.name}
+                          fullname={item.name}
+                          image={item.images}
+                        />
+                      );
+                    }
+                  })}
+                </View>
+              ) : null}
+            </ScrollView>
+          )}
+
+          <View
+            style={{
+              height: height * 0.06,
+              width: "100%",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              marginTop: "5%",
+              alignItems: "center",
+            }}
+          >
+            <View
+              style={{
+                height: height * 0.06,
+                marginLeft: "6%",
+              }}
+            >
+              <TextB
+                style={{
+                  fontSize: 20,
+                  color: "#005f48",
                 }}
               >
                 Our Plants
-              </Text>
-            </TouchableOpacity>
+              </TextB>
+            </View>
             <TouchableOpacity
               onPress={() => {
                 navigation.navigate("OrderStack");
@@ -281,9 +384,8 @@ const HomePage = ({ navigation }) => {
               </Text>
             </TouchableOpacity>
           </View>
-          {products.length==0 ? (
+          {products.length == 0 ? (
             <View style={{ marginTop: "20%" }}>
-              
               <ActivityIndicator size="large" color="#00b388" />
             </View>
           ) : (
@@ -309,7 +411,7 @@ const HomePage = ({ navigation }) => {
               ) : null}
             </ScrollView>
           )}
-          {(products.length) ? (
+          {products.length ? (
             <TouchableOpacity
               style={{
                 height: height * 0.05,
@@ -332,11 +434,9 @@ const HomePage = ({ navigation }) => {
                 navigation.navigate("OrderStack");
               }}
             >
-              <Text
-                style={{ fontSize: 16, color: "#005f48", fontWeight: "bold" }}
-              >
+              <TextB style={{ fontSize: 16, color: "#005f48" }}>
                 Explore More !
-              </Text>
+              </TextB>
             </TouchableOpacity>
           ) : null}
         </ScrollView>
@@ -392,7 +492,6 @@ const styles = StyleSheet.create({
   },
   plantedCount: {
     fontSize: 60,
-    fontWeight: "bold",
     color: "#004B39",
     marginRight: 8,
     textShadowColor: "rgba(0, 0, 0, 0.25)",
@@ -423,11 +522,12 @@ const styles = StyleSheet.create({
     height: "100%",
   },
   carouselcontainer: {
-    marginTop: width * 0.03,
+    marginTop: width * 0.06,
   },
   text: {
-    fontSize: 16,
-    marginLeft: 15,
+    fontSize: 20,
+    marginLeft: "5%",
+    color: "#005f48",
   },
   profilecontainer: {
     paddingTop: 10,

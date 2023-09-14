@@ -1,157 +1,207 @@
-import React, { useState, useEffect } from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  Dimensions,
-  ActivityIndicator,
-} from "react-native";
+import React, { useState, useEffect, useRef } from "react";
+import { StyleSheet, View, TouchableOpacity, StatusBar } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
-import { useFocusEffect } from "@react-navigation/native";
-
-const { width, height } = Dimensions.get("window");
+import { MaterialIcons } from "@expo/vector-icons";
+import Text from "../fonts/Text";
+import TextB from "../fonts/TextBold";
 
 const MapScreen = ({ navigation }) => {
-  const [location, setLocation] = useState(null);
-  const [address, setAddress] = useState(null);
-  const [formattedAddress, setFormattedAddress] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [userLocation, setUserLocation] = useState(null);
+  const [mapRef, setMapRef] = useState(null);
+  const [currentAddress, setCurrentAddress] = useState(null);
+  const [clickedLocation, setClickedLocation] = useState(null);
+  const [centerCoordinate, setCenterCoordinate] = useState(null);
 
-  useFocusEffect(
-    React.useCallback(() => {
-      (async () => {
-        setLoading(true);
+  useEffect(() => {
+    (async () => {
+      const { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        return;
+      }
+      const { coords } = await Location.getCurrentPositionAsync({});
+      setUserLocation(coords);
+      setCurrentAddress(await getAddressFromLocation(coords));
+      await mapRef.animateToRegion({
+        latitude: coords.latitude,
+        longitude: coords.longitude,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421,
+      });
+    })();
+  }, []);
 
-        let { status } = await Location.requestForegroundPermissionsAsync();
-        if (status !== "granted") {
-          console.error("Permission to access location was denied");
-          return;
-        }
+  useEffect(() => {
+    if (centerCoordinate) {
+      getAddressFromLocation(centerCoordinate).then((address) => {
+        setCurrentAddress(address);
+      });
+    }
+  }, [centerCoordinate]);
 
-        let currentLocation = await Location.getCurrentPositionAsync({});
-        setLocation(currentLocation.coords);
+  const getAddressFromLocation = async (location) => {
+    const geocode = await Location.reverseGeocodeAsync(location);
+    const address = `${geocode[0].name}, ${geocode[0].street}, ${geocode[0].city}, ${geocode[0].region}, ${geocode[0].postalCode}, ${geocode[0].country}`;
+    return address;
+  };
 
-        let geocode = await Location.reverseGeocodeAsync({
-          latitude: currentLocation.coords.latitude,
-          longitude: currentLocation.coords.longitude,
-        });
-        setAddress(geocode[0]);
-        const formatted = `${geocode[0].name}, ${geocode[0].street}, ${geocode[0].city}, ${geocode[0].region}, ${geocode[0].postalCode}, ${geocode[0].country}`;
-        setFormattedAddress(formatted);
-        setLoading(false);
-      })();
-    }, [])
-  );
+  const handleMapPress = async (event) => {
+    const { coordinate } = event.nativeEvent;
+    setClickedLocation(coordinate);
+    setCenterCoordinate(coordinate); // Update center coordinate
+  };
+
+  const returnToUserLocation = async () => {
+    if (userLocation && mapRef) {
+      setClickedLocation(userLocation);
+      setCenterCoordinate(userLocation); // Update center coordinate
+      const address = await getAddressFromLocation(userLocation);
+      setCurrentAddress(address);
+      mapRef.animateToRegion({
+        latitude: userLocation.latitude,
+        longitude: userLocation.longitude,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421,
+      });
+    }
+  };
 
   const handleConfirmAndContinue = () => {
-    navigation.navigate("Cart", { liveAddress: formattedAddress });
+    navigation.navigate("Cart");
   };
 
   return (
-    <View style={{ height: "100%" }}>
-      <View
+    <View style={styles.container}>
+      <StatusBar
+        translucent
+        backgroundColor="transparent"
+        barStyle={"dark-content"}
+      />
+
+      <MapView
+        ref={(ref) => setMapRef(ref)}
+        style={styles.map}
+        initialRegion={
+          userLocation && {
+            ...userLocation,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+          }
+        }
+        onPress={handleMapPress}
+        onRegionChangeComplete={(region) => setCenterCoordinate(region)}
+      >
+        {centerCoordinate && (
+          <Marker coordinate={centerCoordinate} pinColor="#00b388" />
+        )}
+      </MapView>
+      <TouchableOpacity
+        onPress={() => navigation.goBack()}
         style={{
-          height: height * 0.12,
-          width: width,
-          backgroundColor: "#00b388",
-          borderBottomLeftRadius: 35,
-          borderBottomRightRadius: 35,
-          elevation: 8,
-          shadowColor: "black",
-          shadowOffset: { width: 0, height: 5 },
-          shadowOpacity: 0.7,
-          shadowRadius: 8,
-          marginBottom: 20,
-          flexDirection: "row",
+          backgroundColor: "white",
+          position: "absolute",
+          top: 50,
+          left: 20,
+          height: 50,
+          width: 50,
+          borderRadius: 50,
           alignItems: "center",
-          justifyContent: "space-between",
-          alignItems: "center",
-          paddingTop: "5%",
+          justifyContent: "center",
+          elevation: 10,
+          borderWidth: 2,
+          borderColor: "#00b388",
         }}
       >
-        <Text
+        <MaterialIcons name="arrow-back" size={30} color="#00b388" />
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        onPress={returnToUserLocation}
+        style={{
+          backgroundColor: "white",
+          position: "absolute",
+          bottom: 220,
+          right: 20,
+          height: 50,
+          width: 50,
+          borderRadius: 50,
+          alignItems: "center",
+          justifyContent: "center",
+          elevation: 10,
+          borderWidth: 2,
+          borderColor: "#00b388",
+        }}
+      >
+        <MaterialIcons name="my-location" size={30} color="#00b388" />
+      </TouchableOpacity>
+
+      <View style={styles.addressContainer}>
+        <TextB style={{ fontSize: 18 }}>Address:</TextB>
+        <Text style={styles.addressText}>
+          {currentAddress ? currentAddress : "Searching address..."}
+        </Text>
+        {centerCoordinate && (
+          <View style={styles.coordinateContainer}>
+            <Text style={styles.coordinateText}>
+              Latitude: {centerCoordinate.latitude.toFixed(6)}
+            </Text>
+            <Text style={styles.coordinateText}>
+              Longitude: {centerCoordinate.longitude.toFixed(6)}
+            </Text>
+          </View>
+        )}
+        <TouchableOpacity
+          onPress={handleConfirmAndContinue}
           style={{
-            color: "white",
-            fontWeight: "bold",
-            fontSize: 25,
-            marginLeft: "15%",
+            backgroundColor: "#00a079",
+            justifyContent: "center",
+            alignItems: "center",
+            padding: 10,
+            borderRadius: 10,
+            elevation: 5,
+            shadowColor: "#000",
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: 0.2,
+            shadowRadius: 4,
           }}
         >
-          Live Location
-        </Text>
+          <TextB style={{ color: "#fff" }}>Confirm & Continue</TextB>
+        </TouchableOpacity>
       </View>
-      {loading ? (
-        <ActivityIndicator
-          size="large"
-          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-        />
-      ) : (
-        <>
-          {location && (
-            <MapView
-              style={{ height: "100%" }}
-              initialRegion={{
-                latitude: location.latitude,
-                longitude: location.longitude,
-                latitudeDelta: 0.0922,
-                longitudeDelta: 0.0421,
-              }}
-            >
-              <Marker
-                coordinate={{
-                  latitude: location.latitude,
-                  longitude: location.longitude,
-                }}
-              />
-            </MapView>
-          )}
-
-          {formattedAddress && (
-            <View
-              style={{
-                position: "absolute",
-                bottom: 40,
-                left: 20,
-                right: 20,
-                backgroundColor: "white",
-                padding: 10,
-                borderRadius: 10,
-                shadowColor: "#000",
-                shadowOffset: { width: 0, height: 2 },
-                shadowOpacity: 0.2,
-                shadowRadius: 4,
-                elevation: 5,
-              }}
-            >
-              <Text style={{ fontWeight: "bold", fontSize: 18 }}>Address:</Text>
-              <Text style={{ marginBottom: 15 }}>{formattedAddress}</Text>
-
-              <TouchableOpacity
-                onPress={handleConfirmAndContinue}
-                style={{
-                  backgroundColor: "#00a079",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  padding: 10,
-                  borderRadius: 10,
-                  elevation: 5,
-                  shadowColor: "#000",
-                  shadowOffset: { width: 0, height: 2 },
-                  shadowOpacity: 0.2,
-                  shadowRadius: 4,
-                }}
-              >
-                <Text style={{ fontWeight: "bold", color: "#fff" }}>
-                  Confirm & Continue
-                </Text>
-              </TouchableOpacity>
-            </View>
-          )}
-        </>
-      )}
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  map: {
+    width: "100%",
+    height: "100%",
+  },
+  addressContainer: {
+    padding: 10,
+    position: "absolute",
+    bottom: 40,
+    left: 20,
+    right: 20,
+    borderRadius: 20,
+    backgroundColor: "white",
+    elevation: 20,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+  },
+  addressText: {
+    marginTop: 10,
+    marginBottom: 10,
+    fontSize: 16,
+  },
+  coordinateContainer: {
+    marginBottom: 10,
+  },
+  coordinateText: {
+    fontSize: 12,
+  },
+});
 
 export default MapScreen;
