@@ -1,4 +1,4 @@
-import { View, Dimensions, Image } from "react-native";
+import { View, Text, Dimensions, Image,TextInput } from "react-native";
 import React from "react";
 import Icon from "react-native-vector-icons/Feather";
 const { width, height } = Dimensions.get("window");
@@ -13,10 +13,12 @@ import {
   addToCart,
   decrementQty,
   incrementQty,
+  setQty
 } from "../redux/reducers/cartReducers";
 import {
   incrementQuantity,
   decrementQuantity,
+  setQuantity
 } from "../redux/reducers/productReducer";
 const OrderCard = ({ item, name, fullname, image }) => {
   const dispatch = useDispatch();
@@ -46,6 +48,17 @@ const OrderCard = ({ item, name, fullname, image }) => {
         console.log(error);
       });
   };
+  const handleQuantityChange=(value,item)=>{
+    if(!value)
+    {
+        dispatch(setQty({...item,newquantity:0}));
+    dispatch(setQuantity({...item,newquantity:0}));
+      
+    }
+    dispatch(setQty({...item,newquantity:parseInt(value)}));
+    dispatch(setQuantity({...item,newquantity:parseInt(value)}));
+  }
+  
   return (
     <View
       style={{
@@ -108,17 +121,21 @@ const OrderCard = ({ item, name, fullname, image }) => {
         >
           {fullname}
         </Text>
+        <Text
+          numberOfLines={1}
+          ellipsizeMode="tail"
+          style={{ fontSize: 15, marginVertical: "3%" }}
+        >
+          {fullname}
+        </Text>
         {cart.some((value) => value.id === item.id) ? (
           <View
             style={{
               height: height * 0.04,
-              width: width * 0.18,
+              width: width * 0.30,
               alignItems: "center",
               flexDirection: "row",
               justifyContent: "space-between",
-              paddingHorizontal: "3%",
-              borderWidth: 1,
-              borderColor: "#005f48",
               borderRadius: 8,
               marginVertical: "3%",
               marginLeft: "0%",
@@ -129,17 +146,30 @@ const OrderCard = ({ item, name, fullname, image }) => {
                 dispatch(decrementQty(item));
                 dispatch(decrementQuantity(item));
               }}
+              style={{width:width*0.08,backgroundColor:"#005f48",borderRadius:40,alignItems:'center',justifyContent:'center',height:"100%"}}
             >
-              <TextB style={{ color: "#005f48", fontSize: 22 }}>-</TextB>
+              <Text
+                style={{ color: "#005f48", fontWeight: "bold", fontSize: 20,color:'white' }}
+              >
+                -
+              </Text>
             </TouchableOpacity>
-            <TextB style={{ color: "#005f48" }}>{item.quantity}</TextB>
+            <TouchableOpacity style={{width:width*0.08,borderWidth:1,borderColor:"#005f48",borderRadius:8,alignItems:'center',justifyContent:'center',height:"100%"}} >
+            <TextInput style={{ fontWeight: "bold",color:"#005f48",alignSelf:'center',textAlign:"center"}} value={item.quantity.toString()} onChangeText={(text) =>handleQuantityChange(text, item)} />
+            </TouchableOpacity>
+            
             <TouchableOpacity
               onPress={() => {
                 dispatch(incrementQty(item));
                 dispatch(incrementQuantity(item));
               }}
+              style={{width:width*0.08,backgroundColor:"#005f48",borderRadius:40,alignItems:'center',justifyContent:'center',height:'100%'}}
             >
-              <TextB style={{ color: "#005f48", fontSize: 22 }}>+</TextB>
+              <Text
+                style={{ color: "#005f48", fontWeight: "bold", fontSize: 20,color:'white' }}
+              >
+                +
+              </Text>
             </TouchableOpacity>
           </View>
         ) : (

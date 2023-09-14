@@ -1,4 +1,12 @@
-import { View, Dimensions, TouchableOpacity, Image } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Dimensions,
+  TouchableOpacity,
+  Image,
+  TextInput
+} from "react-native";
 import React from "react";
 const { width, height } = Dimensions.get("window");
 import Icon2 from "react-native-vector-icons/MaterialCommunityIcons";
@@ -11,11 +19,13 @@ import {
   addToCart,
   decrementQty,
   incrementQty,
+  setQty,
   removeFromCart,
 } from "../redux/reducers/cartReducers";
 import {
   incrementQuantity,
   decrementQuantity,
+  setQuantity,
   zeroQuantity,
 } from "../redux/reducers/productReducer";
 
@@ -36,6 +46,16 @@ const CartCard = ({ name, fullname, image, item }) => {
   useEffect(() => {
     getImage();
   }, []);
+  const handleQuantityChange=(value,item)=>{
+    if(!value)
+    {
+        dispatch(setQty({...item,newquantity:0}));
+    dispatch(setQuantity({...item,newquantity:0}));
+      
+    }
+    dispatch(setQty({...item,newquantity:parseInt(value)}));
+    dispatch(setQuantity({...item,newquantity:parseInt(value)}));
+  }
   const getImage = () => {
     axiosInstance
       .get(`/plant/image/${image}`)
@@ -87,7 +107,7 @@ const CartCard = ({ name, fullname, image, item }) => {
       <View
         style={{
           height: height * 0.08,
-          width: width * 0.45,
+          width: width * 0.35,
           paddingLeft: "3%",
           justifyContent: "center",
         }}
@@ -122,38 +142,48 @@ const CartCard = ({ name, fullname, image, item }) => {
         <Icon2 name="trash-can" size={30} color="white" />
       </TouchableOpacity>
       <View
-        style={{
-          height: height * 0.04,
-          width: width * 0.17,
-          alignItems: "center",
-          flexDirection: "row",
-          justifyContent: "space-between",
-          paddingHorizontal: "2%",
-          borderWidth: 1,
-          borderColor: "white",
-          borderRadius: 8,
-          marginVertical: "3%",
-          marginLeft: "2%",
-        }}
-      >
-        <TouchableOpacity
-          onPress={() => {
-            dispatch(decrementQty(item));
-            dispatch(decrementQuantity(item));
-          }}
-        >
-          <TextB style={{ color: "white", fontSize: 20 }}>-</TextB>
-        </TouchableOpacity>
-        <TextB style={{ color: "white" }}>{item.quantity}</TextB>
-        <TouchableOpacity
-          onPress={() => {
-            dispatch(incrementQty(item));
-            dispatch(incrementQuantity(item));
-          }}
-        >
-          <TextB style={{ color: "white", fontSize: 20 }}>+</TextB>
-        </TouchableOpacity>
-      </View>
+            style={{
+              height: height * 0.04,
+              width: width * 0.30,
+              alignItems: "center",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              borderRadius: 8,
+              marginVertical: "3%",
+              marginLeft: "0%",
+            }}
+          >
+            <TouchableOpacity
+              onPress={() => {
+                dispatch(decrementQty(item));
+                dispatch(decrementQuantity(item));
+              }}
+              style={{width:width*0.08,backgroundColor:"#005f48",borderRadius:40,alignItems:'center',justifyContent:'center',height:"100%"}}
+            >
+              <Text
+                style={{fontWeight: "bold", fontSize: 20,color:'white' }}
+              >
+                -
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={{width:width*0.08,borderWidth:1,borderColor:"white",borderRadius:8,alignItems:'center',justifyContent:'center',height:"100%"}} >
+            <TextInput style={{ fontWeight: "bold",color:"white",alignSelf:'center',textAlign:"center"}} value={item.quantity.toString()} onChangeText={(text) =>handleQuantityChange(text, item)} />
+            </TouchableOpacity>
+            
+            <TouchableOpacity
+              onPress={() => {
+                dispatch(incrementQty(item));
+                dispatch(incrementQuantity(item));
+              }}
+              style={{width:width*0.08,backgroundColor:"#005F48",borderRadius:40,alignItems:'center',justifyContent:'center',height:'100%'}}
+            >
+              <Text
+                style={{ color: "white", fontWeight: "bold", fontSize: 20,color:'white' }}
+              >
+                +
+              </Text>
+            </TouchableOpacity>
+          </View>
     </View>
   );
 };

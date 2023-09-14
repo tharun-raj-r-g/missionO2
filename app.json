@@ -23,7 +23,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.rahulvijay12b.missiono2"
+      "package": "com.tharunraj2262004.missiono2"
     },
     "web": {
       "favicon": "./assets/favicon.png"
