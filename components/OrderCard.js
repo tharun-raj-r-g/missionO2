@@ -1,4 +1,4 @@
-import { View, Text, Dimensions, Image, TextInput } from "react-native";
+import { View, Dimensions, Image, TextInput } from "react-native";
 import React from "react";
 import Icon from "react-native-vector-icons/Feather";
 const { width, height } = Dimensions.get("window");
@@ -147,16 +147,16 @@ const OrderCard = ({ item, name, fullname, image }) => {
                 height: "100%",
               }}
             >
-              <Text
+              <TextB
                 style={{
                   color: "#005f48",
-                  fontWeight: "bold",
+
                   fontSize: 20,
                   color: "white",
                 }}
               >
                 -
-              </Text>
+              </TextB>
             </TouchableOpacity>
             <TouchableOpacity
               style={{
@@ -171,10 +171,10 @@ const OrderCard = ({ item, name, fullname, image }) => {
             >
               <TextInput
                 style={{
-                  fontWeight: "bold",
                   color: "#005f48",
                   alignSelf: "center",
                   textAlign: "center",
+                  fontFamily: "MontserratB",
                 }}
                 value={item.quantity.toString()}
                 onChangeText={(text) => handleQuantityChange(text, item)}
@@ -195,16 +195,15 @@ const OrderCard = ({ item, name, fullname, image }) => {
                 height: "100%",
               }}
             >
-              <Text
+              <TextB
                 style={{
                   color: "#005f48",
-                  fontWeight: "bold",
                   fontSize: 20,
                   color: "white",
                 }}
               >
                 +
-              </Text>
+              </TextB>
             </TouchableOpacity>
           </View>
         ) : (
