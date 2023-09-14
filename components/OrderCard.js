@@ -147,16 +147,16 @@ const OrderCard = ({ item, name, fullname, image }) => {
                 height: "100%",
               }}
             >
-              <Text
+              <TextB
                 style={{
                   color: "#005f48",
-                  fontWeight: "bold",
+
                   fontSize: 20,
                   color: "white",
                 }}
               >
                 -
-              </Text>
+              </TextB>
             </TouchableOpacity>
             <TouchableOpacity
               style={{
@@ -171,10 +171,10 @@ const OrderCard = ({ item, name, fullname, image }) => {
             >
               <TextInput
                 style={{
-                  fontWeight: "bold",
                   color: "#005f48",
                   alignSelf: "center",
                   textAlign: "center",
+                  fontFamily: "MontserratB",
                 }}
                 value={item.quantity.toString()}
                 onChangeText={(text) => handleQuantityChange(text, item)}
@@ -195,16 +195,15 @@ const OrderCard = ({ item, name, fullname, image }) => {
                 height: "100%",
               }}
             >
-              <Text
+              <TextB
                 style={{
                   color: "#005f48",
-                  fontWeight: "bold",
                   fontSize: 20,
                   color: "white",
                 }}
               >
                 +
-              </Text>
+              </TextB>
             </TouchableOpacity>
           </View>
         ) : (

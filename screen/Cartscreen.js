@@ -220,9 +220,9 @@ const Cartscreen = ({ navigation }) => {
             showsVerticalScrollIndicator={false}
             nestedScrollEnabled={true}
           >
-            <Text style={{ fontSize: 18, color: "black", marginBottom: "2%" }}>
+            <TextB style={{ fontSize: 18, color: "black", marginBottom: "2%" }}>
               Enter your name:
-            </Text>
+            </TextB>
             <View
               style={{
                 height: height * 0.05,
@@ -230,7 +230,7 @@ const Cartscreen = ({ navigation }) => {
                 justifyContent: "center",
                 borderWidth: 2,
                 borderColor: "#00b388",
-                borderRadius: 10,
+                borderRadius: 20,
                 marginBottom: "5%",
                 padding: "2%",
               }}
@@ -241,13 +241,14 @@ const Cartscreen = ({ navigation }) => {
                   fontSize: 17,
                   fontFamily: "Montserrat",
                 }}
+                placeholder="Name"
                 value={isName}
                 onChangeText={setName}
               />
             </View>
-            <Text style={{ fontSize: 18, color: "black", marginBottom: "2%" }}>
+            <TextB style={{ fontSize: 18, color: "black", marginBottom: "2%" }}>
               Enter your Email:
-            </Text>
+            </TextB>
             <View
               style={{
                 height: height * 0.05,
@@ -255,7 +256,7 @@ const Cartscreen = ({ navigation }) => {
                 justifyContent: "center",
                 borderWidth: 2,
                 borderColor: "#00b388",
-                borderRadius: 10,
+                borderRadius: 20,
                 padding: "2%",
                 marginBottom: "5%",
               }}
@@ -266,13 +267,14 @@ const Cartscreen = ({ navigation }) => {
                   fontSize: 17,
                   fontFamily: "Montserrat",
                 }}
+                placeholder="Email"
                 value={isEmail}
                 onChangeText={setEmail}
               />
             </View>
-            <Text style={{ fontSize: 18, color: "black", marginBottom: "2%" }}>
+            <TextB style={{ fontSize: 18, color: "black", marginBottom: "2%" }}>
               Enter DOB:
-            </Text>
+            </TextB>
             <View
               style={{
                 height: height * 0.05,
@@ -280,7 +282,7 @@ const Cartscreen = ({ navigation }) => {
                 justifyContent: "center",
                 borderWidth: 2,
                 borderColor: "#00b388",
-                borderRadius: 10,
+                borderRadius: 20,
                 padding: "2%",
               }}
             >
@@ -290,6 +292,7 @@ const Cartscreen = ({ navigation }) => {
                   fontSize: 17,
                   fontFamily: "Montserrat",
                 }}
+                placeholder="DOB"
                 value={isDOB}
                 onChangeText={setDOB}
               />
@@ -372,7 +375,7 @@ const Cartscreen = ({ navigation }) => {
               </TouchableOpacity>
             </View>
 
-            <Text
+            <TextB
               style={{
                 alignSelf: "flex-start",
                 marginLeft: width * 0.01,
@@ -382,7 +385,7 @@ const Cartscreen = ({ navigation }) => {
               }}
             >
               Upload Photo
-            </Text>
+            </TextB>
 
             <View style={styles.row}>
               {images.slice(0, 4).map((image, index) => (
@@ -458,7 +461,7 @@ const Cartscreen = ({ navigation }) => {
                 marginTop: "10%",
               }}
             >
-              <Text style={{ fontSize: 16 }}> Select State :</Text>
+              <TextB style={{ fontSize: 16 }}> Select State :</TextB>
               <TouchableOpacity
                 style={{
                   height: height * 0.05,
@@ -556,7 +559,7 @@ const Cartscreen = ({ navigation }) => {
                 marginTop: "5%",
               }}
             >
-              <Text style={{ fontSize: 16 }}> Select District :</Text>
+              <TextB style={{ fontSize: 16 }}> Select District :</TextB>
               {(selectedState != "Select" && (
                 <TouchableOpacity
                   style={{
@@ -688,7 +691,7 @@ const Cartscreen = ({ navigation }) => {
                 marginTop: "5%",
               }}
             >
-              <Text style={{ fontSize: 16 }}> Select Taluk :</Text>
+              <TextB style={{ fontSize: 16 }}> Select Taluk :</TextB>
               {(selectedState != "Select" && selectedDistrict != "Select" && (
                 <TouchableOpacity
                   style={{

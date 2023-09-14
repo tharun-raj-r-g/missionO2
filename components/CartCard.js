@@ -1,6 +1,5 @@
 import {
   View,
-  StyleSheet,
   Dimensions,
   TouchableOpacity,
   Image,
@@ -165,9 +164,7 @@ const CartCard = ({ name, fullname, image, item }) => {
             height: "100%",
           }}
         >
-          <Text style={{ fontWeight: "bold", fontSize: 20, color: "white" }}>
-            -
-          </Text>
+          <TextB style={{ fontSize: 20, color: "white" }}>-</TextB>
         </TouchableOpacity>
         <TouchableOpacity
           style={{
@@ -182,7 +179,7 @@ const CartCard = ({ name, fullname, image, item }) => {
         >
           <TextInput
             style={{
-              fontWeight: "bold",
+              fontWeight: "MontserratB",
               color: "white",
               alignSelf: "center",
               textAlign: "center",
@@ -206,16 +203,15 @@ const CartCard = ({ name, fullname, image, item }) => {
             height: "100%",
           }}
         >
-          <Text
+          <TextB
             style={{
               color: "white",
-              fontWeight: "bold",
               fontSize: 20,
               color: "white",
             }}
           >
             +
-          </Text>
+          </TextB>
         </TouchableOpacity>
       </View>
     </View>
