@@ -27,6 +27,8 @@ const OrderCompleteCard = ({ item, name, fullname, image }) => {
   const [images, setImages] = useState(Array(8).fill(null));
   const [imageList, setImageList] = useState([]);
   const [selectedFrame, setSelectedFrame] = useState(null);
+  const [orderCompletedModalVisible, setOrderCompletedModalVisible] =
+    useState(false);
   const pickImage = (index) => {
     setSelectedFrame(index);
     setModalVisible2(true);
@@ -84,6 +86,14 @@ const OrderCompleteCard = ({ item, name, fullname, image }) => {
       .catch((error) => {
         console.log(error);
       });
+  };
+
+  const handleCompleteOrder = () => {
+    setModalVisible1(false);
+    setOrderCompletedModalVisible(true);
+    setTimeout(() => {
+      setOrderCompletedModalVisible(false);
+    }, 3000);
   };
 
   return (
@@ -151,7 +161,11 @@ const OrderCompleteCard = ({ item, name, fullname, image }) => {
         <Text
           numberOfLines={1}
           ellipsizeMode="tail"
-          style={{ fontSize: 12, marginVertical: "1%", color: "#888" }}
+          style={{
+            fontSize: 11,
+            marginVertical: "1%",
+            color: orderStatus === "Delivered" ? "green" : "darkorange",
+          }}
         >
           Status: {orderStatus}
         </Text>
@@ -165,7 +179,8 @@ const OrderCompleteCard = ({ item, name, fullname, image }) => {
               justifyContent: "center",
               alignItems: "center",
               padding: "4%",
-              borderRadius: 10,
+              borderRadius: 5,
+              elevation: 5,
               marginVertical: "2%",
               backgroundColor: "#005f48",
             }}
@@ -180,7 +195,12 @@ const OrderCompleteCard = ({ item, name, fullname, image }) => {
               justifyContent: "center",
               alignItems: "center",
               padding: "4%",
-              borderRadius: 10,
+              borderRadius: 5,
+              elevation: 5,
+              shadowColor: "black",
+              shadowOffset: { width: 0, height: 5 },
+              shadowOpacity: 0.5,
+              shadowRadius: 10,
               marginVertical: "3%",
               backgroundColor: "#ccc",
             }}
@@ -242,7 +262,12 @@ const OrderCompleteCard = ({ item, name, fullname, image }) => {
                     justifyContent: "center",
                     alignItems: "center",
                     padding: "2.5%",
-                    borderRadius: 10,
+                    borderRadius: 5,
+                    elevation: 5,
+                    shadowColor: "black",
+                    shadowOffset: { width: 0, height: 5 },
+                    shadowOpacity: 0.5,
+                    shadowRadius: 10,
                     marginVertical: "2%",
                     backgroundColor: "#005f48",
                   }}
@@ -250,13 +275,19 @@ const OrderCompleteCard = ({ item, name, fullname, image }) => {
                   <TextB style={{ color: "white" }}>Cancel</TextB>
                 </TouchableOpacity>
                 <TouchableOpacity
+                  onPress={handleCompleteOrder}
                   style={{
                     width: width * 0.38,
                     flexDirection: "row",
                     justifyContent: "center",
                     alignItems: "center",
                     padding: "2.5%",
-                    borderRadius: 10,
+                    borderRadius: 5,
+                    elevation: 5,
+                    shadowColor: "black",
+                    shadowOffset: { width: 0, height: 5 },
+                    shadowOpacity: 0.5,
+                    shadowRadius: 10,
                     marginVertical: "2%",
                     backgroundColor: "#005f48",
                   }}
@@ -294,6 +325,32 @@ const OrderCompleteCard = ({ item, name, fullname, image }) => {
               >
                 <Text style={styles.modalOptionText}>Cancel</Text>
               </TouchableOpacity>
+            </View>
+          </View>
+        </Modal>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={orderCompletedModalVisible}
+          onRequestClose={() => setOrderCompletedModalVisible(false)}
+        >
+          <View style={styles.modalContainer}>
+            <View
+              style={[
+                styles.modalContent,
+                {
+                  alignItems: "center",
+                  justifyContent: "center",
+                  width: "90%",
+                },
+              ]}
+            >
+              <TextB style={[styles.modalTitle, { color: "#005f48" }]}>
+                Order Completed
+              </TextB>
+              <Text style={styles.modalOptionText}>
+                Thank you for your order!
+              </Text>
             </View>
           </View>
         </Modal>
@@ -377,7 +434,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "black",
   },
-
   row: {
     flexDirection: "row",
     marginBottom: 10,
