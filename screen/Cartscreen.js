@@ -256,8 +256,6 @@ const Cartscreen = ({ navigation }) => {
                 shadowOffset: { width: 0, height: 5 },
                 shadowOpacity: 0.2,
                 shadowRadius: 8,
-                borderBottomWidth: 2,
-                borderBottomColor: "#005f48",
                 marginBottom: "5%",
                 marginTop: "5%",
               }}

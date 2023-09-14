@@ -1,20 +1,22 @@
-import { View, Text, Dimensions, Image } from "react-native";
+import { View, Text, Dimensions, Image,TextInput } from "react-native";
 import React from "react";
 import Icon from "react-native-vector-icons/Feather";
 const { width, height } = Dimensions.get("window");
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { useDispatch,useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import axiosInstance from "../api/api";
 import MyModal from "./MyModal";
 import {
   addToCart,
   decrementQty,
   incrementQty,
+  setQty
 } from "../redux/reducers/cartReducers";
 import {
   incrementQuantity,
   decrementQuantity,
+  setQuantity
 } from "../redux/reducers/productReducer";
 const OrderCard = ({ item, name, fullname, image }) => {
   const dispatch = useDispatch();
@@ -28,11 +30,11 @@ const OrderCard = ({ item, name, fullname, image }) => {
   };
   const [modalVisible, setModalVisible] = useState(false);
   const plant = {
-    name: 'Example Plant',
-    description: 'This is a beautiful example plant with lush green leaves.',
-    imageSource: 'https://example.com/path-to-your-plant-image.jpg',
+    name: "Example Plant",
+    description: "This is a beautiful example plant with lush green leaves.",
+    imageSource: "https://example.com/path-to-your-plant-image.jpg",
   };
-  const [isimage,setImage]=useState("");
+  const [isimage, setImage] = useState("");
   const toggleModal = () => {
     setModalVisible(!modalVisible);
   };
@@ -41,9 +43,7 @@ const OrderCard = ({ item, name, fullname, image }) => {
   }, []);
   const getImage = () => {
     axiosInstance
-      .get(
-        `/plant/image/${image}`
-      )
+      .get(`/plant/image/${image}`)
       .then((response) => {
         setImage(response.data.image);
       })
@@ -51,10 +51,20 @@ const OrderCard = ({ item, name, fullname, image }) => {
         console.log(error);
       });
   };
+  const handleQuantityChange=(value,item)=>{
+    if(!value)
+    {
+        dispatch(setQty({...item,newquantity:0}));
+    dispatch(setQuantity({...item,newquantity:0}));
+      
+    }
+    dispatch(setQty({...item,newquantity:parseInt(value)}));
+    dispatch(setQuantity({...item,newquantity:parseInt(value)}));
+  }
+  
   return (
     <View
       style={{
-        
         width: width * 0.9,
         backgroundColor: "#fafafa",
         borderRadius: 10,
@@ -84,7 +94,7 @@ const OrderCard = ({ item, name, fullname, image }) => {
             marginLeft: "10%",
             borderRadius: 10,
           }}
-          source={{ uri: `data:image/jpeg;base64,${isimage}`}}
+          source={{ uri: `data:image/jpeg;base64,${isimage}` }}
         ></Image>
       </View>
       <View
@@ -96,7 +106,8 @@ const OrderCard = ({ item, name, fullname, image }) => {
         }}
       >
         <Text
-        numberOfLines={1} ellipsizeMode="tail"
+          numberOfLines={1}
+          ellipsizeMode="tail"
           style={{
             fontSize: 17,
             fontWeight: "bold",
@@ -106,32 +117,56 @@ const OrderCard = ({ item, name, fullname, image }) => {
         >
           {name}
         </Text>
-        <Text numberOfLines={1} ellipsizeMode="tail" style={{ fontSize: 15, marginVertical: "3%" }}>{fullname}</Text>
+        <Text
+          numberOfLines={1}
+          ellipsizeMode="tail"
+          style={{ fontSize: 15, marginVertical: "3%" }}
+        >
+          {fullname}
+        </Text>
         {cart.some((value) => value.id === item.id) ? (
           <View
             style={{
               height: height * 0.04,
-              width: width * 0.18,
+              width: width * 0.30,
               alignItems: "center",
               flexDirection: "row",
               justifyContent: "space-between",
-              paddingHorizontal: "3%",
-              borderWidth: 1,
-              borderColor: "#005f48",
               borderRadius: 8,
               marginVertical: "3%",
               marginLeft: "0%",
             }}
           >
-            <TouchableOpacity  onPress={() => {
+            <TouchableOpacity
+              onPress={() => {
                 dispatch(decrementQty(item));
                 dispatch(decrementQuantity(item));
-              }}><Text style={{ color: "#005f48",fontWeight:"bold",fontSize:22}}>-</Text></TouchableOpacity>
-            <Text style={{ fontWeight: "bold", color: "#005f48" }}>{item.quantity}</Text>
-            <TouchableOpacity  onPress={() => {
+              }}
+              style={{width:width*0.08,backgroundColor:"#005f48",borderRadius:40,alignItems:'center',justifyContent:'center',height:"100%"}}
+            >
+              <Text
+                style={{ color: "#005f48", fontWeight: "bold", fontSize: 20,color:'white' }}
+              >
+                -
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={{width:width*0.08,borderWidth:1,borderColor:"#005f48",borderRadius:8,alignItems:'center',justifyContent:'center',height:"100%"}} >
+            <TextInput style={{ fontWeight: "bold",color:"#005f48",alignSelf:'center',textAlign:"center"}} value={item.quantity.toString()} onChangeText={(text) =>handleQuantityChange(text, item)} />
+            </TouchableOpacity>
+            
+            <TouchableOpacity
+              onPress={() => {
                 dispatch(incrementQty(item));
                 dispatch(incrementQuantity(item));
-              }}><Text style={{ color: "#005f48",fontWeight:"bold", fontSize:22}}>+</Text></TouchableOpacity>
+              }}
+              style={{width:width*0.08,backgroundColor:"#005f48",borderRadius:40,alignItems:'center',justifyContent:'center',height:'100%'}}
+            >
+              <Text
+                style={{ color: "#005f48", fontWeight: "bold", fontSize: 20,color:'white' }}
+              >
+                +
+              </Text>
+            </TouchableOpacity>
           </View>
         ) : (
           <TouchableOpacity
@@ -143,8 +178,7 @@ const OrderCard = ({ item, name, fullname, image }) => {
               padding: "4%",
               borderRadius: 10,
               marginVertical: "3%",
-              backgroundColor:"#005f48" ,
-              
+              backgroundColor: "#005f48",
             }}
             onPress={HandlePress}
           >
@@ -157,8 +191,8 @@ const OrderCard = ({ item, name, fullname, image }) => {
           width: width * 0.1,
           height: height * 0.15,
           alignItems: "center",
-          alignSelf:"center",
-          paddingTop:"8%",
+          alignSelf: "center",
+          paddingTop: "8%",
         }}
         onPress={toggleModal}
       >
