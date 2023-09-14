@@ -469,7 +469,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 20,
-    marginLeft: 15,
+    marginLeft: "5%" ,
     color: "#005f48",
   },
   profilecontainer: {

@@ -64,7 +64,7 @@ const MapScreen = ({ navigation }) => {
         longitudeDelta: 0.0421,
       });
     }
-  };  
+  };
 
   const handleConfirmAndContinue = () => {
     navigation.navigate("Cart");
@@ -92,10 +92,7 @@ const MapScreen = ({ navigation }) => {
         onRegionChangeComplete={(region) => setCenterCoordinate(region)}
       >
         {centerCoordinate && (
-          <Marker
-            coordinate={centerCoordinate}
-            pinColor="#00b388"
-          />
+          <Marker coordinate={centerCoordinate} pinColor="#00b388" />
         )}
       </MapView>
       <TouchableOpacity

@@ -1,13 +1,8 @@
-import {
-  View,
-  Dimensions,
-  TouchableOpacity,
-  Image,
-} from "react-native";
+import { View, Dimensions, TouchableOpacity, Image } from "react-native";
 import React from "react";
 const { width, height } = Dimensions.get("window");
 import Icon2 from "react-native-vector-icons/MaterialCommunityIcons";
-import { useEffect,useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import Text from "../fonts/Text";
 import TextB from "../fonts/TextBold";
@@ -34,7 +29,7 @@ const CartCard = ({ name, fullname, image, item }) => {
     dispatch(removeFromCart(item));
     dispatch(zeroQuantity(item));
   };
-  const [isimage,setImage]=useState("");
+  const [isimage, setImage] = useState("");
   const toggleModal = () => {
     setModalVisible(!modalVisible);
   };
@@ -43,9 +38,7 @@ const CartCard = ({ name, fullname, image, item }) => {
   }, []);
   const getImage = () => {
     axiosInstance
-      .get(
-        `/plant/image/${image}`
-      )
+      .get(`/plant/image/${image}`)
       .then((response) => {
         setImage(response.data.image);
       })
@@ -87,7 +80,7 @@ const CartCard = ({ name, fullname, image, item }) => {
             shadowRadius: 8,
           }}
           source={{
-            uri:`data:image/jpeg;base64,${isimage}`,
+            uri: `data:image/jpeg;base64,${isimage}`,
           }}
         ></Image>
       </View>
@@ -99,10 +92,21 @@ const CartCard = ({ name, fullname, image, item }) => {
           justifyContent: "center",
         }}
       >
-        <TextB style={{ color: "white", fontSize: 14,width:width*0.4 }} numberOfLines={1}>
+        <TextB
+          style={{ color: "white", fontSize: 14, width: width * 0.4 }}
+          numberOfLines={1}
+        >
           {name}
         </TextB>
-        <Text style={{ color: "white", fontSize: 10, opacity: 0.8,width:width*0.4 }} numberOfLines={1}>
+        <Text
+          style={{
+            color: "white",
+            fontSize: 10,
+            opacity: 0.8,
+            width: width * 0.4,
+          }}
+          numberOfLines={1}
+        >
           {name}
         </Text>
       </View>
@@ -138,22 +142,16 @@ const CartCard = ({ name, fullname, image, item }) => {
             dispatch(decrementQuantity(item));
           }}
         >
-          <TextB style={{ color: "white", fontSize: 20 }}>
-            -
-          </TextB>
+          <TextB style={{ color: "white", fontSize: 20 }}>-</TextB>
         </TouchableOpacity>
-        <TextB style={{ color: "white" }}>
-          {item.quantity}
-        </TextB>
+        <TextB style={{ color: "white" }}>{item.quantity}</TextB>
         <TouchableOpacity
           onPress={() => {
             dispatch(incrementQty(item));
             dispatch(incrementQuantity(item));
           }}
         >
-          <TextB style={{ color: "white", fontSize: 20 }}>
-            +
-          </TextB>
+          <TextB style={{ color: "white", fontSize: 20 }}>+</TextB>
         </TouchableOpacity>
       </View>
     </View>

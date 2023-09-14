@@ -261,7 +261,11 @@ const Cartscreen = ({ navigation }) => {
               }}
             >
               <TextInput
-                style={{ color: "#005f48", fontSize: 17, fontFamily: "Montserrat", }}
+                style={{
+                  color: "#005f48",
+                  fontSize: 17,
+                  fontFamily: "Montserrat",
+                }}
                 value={isEmail}
                 onChangeText={setEmail}
               />
@@ -281,7 +285,11 @@ const Cartscreen = ({ navigation }) => {
               }}
             >
               <TextInput
-                style={{ color: "#005f48", fontSize: 17, fontFamily: "Montserrat", }}
+                style={{
+                  color: "#005f48",
+                  fontSize: 17,
+                  fontFamily: "Montserrat",
+                }}
                 value={isDOB}
                 onChangeText={setDOB}
               />

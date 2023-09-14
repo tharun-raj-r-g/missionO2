@@ -10,20 +10,18 @@ const OrderConfirmedScreen = ({ navigation }) => {
   const [isImageHidden, setImageHidden] = useState(false);
 
   useEffect(() => {
-    // Hide the image after 5 seconds (adjust the delay as needed)
     const hideImageTimeout = setTimeout(() => {
       setImageHidden(true);
-    }, 5000); // 5000 milliseconds = 5 seconds
+    }, 5000);
 
-    // Clean up the timeout to prevent memory leaks
     return () => clearTimeout(hideImageTimeout);
   }, []);
   const goToInitialState = () => {
     navigation.dispatch(
       CommonActions.reset({
-        index: 0, // The index of the screen to reset to (0 for the initial screen)
+        index: 0,
         routes: [
-          { name: "HomeStack" }, // Replace with the actual name of your initial screen
+          { name: "HomeStack" },
         ],
       })
     );

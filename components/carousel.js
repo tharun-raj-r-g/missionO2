@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 20,
-    marginTop: 10,
+    marginTop: "5%",
   },
   carouselItem: {
     flexDirection: "row",

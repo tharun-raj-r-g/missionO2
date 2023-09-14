@@ -63,7 +63,7 @@ const OrderCard = ({ item, name, fullname, image }) => {
         shadowOpacity: 0.2,
         shadowRadius: 8,
         flexDirection: "row",
-        marginVertical: 10,
+        marginVertical: 6,
       }}
     >
       <View

@@ -13,8 +13,8 @@ function OrderStack() {
       }}
     >
       <Stack.Screen name="Order" component={Order} />
-      <Stack.Screen name="Cart" component={Cartscreen}/>
-      <Stack.Screen name="OrderConfirm" component={OrderConfirmedScreen}/>
+      <Stack.Screen name="Cart" component={Cartscreen} />
+      <Stack.Screen name="OrderConfirm" component={OrderConfirmedScreen} />
     </Stack.Navigator>
   );
 }
