@@ -21,19 +21,14 @@ import {
 const OrderCard = ({ item, name, fullname, image }) => {
   const dispatch = useDispatch();
   const addItemToCart = (item) => {
-    dispatch(addToCart(item)); // cart array being used
-    dispatch(incrementQuantity(item)); // product array being used
+    dispatch(addToCart(item));
+    dispatch(incrementQuantity(item));
   };
   const cart = useSelector((state) => state.cart.cart);
   const HandlePress = () => {
     addItemToCart(item);
   };
   const [modalVisible, setModalVisible] = useState(false);
-  const plant = {
-    name: "Example Plant",
-    description: "This is a beautiful example plant with lush green leaves.",
-    imageSource: "https://example.com/path-to-your-plant-image.jpg",
-  };
   const [isimage, setImage] = useState("");
   const toggleModal = () => {
     setModalVisible(!modalVisible);
@@ -55,6 +50,7 @@ const OrderCard = ({ item, name, fullname, image }) => {
     <View
       style={{
         width: width * 0.9,
+        height: height * 0.15,
         backgroundColor: "#fafafa",
         borderRadius: 10,
         elevation: 5,

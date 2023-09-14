@@ -20,6 +20,7 @@ import Text from "../fonts/Text";
 import TextB from "../fonts/TextBold";
 import MyCarousel from "../components/carousel";
 import Achievements from "../components/achievements";
+import OrderCompleteCard from "../components/OrderComplete";
 const HomePage = ({ navigation }) => {
   const carouselData = [
     {
@@ -271,7 +272,9 @@ const HomePage = ({ navigation }) => {
             <MyCarousel items={carouselData} />
           </View>
 
-          <TextB style={[styles.text, { marginTop: "5%" }]}>Achievements</TextB>
+          <TextB style={[styles.text, { marginTop: "5%", marginLeft: "6%" }]}>
+            Achievements
+          </TextB>
           <ScrollView
             horizontal
             showsHorizontalScrollIndicator={false}
@@ -293,14 +296,68 @@ const HomePage = ({ navigation }) => {
               width: "100%",
               flexDirection: "row",
               justifyContent: "space-between",
-              marginTop: "3%",
+              marginTop: "4%",
               alignItems: "center",
             }}
           >
             <View
               style={{
                 height: height * 0.06,
-                marginLeft: "5%",
+                marginLeft: "6%",
+              }}
+            >
+              <TextB
+                style={{
+                  fontSize: 20,
+                  color: "#005f48",
+                }}
+              >
+                Recent Orders
+              </TextB>
+            </View>
+          </View>
+          {products.length == 0 ? (
+            <View style={{ marginTop: "20%" }}>
+              <ActivityIndicator size="large" color="#00b388" />
+            </View>
+          ) : (
+            <ScrollView
+              showsVerticalScrollIndicator={false}
+              style={{ width: width }}
+            >
+              {products ? (
+                <View style={{ alignItems: "center" }}>
+                  {products.map((item, index) => {
+                    if (index < 3) {
+                      return (
+                        <OrderCompleteCard
+                          item={item}
+                          name={item.name}
+                          fullname={item.name}
+                          image={item.images}
+                        />
+                      );
+                    }
+                  })}
+                </View>
+              ) : null}
+            </ScrollView>
+          )}
+
+          <View
+            style={{
+              height: height * 0.06,
+              width: "100%",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              marginTop: "5%",
+              alignItems: "center",
+            }}
+          >
+            <View
+              style={{
+                height: height * 0.06,
+                marginLeft: "6%",
               }}
             >
               <TextB
@@ -469,7 +526,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 20,
-    marginLeft: "5%" ,
+    marginLeft: "5%",
     color: "#005f48",
   },
   profilecontainer: {
