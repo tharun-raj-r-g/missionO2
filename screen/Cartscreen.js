@@ -20,6 +20,7 @@ import PlantAddressComp from "../components/plantingaddress";
 import * as ImagePicker from "expo-image-picker";
 import axiosInstance from "../api/api";
 import { useEffect } from "react";
+import { zeroQuantityAll } from "../redux/reducers/productReducer";
 import { emptyCart } from "../redux/reducers/cartReducers";
 import Text from "../fonts/Text";
 import TextB from "../fonts/TextBold";
@@ -28,45 +29,70 @@ import { getFormatedDate } from "react-native-modern-datepicker";
 
 const Cartscreen = ({ navigation }) => {
   const route = useRoute();
-  const liveAddress = route.params?.liveAddress;
   const cart = useSelector((state) => state.cart.cart);
-  const [selectedValue, setSelectedValue] = useState("select");
+  const products = useSelector((state) => state.product.product);
+
   const [statelist, setstatelist] = useState([]);
-  const [districtlist, setdistrictlist] = useState([]);
-  const [taluklist, settaluklist] = useState([]);
-  const [isStateDropdownOpen, setStateDropdownOpen] = useState(false);
-  const [isDistrictDropdownOpen, setDistrictDropdownOpen] = useState(false);
-  const [isTalukDropdownOpen, setTalukDropdownOpen] = useState(false);
-  const [selectedState, setSelectedState] = useState("Select");
-  const [selectedDistrict, setSelectedDistrict] = useState("Select");
-  const [selectedTaluk, setSelectedTaluk] = useState("Select");
-  const [selectedDeliveryAddress, setSelectedDeliveryAddress] = useState(null);
-  const [selectedPlantAddress, setSelectedPlantAddress] = useState(null);
+
+  const [DeliveryDistrictList, setDeliveryDistrictList] = useState([]);
+  const [PlantingDistrictList, setPlantingDistrictList] = useState([]);
+
+  const [DeliveryTalukList, setDeliveryTalukList] = useState([]);
+  const [PlantingTalukList, setPlantingTalukList] = useState([]);
+
+  const [isDeliveryStateDropdownPress, setDeliveryStateDropdownOpen] = useState(false);
+  const [isPlantingStateDropdownPress, setPlantingStateDropdownOpen] = useState(false);
+
+  const [isDeliveryDistrictDropdownOpen, setDeliveryDistrictDropdownOpen] = useState(false);
+  const [isPlantingDistrictDropdownOpen, setPlantingDistrictDropdownOpen] = useState(false);
+
+  const [isDeliveryTalukDropdownPress, setDeliveryTalukDropdownOpen] = useState(false);
+  const [isPlantingTalukDropdownPress, setPlantingTalukDropdownOpen] = useState(false);
+
+  const [selectedDeliveryState, setSelectedDeliveryState] = useState("Select");
+  const [selectedPlantingState, setSelectedPlantingState] = useState("Select");
+
+  const [selectedDeliveryDistrict, setSelectedDeliveryDistrict] = useState("Select");
+  const [selectedPlantingDistrict, setSelectedPlantingDistrict] = useState("Select");
+
+  const [selectedDeliveryTaluk, setSelectedDeliveryTaluk] = useState("Select");
+  const [selectedPlantingTaluk, setSelectedPlantingTaluk] = useState("Select");
+
   const [images, setImages] = useState(Array(8).fill(null));
   const [imageList, setImageList] = useState([]);
   const [selectedFrame, setSelectedFrame] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [isName, setName] = useState("");
   const [isEmail, setEmail] = useState("");
-  const [isDOB, setDOB] = useState("");
   const [openStartDatePicker, setOpenStartDatePicker] = useState(false);
   const startDate = getFormatedDate("YYYY/MM/DD");
-  const [selectedStartDate, setSelectedStartDate] = useState("");
+  const [selectedStartDate, setSelectedStartDate] = useState("YYYY/MM/DD");
   const [startedDate, setStartedDate] = useState("12/12/2023");
+  const [isDeliveryAddressLine1, setDeliveryAddressLine1] = useState("");
+  const [isDeliveryAddressLine2, setDeliveryAddressLine2] = useState("");
+  const [isDeliveryPinCode, setDeliveryPinCode] = useState("");
+  const [isPlantingAddressLocation, setPlantingAddressLocation] = useState("");
+  const [isPlantLatitude, setPlantLatitude] = useState("");
+  const [isPlantLongitude, setPlantLongitude] = useState("");
   useEffect(() => {
     getState();
   }, []);
   useEffect(() => {
-    getDistrict();
-  }, [selectedState]);
+    getDeliveryDistrict();
+  }, [selectedDeliveryState]);
   useEffect(() => {
-    getTaluk();
-  }, [selectedState, selectedDistrict]);
-  const ConfirmDeliveryAddress = (data) => {
-    setSelectedDeliveryAddress(data);
-  };
-  const ConfirmPlantAddress = (data) => {
-    setSelectedPlantAddress(data);
+    getPlantingDistrict();
+  }, [selectedPlantingState]);
+  useEffect(() => {
+    getDeliveryTaluk();
+  }, [selectedDeliveryState, selectedDeliveryDistrict]);
+  useEffect(() => {
+    getPlantingTaluk();
+  }, [selectedPlantingState, selectedPlantingDistrict]);
+  const ConfirmPlantingAddress = (location, latitude, longitude) => {
+    setPlantingAddressLocation(location);
+    setPlantLatitude(latitude);
+    setPlantLongitude(longitude);
   };
   const getState = () => {
     axiosInstance
@@ -78,68 +104,126 @@ const Cartscreen = ({ navigation }) => {
         console.log(error);
       });
   };
-  const getDistrict = () => {
+  const getDeliveryDistrict = () => {
     axiosInstance
       .get(`/address/view-places`, {
         params: {
-          state: selectedState,
+          state: selectedDeliveryState,
         },
       })
       .then((response) => {
-        setdistrictlist(response.data.elements);
+        setDeliveryDistrictList(response.data.elements);
       })
       .catch((error) => {
         console.log(error);
       });
   };
-  const getTaluk = () => {
+  const getPlantingDistrict = () => {
     axiosInstance
       .get(`/address/view-places`, {
         params: {
-          state: selectedState,
-          district: selectedDistrict,
+          state: selectedPlantingState,
         },
       })
       .then((response) => {
-        settaluklist(response.data.elements);
+        setPlantingDistrictList(response.data.elements);
       })
       .catch((error) => {
         console.log(error);
       });
   };
-  const handleStateDropdownPress = () => {
-    setStateDropdownOpen(!isStateDropdownOpen);
+
+  const getDeliveryTaluk = () => {
+    axiosInstance
+      .get(`/address/view-places`, {
+        params: {
+          state: selectedDeliveryState,
+          district: selectedDeliveryDistrict,
+        },
+      })
+      .then((response) => {
+        setDeliveryTalukList(response.data.elements);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
-  const handleDistrictDropdownPress = () => {
-    setDistrictDropdownOpen(!isDistrictDropdownOpen);
+  const getPlantingTaluk = () => {
+    axiosInstance
+      .get(`/address/view-places`, {
+        params: {
+          state: selectedPlantingState,
+          district: selectedPlantingDistrict,
+        },
+      })
+      .then((response) => {
+        setPlantingTalukList(response.data.elements);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
-  const handleTalukDropdownPress = () => {
-    setTalukDropdownOpen(!isTalukDropdownOpen);
+
+  const handleDeliveryStateDropdownPress = () => {
+    setDeliveryStateDropdownOpen(!isDeliveryStateDropdownPress);
   };
-  const handleStateSelect = (name) => {
-    setSelectedState(name);
-    setSelectedDistrict("Select");
-    setSelectedTaluk("Select");
-    setdistrictlist([]);
-    settaluklist([]);
-    setStateDropdownOpen(false);
+  const handlePlantingStateDropdownPress = () => {
+    setPlantingStateDropdownOpen(!isPlantingStateDropdownPress);
   };
-  const handleDistrictSelect = (name) => {
-    setSelectedDistrict(name);
-    setSelectedTaluk("Select");
-    settaluklist([]);
-    setDistrictDropdownOpen(false);
+
+  const handleDeliveryDistrictDropdownPress = () => {
+    setDeliveryDistrictDropdownOpen(!isDeliveryDistrictDropdownOpen);
   };
-  const handleTalukSelect = (name) => {
-    setSelectedTaluk(name);
-    setTalukDropdownOpen(false);
+  const handlePlantingDistrictDropdownPress = () => {
+    setPlantingDistrictDropdownOpen(!isPlantingDistrictDropdownOpen);
   };
-  const handleSelect = (newValue) => {
-    setSelectedValue(newValue);
+
+  const handleDeliveryTalukDropdownPress = () => {
+    setDeliveryTalukDropdownOpen(!isDeliveryTalukDropdownPress);
   };
-  const handleDeliverySelect = (newValue) => {
-    setSelectedDeliveryAddress(newValue);
+  const handlePlantingTalukDropdownPress = () => {
+    setPlantingTalukDropdownOpen(!isPlantingTalukDropdownPress);
   };
+
+  const handleDeliveryStateSelect = (name) => {
+    setSelectedDeliveryState(name);
+    setSelectedDeliveryDistrict("Select");
+    setSelectedDeliveryTaluk("Select");
+    setDeliveryDistrictList([]);
+    setDeliveryTalukList([]);
+    setDeliveryStateDropdownOpen(false);
+  };
+  const handlePlantingStateSelect = (name) => {
+    setSelectedPlantingState(name);
+    setSelectedPlantingDistrict("Select");
+    setSelectedPlantingTaluk("Select");
+    setPlantingDistrictList([]);
+    setPlantingTalukList([]);
+    setPlantingStateDropdownOpen(false);
+  };
+  
+  const handleDeliveryDistrictSelect = (name) => {
+    setSelectedDeliveryDistrict(name);
+    setSelectedDeliveryTaluk("Select");
+    setDeliveryTalukList([]);
+    setDeliveryDistrictDropdownOpen(false);
+  };
+  const handlePlantingDistrictSelect = (name) => {
+    setSelectedPlantingDistrict(name);
+    setSelectedPlantingTaluk("Select");
+    setPlantingTalukList([]);
+    setPlantingDistrictDropdownOpen(false);
+  };
+
+  const handleDeliverytalukSelect = (name) => {
+    setSelectedDeliveryTaluk(name);
+    setDeliveryTalukDropdownOpen(false);
+  };
+  const handlePlantingtalukSelect = (name) => {
+    setSelectedPlantingTaluk(name);
+    setPlantingTalukDropdownOpen(false);
+  };
+  
 
   const pickImage = (index) => {
     setSelectedFrame(index);
@@ -187,6 +271,7 @@ const Cartscreen = ({ navigation }) => {
   const handleConfirm = () => {
     navigation.navigate("OrderConfirm");
     dispatch(emptyCart(cart));
+    dispatch(zeroQuantityAll(products));
   };
 
   function handleChangeStartDate(propDate) {
@@ -301,7 +386,14 @@ const Cartscreen = ({ navigation }) => {
                 padding: "2%",
               }}
             >
-              <Text style={{ fontSize: 16 }}>{selectedStartDate}</Text>
+              <Text
+                style={{
+                  fontSize: 16,
+                  color: selectedStartDate == "YYYY/MM/DD" ? "gray" : "black",
+                }}
+              >
+                {selectedStartDate}
+              </Text>
             </TouchableOpacity>
             <Modal
               animationType="slide"
@@ -323,11 +415,10 @@ const Cartscreen = ({ navigation }) => {
                       selectedTextColor: "#FFF",
                       mainColor: "#004B39",
                       textSecondaryColor: "#FFFFFF",
-                
                     }}
                   />
                   <TouchableOpacity onPress={handleOnPressStartDate}>
-                    <Text style={{ color: "white" }}>Close</Text>
+                    <Text style={{ color: "white" }}>Select</Text>
                   </TouchableOpacity>
                 </View>
               </View>
@@ -409,7 +500,869 @@ const Cartscreen = ({ navigation }) => {
                 </Text>
               </TouchableOpacity>
             </View>
+            <TextB
+              style={{
+                fontSize: 16,
+                color: "black",
+                marginBottom: "5%",
+                alignSelf: "center",
+              }}
+            >
+              Delivery Address
+            </TextB>
+            <View
+              style={{
+                height: height * 0.05,
+                width: width * 0.92,
+                justifyContent: "center",
+                borderWidth: 2,
+                borderColor: "#00b388",
+                borderRadius: 20,
+                marginBottom: "5%",
+                padding: "2%",
+              }}
+            >
+              <TextInput
+                style={{
+                  color: "#005f48",
+                  fontSize: 17,
+                  fontFamily: "Montserrat",
+                }}
+                placeholder="Enter Address Line 1"
+                value={isDeliveryAddressLine1}
+                onChangeText={setDeliveryAddressLine1}
+              />
+            </View>
+            <View
+              style={{
+                height: height * 0.05,
+                width: width * 0.92,
+                justifyContent: "center",
+                borderWidth: 2,
+                borderColor: "#00b388",
+                borderRadius: 20,
+                marginBottom: "5%",
+                padding: "2%",
+              }}
+            >
+              <TextInput
+                style={{
+                  color: "#005f48",
+                  fontSize: 17,
+                  fontFamily: "Montserrat",
+                }}
+                placeholder="Enter Address Line 2"
+                value={isDeliveryAddressLine2}
+                onChangeText={setDeliveryAddressLine2}
+              />
+            </View>
+            <View
+              style={{
+                height: height * 0.05,
+                width: width * 0.92,
+                justifyContent: "center",
+                borderWidth: 2,
+                borderColor: "#00b388",
+                borderRadius: 20,
+                marginBottom: "5%",
+                padding: "2%",
+              }}
+            >
+              <TextInput
+                style={{
+                  color: "#005f48",
+                  fontSize: 17,
+                  fontFamily: "Montserrat",
+                }}
+                placeholder="Enter Pincode"
+                value={isDeliveryPinCode}
+                onChangeText={setDeliveryPinCode}
+              />
+            </View>
+            <View
+              style={{
+                height: height * 0.05,
+                width: width * 0.92,
+                alignSelf: "center",
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <TextB style={{ fontSize: 16 }}> Select State :</TextB>
+              <TouchableOpacity
+                style={{
+                  height: height * 0.05,
+                  width: width * 0.4,
+                  backgroundColor: "#00b388",
+                  borderRadius: 20,
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+                onPress={handleDeliveryStateDropdownPress}
+              >
+                <Text
+                  numberOfLines={1}
+                  ellipsizeMode={"tail"}
+                  style={{
+                    marginLeft: "10%",
+                    color: "white",
+                    fontSize: 16,
+                    width: width * 0.26,
+                  }}
+                >
+                  {selectedDeliveryState}
+                </Text>
+                {(isDeliveryStateDropdownPress && (
+                  <Icon
+                    name="chevron-up"
+                    size={30}
+                    color="white"
+                    style={{ marginRight: "3%" }}
+                  />
+                )) || (
+                  <Icon
+                    name="chevron-down"
+                    size={30}
+                    color="white"
+                    style={{ marginRight: "3%" }}
+                  />
+                )}
+              </TouchableOpacity>
+            </View>
+            {isDeliveryStateDropdownPress && (
+              <View style={{}}>
+                <ScrollView
+                  nestedScrollEnabled={true}
+                  showsVerticalScrollIndicator={true}
+                  style={{
+                    maxHeight: height * 0.25,
+                    backgroundColor: "white",
+                    borderWidth: 0.2,
+                    borderColor: "grey",
+                    borderRadius: 5,
+                    shadowColor: "#000",
+                    shadowOffset: {
+                      width: 0,
+                      height: 2,
+                    },
+                    shadowOpacity: 0.25,
+                    shadowRadius: 3.84,
+                    elevation: 5,
+                    width: width * 0.4,
+                    alignSelf: "flex-end",
+                  }}
+                >
+                  {statelist.map((name) => (
+                    <TouchableOpacity
+                      key={name}
+                      style={{
+                        backgroundColor: "white",
+                        borderWidth: 0.2,
+                        borderLeftWidth: 0,
+                        borderRightWidth: 0,
+                        padding: "3%",
+                        width: width * 0.4,
+                        borderColor: "grey",
+                      }}
+                      onPress={() => handleDeliveryStateSelect(name)}
+                    >
+                      <Text style={{ textAlign: "left", fontSize: 14 }}>
+                        {name}
+                      </Text>
+                    </TouchableOpacity>
+                  ))}
+                </ScrollView>
+              </View>
+            )}
+            <View
+              style={{
+                height: height * 0.05,
+                width: width * 0.92,
+                alignSelf: "center",
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
+                marginTop: "5%",
+              }}
+            >
+              <TextB style={{ fontSize: 16 }}> Select District :</TextB>
+              {(selectedDeliveryState != "Select" && (
+                <TouchableOpacity
+                  style={{
+                    height: height * 0.05,
+                    width: width * 0.4,
+                    backgroundColor: "#00b388",
+                    borderRadius: 20,
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                  onPress={handleDeliveryDistrictDropdownPress}
+                >
+                  <Text
+                    numberOfLines={1}
+                    ellipsizeMode={"tail"}
+                    style={{
+                      marginLeft: "10%",
+                      color: "white",
+                      fontSize: 16,
+                      width: width * 0.26,
+                    }}
+                  >
+                    {selectedDeliveryDistrict}
+                  </Text>
 
+                  {(isDeliveryDistrictDropdownOpen && (
+                    <Icon
+                      name="chevron-up"
+                      size={30}
+                      color="white"
+                      style={{ marginRight: "3%" }}
+                    />
+                  )) || (
+                    <Icon
+                      name="chevron-down"
+                      size={30}
+                      color="white"
+                      style={{ marginRight: "3%" }}
+                    />
+                  )}
+                </TouchableOpacity>
+              )) || (
+                <View
+                  style={{
+                    height: height * 0.05,
+                    width: width * 0.4,
+                    backgroundColor: "#005f48",
+                    borderRadius: 20,
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
+                  <Text
+                    numberOfLines={1}
+                    ellipsizeMode={"tail"}
+                    style={{
+                      marginLeft: "10%",
+                      color: "grey",
+                      fontSize: 16,
+                      width: width * 0.26,
+                    }}
+                  >
+                    {selectedDeliveryDistrict}
+                  </Text>
+                  <Icon
+                    name="chevron-down"
+                    size={30}
+                    color="grey"
+                    style={{ marginRight: "3%" }}
+                  />
+                </View>
+              )}
+            </View>
+            {isDeliveryDistrictDropdownOpen && (
+              <View style={{}}>
+                <ScrollView
+                  nestedScrollEnabled={true}
+                  showsVerticalScrollIndicator={true}
+                  style={{
+                    maxHeight: height * 0.25,
+                    backgroundColor: "white",
+                    borderWidth: 0.2,
+                    borderColor: "grey",
+                    borderRadius: 5,
+                    shadowColor: "#000",
+                    shadowOffset: {
+                      width: 0,
+                      height: 2,
+                    },
+                    shadowOpacity: 0.25,
+                    shadowRadius: 3.84,
+                    elevation: 5,
+                    width: width * 0.4,
+                    alignSelf: "flex-end",
+                  }}
+                >
+                  {DeliveryDistrictList.map((name) => (
+                    <TouchableOpacity
+                      key={name}
+                      style={{
+                        backgroundColor: "white",
+                        borderWidth: 0.2,
+                        borderLeftWidth: 0,
+                        borderRightWidth: 0,
+                        padding: "3%",
+                        width: width * 0.4,
+                        borderColor: "grey",
+                      }}
+                      onPress={() => handleDeliveryDistrictSelect(name)}
+                    >
+                      <Text style={{ textAlign: "left", fontSize: 14 }}>
+                        {name}
+                      </Text>
+                    </TouchableOpacity>
+                  ))}
+                </ScrollView>
+              </View>
+            )}
+            <View
+              style={{
+                height: height * 0.05,
+                width: width * 0.92,
+                alignSelf: "center",
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
+                marginTop: "5%",
+              }}
+            >
+              <TextB style={{ fontSize: 16 }}> Select Taluk :</TextB>
+              {(selectedDeliveryState != "Select" && selectedDeliveryDistrict != "Select" && (
+                <TouchableOpacity
+                  style={{
+                    height: height * 0.05,
+                    width: width * 0.4,
+                    backgroundColor: "#00b388",
+                    borderRadius: 20,
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                  onPress={handleDeliveryTalukDropdownPress}
+                >
+                  <Text
+                    numberOfLines={1}
+                    ellipsizeMode={"tail"}
+                    style={{
+                      marginLeft: "10%",
+                      color: "white",
+                      fontSize: 16,
+                      width: width * 0.26,
+                    }}
+                  >
+                    {selectedDeliveryTaluk}
+                  </Text>
+
+                  {(isDeliveryTalukDropdownPress && (
+                    <Icon
+                      name="chevron-up"
+                      size={30}
+                      color="white"
+                      style={{ marginRight: "3%" }}
+                    />
+                  )) || (
+                    <Icon
+                      name="chevron-down"
+                      size={30}
+                      color="white"
+                      style={{ marginRight: "3%" }}
+                    />
+                  )}
+                </TouchableOpacity>
+              )) || (
+                <View
+                  style={{
+                    height: height * 0.05,
+                    width: width * 0.4,
+                    backgroundColor: "#005f48",
+                    borderRadius: 20,
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
+                  <Text
+                    numberOfLines={1}
+                    ellipsizeMode={"tail"}
+                    style={{
+                      marginLeft: "10%",
+                      color: "grey",
+                      fontSize: 16,
+                      width: width * 0.26,
+                    }}
+                  >
+                    {selectedDeliveryTaluk}
+                  </Text>
+                  <Icon
+                    name="chevron-down"
+                    size={30}
+                    color="grey"
+                    style={{ marginRight: "3%" }}
+                  />
+                </View>
+              )}
+            </View>
+            {isDeliveryTalukDropdownPress ? (
+              <View style={{}}>
+                <ScrollView
+                  nestedScrollEnabled={true}
+                  showsVerticalScrollIndicator={true}
+                  style={{
+                    maxHeight: height * 0.25,
+                    backgroundColor: "white",
+                    borderWidth: 0.2,
+                    borderColor: "grey",
+                    borderRadius: 5,
+                    shadowColor: "#000",
+                    shadowOffset: {
+                      width: 0,
+                      height: 2,
+                    },
+                    shadowOpacity: 0.25,
+                    shadowRadius: 3.84,
+                    elevation: 5,
+                    width: width * 0.4,
+                    alignSelf: "flex-end",
+                  }}
+                >
+                  {DeliveryTalukList.map((name) => (
+                    <TouchableOpacity
+                      key={name}
+                      style={{
+                        backgroundColor: "white",
+                        borderWidth: 0.2,
+                        borderLeftWidth: 0,
+                        borderRightWidth: 0,
+                        padding: "3%",
+                        width: width * 0.4,
+                        borderColor: "grey",
+                      }}
+                      onPress={() => handleDeliverytalukSelect(name)}
+                    >
+                      <Text style={{ textAlign: "left", fontSize: 14 }}>
+                        {name}
+                      </Text>
+                    </TouchableOpacity>
+                  ))}
+                </ScrollView>
+              </View>
+            ) : null}
+            <TextB
+              style={{
+                alignSelf: "flex-start",
+                marginLeft: width * 0.01,
+                fontSize: 16,
+                marginTop: "5%",
+                marginBottom: "5%",
+                alignSelf: "center",
+              }}
+            >
+              Planting Address
+            </TextB>
+            {isPlantingAddressLocation ? (
+              <View
+                style={{
+                  height: height * 0.05,
+                  width: width * 0.92,
+                  borderRadius: 20,
+                  borderWidth: 2,
+                  borderColor: "#00b388",
+                  alignSelf: "center",
+                  marginBottom: "5%",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Text
+                  style={{ color: "#005f48", fontSize: 14 }}
+                  numberOfLines={1}
+                >
+                  {isPlantingAddressLocation}
+                </Text>
+              </View>
+            ) : null}
+
+            <TouchableOpacity
+              style={{
+                height: height * 0.05,
+                width: width * 0.9,
+                borderRadius: 10,
+                alignSelf: "center",
+                backgroundColor: "#00b388",
+                alignItems: "center",
+                justifyContent: "center",
+                marginBottom:"5%"
+              }}
+              onPress={() => {
+                navigation.navigate("MapScreen", {
+                  ConfirmPlantingAddress: ConfirmPlantingAddress,
+                });
+              }}
+            >
+              {isPlantingAddressLocation ? (
+                <TextB style={{ color: "white" }}>
+                  Change Location
+                </TextB>
+              ) : (
+                <TextB style={{ color: "white" }}>
+                  Select Location From Map
+                </TextB>
+              )}
+            </TouchableOpacity>
+            <View
+              style={{
+                height: height * 0.05,
+                width: width * 0.92,
+                alignSelf: "center",
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <TextB style={{ fontSize: 16 }}> Select State :</TextB>
+              <TouchableOpacity
+                style={{
+                  height: height * 0.05,
+                  width: width * 0.4,
+                  backgroundColor: "#00b388",
+                  borderRadius: 20,
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+                onPress={handlePlantingStateDropdownPress}
+              >
+                <Text
+                  numberOfLines={1}
+                  ellipsizeMode={"tail"}
+                  style={{
+                    marginLeft: "10%",
+                    color: "white",
+                    fontSize: 16,
+                    width: width * 0.26,
+                  }}
+                >
+                  {selectedPlantingState}
+                </Text>
+                {(isPlantingStateDropdownPress && (
+                  <Icon
+                    name="chevron-up"
+                    size={30}
+                    color="white"
+                    style={{ marginRight: "3%" }}
+                  />
+                )) || (
+                  <Icon
+                    name="chevron-down"
+                    size={30}
+                    color="white"
+                    style={{ marginRight: "3%" }}
+                  />
+                )}
+              </TouchableOpacity>
+            </View>
+            {isPlantingStateDropdownPress && (
+              <View style={{}}>
+                <ScrollView
+                  nestedScrollEnabled={true}
+                  showsVerticalScrollIndicator={true}
+                  style={{
+                    maxHeight: height * 0.25,
+                    backgroundColor: "white",
+                    borderWidth: 0.2,
+                    borderColor: "grey",
+                    borderRadius: 5,
+                    shadowColor: "#000",
+                    shadowOffset: {
+                      width: 0,
+                      height: 2,
+                    },
+                    shadowOpacity: 0.25,
+                    shadowRadius: 3.84,
+                    elevation: 5,
+                    width: width * 0.4,
+                    alignSelf: "flex-end",
+                  }}
+                >
+                  {statelist.map((name) => (
+                    <TouchableOpacity
+                      key={name}
+                      style={{
+                        backgroundColor: "white",
+                        borderWidth: 0.2,
+                        borderLeftWidth: 0,
+                        borderRightWidth: 0,
+                        padding: "3%",
+                        width: width * 0.4,
+                        borderColor: "grey",
+                      }}
+                      onPress={() => handlePlantingStateSelect(name)}
+                    >
+                      <Text style={{ textAlign: "left", fontSize: 14 }}>
+                        {name}
+                      </Text>
+                    </TouchableOpacity>
+                  ))}
+                </ScrollView>
+              </View>
+            )}
+            <View
+              style={{
+                height: height * 0.05,
+                width: width * 0.92,
+                alignSelf: "center",
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
+                marginTop: "5%",
+              }}
+            >
+              <TextB style={{ fontSize: 16 }}> Select District :</TextB>
+              {(selectedPlantingState != "Select" && (
+                <TouchableOpacity
+                  style={{
+                    height: height * 0.05,
+                    width: width * 0.4,
+                    backgroundColor: "#00b388",
+                    borderRadius: 20,
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                  onPress={handlePlantingDistrictDropdownPress}
+                >
+                  <Text
+                    numberOfLines={1}
+                    ellipsizeMode={"tail"}
+                    style={{
+                      marginLeft: "10%",
+                      color: "white",
+                      fontSize: 16,
+                      width: width * 0.26,
+                    }}
+                  >
+                    {selectedPlantingDistrict}
+                  </Text>
+
+                  {(isPlantingDistrictDropdownOpen && (
+                    <Icon
+                      name="chevron-up"
+                      size={30}
+                      color="white"
+                      style={{ marginRight: "3%" }}
+                    />
+                  )) || (
+                    <Icon
+                      name="chevron-down"
+                      size={30}
+                      color="white"
+                      style={{ marginRight: "3%" }}
+                    />
+                  )}
+                </TouchableOpacity>
+              )) || (
+                <View
+                  style={{
+                    height: height * 0.05,
+                    width: width * 0.4,
+                    backgroundColor: "#005f48",
+                    borderRadius: 20,
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
+                  <Text
+                    numberOfLines={1}
+                    ellipsizeMode={"tail"}
+                    style={{
+                      marginLeft: "10%",
+                      color: "grey",
+                      fontSize: 16,
+                      width: width * 0.26,
+                    }}
+                  >
+                    {selectedPlantingDistrict}
+                  </Text>
+                  <Icon
+                    name="chevron-down"
+                    size={30}
+                    color="grey"
+                    style={{ marginRight: "3%" }}
+                  />
+                </View>
+              )}
+            </View>
+            {isPlantingDistrictDropdownOpen && (
+              <View style={{}}>
+                <ScrollView
+                  nestedScrollEnabled={true}
+                  showsVerticalScrollIndicator={true}
+                  style={{
+                    maxHeight: height * 0.25,
+                    backgroundColor: "white",
+                    borderWidth: 0.2,
+                    borderColor: "grey",
+                    borderRadius: 5,
+                    shadowColor: "#000",
+                    shadowOffset: {
+                      width: 0,
+                      height: 2,
+                    },
+                    shadowOpacity: 0.25,
+                    shadowRadius: 3.84,
+                    elevation: 5,
+                    width: width * 0.4,
+                    alignSelf: "flex-end",
+                  }}
+                >
+                  {PlantingDistrictList.map((name) => (
+                    <TouchableOpacity
+                      key={name}
+                      style={{
+                        backgroundColor: "white",
+                        borderWidth: 0.2,
+                        borderLeftWidth: 0,
+                        borderRightWidth: 0,
+                        padding: "3%",
+                        width: width * 0.4,
+                        borderColor: "grey",
+                      }}
+                      onPress={() => handlePlantingDistrictSelect(name)}
+                    >
+                      <Text style={{ textAlign: "left", fontSize: 14 }}>
+                        {name}
+                      </Text>
+                    </TouchableOpacity>
+                  ))}
+                </ScrollView>
+              </View>
+            )}
+            <View
+              style={{
+                height: height * 0.05,
+                width: width * 0.92,
+                alignSelf: "center",
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
+                marginTop: "5%",
+              }}
+            >
+              <TextB style={{ fontSize: 16 }}> Select Taluk :</TextB>
+              {(selectedPlantingState != "Select" && selectedPlantingDistrict != "Select" && (
+                <TouchableOpacity
+                  style={{
+                    height: height * 0.05,
+                    width: width * 0.4,
+                    backgroundColor: "#00b388",
+                    borderRadius: 20,
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                  onPress={handlePlantingTalukDropdownPress}
+                >
+                  <Text
+                    numberOfLines={1}
+                    ellipsizeMode={"tail"}
+                    style={{
+                      marginLeft: "10%",
+                      color: "white",
+                      fontSize: 16,
+                      width: width * 0.26,
+                    }}
+                  >
+                    {selectedPlantingTaluk}
+                  </Text>
+
+                  {(isPlantingTalukDropdownPress && (
+                    <Icon
+                      name="chevron-up"
+                      size={30}
+                      color="white"
+                      style={{ marginRight: "3%" }}
+                    />
+                  )) || (
+                    <Icon
+                      name="chevron-down"
+                      size={30}
+                      color="white"
+                      style={{ marginRight: "3%" }}
+                    />
+                  )}
+                </TouchableOpacity>
+              )) || (
+                <View
+                  style={{
+                    height: height * 0.05,
+                    width: width * 0.4,
+                    backgroundColor: "#005f48",
+                    borderRadius: 20,
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
+                  <Text
+                    numberOfLines={1}
+                    ellipsizeMode={"tail"}
+                    style={{
+                      marginLeft: "10%",
+                      color: "grey",
+                      fontSize: 16,
+                      width: width * 0.26,
+                    }}
+                  >
+                    {selectedPlantingTaluk}
+                  </Text>
+                  <Icon
+                    name="chevron-down"
+                    size={30}
+                    color="grey"
+                    style={{ marginRight: "3%" }}
+                  />
+                </View>
+              )}
+            </View>
+            {isPlantingTalukDropdownPress ? (
+              <View style={{}}>
+                <ScrollView
+                  nestedScrollEnabled={true}
+                  showsVerticalScrollIndicator={true}
+                  style={{
+                    maxHeight: height * 0.25,
+                    backgroundColor: "white",
+                    borderWidth: 0.2,
+                    borderColor: "grey",
+                    borderRadius: 5,
+                    shadowColor: "#000",
+                    shadowOffset: {
+                      width: 0,
+                      height: 2,
+                    },
+                    shadowOpacity: 0.25,
+                    shadowRadius: 3.84,
+                    elevation: 5,
+                    width: width * 0.4,
+                    alignSelf: "flex-end",
+                  }}
+                >
+                  {PlantingTalukList.map((name) => (
+                    <TouchableOpacity
+                      key={name}
+                      style={{
+                        backgroundColor: "white",
+                        borderWidth: 0.2,
+                        borderLeftWidth: 0,
+                        borderRightWidth: 0,
+                        padding: "3%",
+                        width: width * 0.4,
+                        borderColor: "grey",
+                      }}
+                      onPress={() => handlePlantingtalukSelect(name)}
+                    >
+                      <Text style={{ textAlign: "left", fontSize: 14 }}>
+                        {name}
+                      </Text>
+                    </TouchableOpacity>
+                  ))}
+                </ScrollView>
+              </View>
+            ) : null}
             <TextB
               style={{
                 alignSelf: "flex-start",
@@ -485,374 +1438,9 @@ const Cartscreen = ({ navigation }) => {
                 </View>
               </View>
             </Modal>
-            <View
-              style={{
-                height: height * 0.05,
-                width: width * 0.92,
-                alignSelf: "center",
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
-                marginTop: "10%",
-              }}
-            >
-              <TextB style={{ fontSize: 16 }}> Select State :</TextB>
-              <TouchableOpacity
-                style={{
-                  height: height * 0.05,
-                  width: width * 0.4,
-                  backgroundColor: "#00b388",
-                  borderRadius: 20,
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
-                onPress={handleStateDropdownPress}
-              >
-                <Text
-                  numberOfLines={1}
-                  ellipsizeMode={"tail"}
-                  style={{
-                    marginLeft: "10%",
-                    color: "white",
-                    fontSize: 16,
-                    width: width * 0.26,
-                  }}
-                >
-                  {selectedState}
-                </Text>
-                {(isStateDropdownOpen && (
-                  <Icon
-                    name="chevron-up"
-                    size={30}
-                    color="white"
-                    style={{ marginRight: "3%" }}
-                  />
-                )) || (
-                  <Icon
-                    name="chevron-down"
-                    size={30}
-                    color="white"
-                    style={{ marginRight: "3%" }}
-                  />
-                )}
-              </TouchableOpacity>
-            </View>
-            {isStateDropdownOpen && (
-              <View style={{}}>
-                <ScrollView
-                  nestedScrollEnabled={true}
-                  showsVerticalScrollIndicator={true}
-                  style={{
-                    maxHeight: height * 0.25,
-                    backgroundColor: "white",
-                    borderWidth: 0.2,
-                    borderColor: "grey",
-                    borderRadius: 5,
-                    shadowColor: "#000",
-                    shadowOffset: {
-                      width: 0,
-                      height: 2,
-                    },
-                    shadowOpacity: 0.25,
-                    shadowRadius: 3.84,
-                    elevation: 5,
-                    width: width * 0.4,
-                    alignSelf: "flex-end",
-                  }}
-                >
-                  {statelist.map((name) => (
-                    <TouchableOpacity
-                      key={name}
-                      style={{
-                        backgroundColor: "white",
-                        borderWidth: 0.2,
-                        borderLeftWidth: 0,
-                        borderRightWidth: 0,
-                        padding: "3%",
-                        width: width * 0.4,
-                        borderColor: "grey",
-                      }}
-                      onPress={() => handleStateSelect(name)}
-                    >
-                      <Text style={{ textAlign: "left", fontSize: 14 }}>
-                        {name}
-                      </Text>
-                    </TouchableOpacity>
-                  ))}
-                </ScrollView>
-              </View>
-            )}
-            <View
-              style={{
-                height: height * 0.05,
-                width: width * 0.92,
-                alignSelf: "center",
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
-                marginTop: "5%",
-              }}
-            >
-              <TextB style={{ fontSize: 16 }}> Select District :</TextB>
-              {(selectedState != "Select" && (
-                <TouchableOpacity
-                  style={{
-                    height: height * 0.05,
-                    width: width * 0.4,
-                    backgroundColor: "#00b388",
-                    borderRadius: 20,
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                  }}
-                  onPress={handleDistrictDropdownPress}
-                >
-                  <Text
-                    numberOfLines={1}
-                    ellipsizeMode={"tail"}
-                    style={{
-                      marginLeft: "10%",
-                      color: "white",
-                      fontSize: 16,
-                      width: width * 0.26,
-                    }}
-                  >
-                    {selectedDistrict}
-                  </Text>
 
-                  {(isDistrictDropdownOpen && (
-                    <Icon
-                      name="chevron-up"
-                      size={30}
-                      color="white"
-                      style={{ marginRight: "3%" }}
-                    />
-                  )) || (
-                    <Icon
-                      name="chevron-down"
-                      size={30}
-                      color="white"
-                      style={{ marginRight: "3%" }}
-                    />
-                  )}
-                </TouchableOpacity>
-              )) || (
-                <View
-                  style={{
-                    height: height * 0.05,
-                    width: width * 0.4,
-                    backgroundColor: "#005f48",
-                    borderRadius: 20,
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                  }}
-                >
-                  <Text
-                    numberOfLines={1}
-                    ellipsizeMode={"tail"}
-                    style={{
-                      marginLeft: "10%",
-                      color: "grey",
-                      fontSize: 16,
-                      width: width * 0.26,
-                    }}
-                  >
-                    {selectedDistrict}
-                  </Text>
-                  <Icon
-                    name="chevron-down"
-                    size={30}
-                    color="grey"
-                    style={{ marginRight: "3%" }}
-                  />
-                </View>
-              )}
-            </View>
-            {isDistrictDropdownOpen && (
-              <View style={{}}>
-                <ScrollView
-                  nestedScrollEnabled={true}
-                  showsVerticalScrollIndicator={true}
-                  style={{
-                    maxHeight: height * 0.25,
-                    backgroundColor: "white",
-                    borderWidth: 0.2,
-                    borderColor: "grey",
-                    borderRadius: 5,
-                    shadowColor: "#000",
-                    shadowOffset: {
-                      width: 0,
-                      height: 2,
-                    },
-                    shadowOpacity: 0.25,
-                    shadowRadius: 3.84,
-                    elevation: 5,
-                    width: width * 0.4,
-                    alignSelf: "flex-end",
-                  }}
-                >
-                  {districtlist.map((name) => (
-                    <TouchableOpacity
-                      key={name}
-                      style={{
-                        backgroundColor: "white",
-                        borderWidth: 0.2,
-                        borderLeftWidth: 0,
-                        borderRightWidth: 0,
-                        padding: "3%",
-                        width: width * 0.4,
-                        borderColor: "grey",
-                      }}
-                      onPress={() => handleDistrictSelect(name)}
-                    >
-                      <Text style={{ textAlign: "left", fontSize: 14 }}>
-                        {name}
-                      </Text>
-                    </TouchableOpacity>
-                  ))}
-                </ScrollView>
-              </View>
-            )}
-            <View
-              style={{
-                height: height * 0.05,
-                width: width * 0.92,
-                alignSelf: "center",
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
-                marginTop: "5%",
-              }}
-            >
-              <TextB style={{ fontSize: 16 }}> Select Taluk :</TextB>
-              {(selectedState != "Select" && selectedDistrict != "Select" && (
-                <TouchableOpacity
-                  style={{
-                    height: height * 0.05,
-                    width: width * 0.4,
-                    backgroundColor: "#00b388",
-                    borderRadius: 20,
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                  }}
-                  onPress={handleTalukDropdownPress}
-                >
-                  <Text
-                    numberOfLines={1}
-                    ellipsizeMode={"tail"}
-                    style={{
-                      marginLeft: "10%",
-                      color: "white",
-                      fontSize: 16,
-                      width: width * 0.26,
-                    }}
-                  >
-                    {selectedTaluk}
-                  </Text>
-
-                  {(isTalukDropdownOpen && (
-                    <Icon
-                      name="chevron-up"
-                      size={30}
-                      color="white"
-                      style={{ marginRight: "3%" }}
-                    />
-                  )) || (
-                    <Icon
-                      name="chevron-down"
-                      size={30}
-                      color="white"
-                      style={{ marginRight: "3%" }}
-                    />
-                  )}
-                </TouchableOpacity>
-              )) || (
-                <View
-                  style={{
-                    height: height * 0.05,
-                    width: width * 0.4,
-                    backgroundColor: "#005f48",
-                    borderRadius: 20,
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                  }}
-                >
-                  <Text
-                    numberOfLines={1}
-                    ellipsizeMode={"tail"}
-                    style={{
-                      marginLeft: "10%",
-                      color: "grey",
-                      fontSize: 16,
-                      width: width * 0.26,
-                    }}
-                  >
-                    {selectedTaluk}
-                  </Text>
-                  <Icon
-                    name="chevron-down"
-                    size={30}
-                    color="grey"
-                    style={{ marginRight: "3%" }}
-                  />
-                </View>
-              )}
-            </View>
-            {isTalukDropdownOpen ? (
-              <View style={{}}>
-                <ScrollView
-                  nestedScrollEnabled={true}
-                  showsVerticalScrollIndicator={true}
-                  style={{
-                    maxHeight: height * 0.25,
-                    backgroundColor: "white",
-                    borderWidth: 0.2,
-                    borderColor: "grey",
-                    borderRadius: 5,
-                    shadowColor: "#000",
-                    shadowOffset: {
-                      width: 0,
-                      height: 2,
-                    },
-                    shadowOpacity: 0.25,
-                    shadowRadius: 3.84,
-                    elevation: 5,
-                    width: width * 0.4,
-                    alignSelf: "flex-end",
-                  }}
-                >
-                  {taluklist.map((name) => (
-                    <TouchableOpacity
-                      key={name}
-                      style={{
-                        backgroundColor: "white",
-                        borderWidth: 0.2,
-                        borderLeftWidth: 0,
-                        borderRightWidth: 0,
-                        padding: "3%",
-                        width: width * 0.4,
-                        borderColor: "grey",
-                      }}
-                      onPress={() => handleTalukSelect(name)}
-                    >
-                      <Text style={{ textAlign: "left", fontSize: 14 }}>
-                        {name}
-                      </Text>
-                    </TouchableOpacity>
-                  ))}
-                </ScrollView>
-              </View>
-            ) : null}
-            {imageList.length == 6 &&
-            selectedDeliveryAddress != null &&
-            selectedPlantAddress != null &&
-            selectedState != "Select" &&
-            selectedDistrict != "Select" &&
-            selectedTaluk != "Select" ? (
+            {
+            !isName ? (
               <TouchableOpacity
                 style={{
                   height: height * 0.06,

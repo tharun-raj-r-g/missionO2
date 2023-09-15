@@ -49,6 +49,11 @@ export const productSlice = createSlice({
       );
       itemPresent.quantity = 0;
     },
+    zeroQuantityAll: (state, action) => {
+      state.product.forEach(item => {
+        item.quantity = 0;
+      });
+    },
   },
 });
 
@@ -57,7 +62,8 @@ export const {
   incrementQuantity,
   decrementQuantity,
   zeroQuantity,
-  setQuantity
+  setQuantity,
+  zeroQuantityAll
 } = productSlice.actions;
 
 export default productSlice.reducer;

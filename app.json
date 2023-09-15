@@ -21,16 +21,10 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      },
-      "package": "com.rahulvijat.missiono2"
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    },
-    "extra": {
-      "eas": {
-        "projectId": "bf87591a-49d4-4e74-988d-79b32a91d01c"
-      }
     }
   }
 }

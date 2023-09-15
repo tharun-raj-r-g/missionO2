@@ -66,7 +66,7 @@ const HomePage = ({ navigation }) => {
   }, []);
 
   useEffect(() => {
-    if (plantdata.length > 0) {
+    if (plantdata.length > 0 && products.length==0) {
       fetchProducts();
     }
   }, [plantdata]);

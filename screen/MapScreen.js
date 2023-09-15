@@ -6,7 +6,8 @@ import { MaterialIcons } from "@expo/vector-icons";
 import Text from "../fonts/Text";
 import TextB from "../fonts/TextBold";
 
-const MapScreen = ({ navigation }) => {
+const MapScreen = ({ navigation, route }) => {
+  const { ConfirmPlantingAddress } = route.params;
   const [userLocation, setUserLocation] = useState(null);
   const [mapRef, setMapRef] = useState(null);
   const [currentAddress, setCurrentAddress] = useState(null);
@@ -67,7 +68,9 @@ const MapScreen = ({ navigation }) => {
   };
 
   const handleConfirmAndContinue = () => {
+    ConfirmPlantingAddress(currentAddress,centerCoordinate.latitude.toFixed(6),centerCoordinate.longitude.toFixed(6));
     navigation.navigate("Cart");
+
   };
 
   return (

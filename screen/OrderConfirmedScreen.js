@@ -1,6 +1,5 @@
 import { View, Dimensions, Image } from "react-native";
 import React, { useEffect, useState } from "react";
-import GifComponent from "../components/GifComponent";
 import { TouchableOpacity } from "react-native-gesture-handler";
 const { width, height } = Dimensions.get("window");
 import { CommonActions } from "@react-navigation/native";
@@ -12,7 +11,7 @@ const OrderConfirmedScreen = ({ navigation }) => {
   useEffect(() => {
     const hideImageTimeout = setTimeout(() => {
       setImageHidden(true);
-    }, 5000);
+    }, 3000);
 
     return () => clearTimeout(hideImageTimeout);
   }, []);
@@ -37,7 +36,7 @@ const OrderConfirmedScreen = ({ navigation }) => {
     >
       {!isImageHidden && (
         <Image
-          source={require("../assets/Order.gif")}
+          source={require("../assets/OrderConfirmedImage.png")}
           style={{ height: height * 0.6, width: width }}
         />
       )}
