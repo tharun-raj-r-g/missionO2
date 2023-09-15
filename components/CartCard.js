@@ -207,7 +207,6 @@ const CartCard = ({ name, fullname, image, item }) => {
             style={{
               color: "white",
               fontSize: 20,
-              color: "white",
             }}
           >
             +

@@ -19,9 +19,7 @@ const OrderConfirmedScreen = ({ navigation }) => {
     navigation.dispatch(
       CommonActions.reset({
         index: 0,
-        routes: [
-          { name: "HomeStack" },
-        ],
+        routes: [{ name: "HomeStack" }],
       })
     );
   };
@@ -31,7 +29,6 @@ const OrderConfirmedScreen = ({ navigation }) => {
         flex: 1,
         alignItems: "center",
         justifyContent: "center",
-        alignItems: "center",
       }}
     >
       {!isImageHidden && (

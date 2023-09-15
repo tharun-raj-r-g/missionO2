@@ -137,10 +137,6 @@ const DeliveryAddressComp = ({ liveAddress, selectedValue, onChange }) => {
 };
 
 const styles = StyleSheet.create({
-  title: {
-    fontSize: 28,
-    marginBottom: 20,
-  },
   dropdownButton: {
     backgroundColor: "#fff",
     borderRadius: 10,

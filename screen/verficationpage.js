@@ -302,7 +302,7 @@ const styles = StyleSheet.create({
   },
   verificationCodeInput: {
     flexDirection: "row",
-    marginBottom: 10,
+    marginBottom: 50,
     height: 45,
     width: 45,
     borderRadius: 5,
@@ -312,7 +312,6 @@ const styles = StyleSheet.create({
     marginRight: 15,
     fontSize: 24,
     color: "#fff",
-    marginBottom: 50,
     marginTop: 10,
     fontFamily: "Montserrat",
   },

@@ -66,7 +66,7 @@ const HomePage = ({ navigation }) => {
   }, []);
 
   useEffect(() => {
-    if (plantdata.length > 0 && products.length==0) {
+    if (plantdata.length > 0 && products.length == 0) {
       fetchProducts();
     }
   }, [plantdata]);
@@ -326,7 +326,7 @@ const HomePage = ({ navigation }) => {
               style={{ width: width }}
             >
               {products ? (
-                <View style={{ alignItems: "center" }}>
+                <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                   {products.map((item, index) => {
                     if (index < 3) {
                       return (
@@ -339,7 +339,7 @@ const HomePage = ({ navigation }) => {
                       );
                     }
                   })}
-                </View>
+                </ScrollView>
               ) : null}
             </ScrollView>
           )}
@@ -427,7 +427,6 @@ const HomePage = ({ navigation }) => {
                 shadowOpacity: 0.5,
                 shadowRadius: 10,
                 marginTop: "7%",
-                alignSelf: "center",
                 marginBottom: "10%",
               }}
               onPress={() => {
@@ -446,81 +445,6 @@ const HomePage = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  topView: {
-    height: height * 0.4,
-    backgroundColor: "#00b388",
-    elevation: 20,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-    overflow: "hidden",
-    borderBottomLeftRadius: 25,
-    borderBottomRightRadius: 25,
-  },
-  dimBackground: {
-    opacity: 0.4,
-  },
-  topBar: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    paddingHorizontal: 16,
-    paddingTop: 24,
-    marginTop: 35,
-  },
-  iconContainer: {
-    width: Dimensions.get("window").width * 0.08,
-    height: Dimensions.get("window").width * 0.08,
-    justifyContent: "center",
-    alignItems: "center",
-    marginBottom: Dimensions.get("window").width * 0.025,
-  },
-  logo: {
-    width: Dimensions.get("window").width * 0.4,
-    height: Dimensions.get("window").width * 0.15,
-    resizeMode: "contain",
-  },
-  plantedInfo: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 50,
-  },
-  plantedCount: {
-    fontSize: 60,
-    color: "#004B39",
-    marginRight: 8,
-    textShadowColor: "rgba(0, 0, 0, 0.25)",
-    textShadowOffset: { width: 2.5, height: 2.5 },
-    textShadowRadius: 5,
-  },
-  treeIcon: {
-    width: 44,
-    height: 44,
-    resizeMode: "contain",
-    marginLeft: Dimensions.get("window").width * 0.02,
-  },
-  plantedText: {
-    fontSize: 16,
-    color: "white",
-    alignSelf: "center",
-    marginBottom: Dimensions.get("window").width * 0.03,
-  },
-  bottomView: {
-    height: "100%",
-    backgroundColor: "#f2f2f2",
-  },
-  backgroundImage: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    width: "100%",
-    height: "100%",
-  },
   carouselcontainer: {
     marginTop: width * 0.06,
   },
@@ -528,10 +452,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginLeft: "5%",
     color: "#005f48",
-  },
-  profilecontainer: {
-    paddingTop: 10,
-    marginLeft: 5,
   },
 });
 
