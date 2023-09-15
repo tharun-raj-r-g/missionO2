@@ -86,6 +86,34 @@ const Cartscreen = ({ navigation }) => {
   const fontSize = PixelRatio.getFontScale() * 13.5;
 
   useEffect(() => {
+    getProfile();
+  }, []);
+
+  const getProfile = () => {
+    axiosInstance
+      .get(`/user/view-profile`, {
+        headers: {
+          Authorization:
+            "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlMThhZDY4Zi0wODgzLTRhMWUtYTk2OC05YjhjY2UwMzZjMWQiLCJpYXQiOjE2OTQ2NjY0MTAsImV4cCI6MTY5NzI1ODQxMH0.2cAX_tSAb-hUalbhi-do0GX9r5gCGK3vFQDEANtM5LFLLdpojuYFZSVKzo_Mx3L5ttEqweGlua_MFcprr0o5Zg",
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((response) => {
+        setName(response.data.name);
+        setEmail(response.data.email);
+        setSelectedStartDate(response.data.dob);
+        console.log(isName);
+        console.log(isEmail);
+        console.log(response.data.dob);
+        console.log(selectedStartDate);
+      })
+      .catch((error) => {
+        console.log(error);
+        console.log("hjjji");
+      });
+  };
+
+  useEffect(() => {
     getState();
   }, []);
   useEffect(() => {
