@@ -23,6 +23,8 @@ import { useEffect } from "react";
 import { emptyCart } from "../redux/reducers/cartReducers";
 import Text from "../fonts/Text";
 import TextB from "../fonts/TextBold";
+import DatePicker from "react-native-modern-datepicker";
+import { getFormatedDate } from "react-native-modern-datepicker";
 
 const Cartscreen = ({ navigation }) => {
   const route = useRoute();
@@ -47,6 +49,10 @@ const Cartscreen = ({ navigation }) => {
   const [isName, setName] = useState("");
   const [isEmail, setEmail] = useState("");
   const [isDOB, setDOB] = useState("");
+  const [openStartDatePicker, setOpenStartDatePicker] = useState(false);
+  const startDate = getFormatedDate("YYYY/MM/DD");
+  const [selectedStartDate, setSelectedStartDate] = useState("");
+  const [startedDate, setStartedDate] = useState("12/12/2023");
   useEffect(() => {
     getState();
   }, []);
@@ -182,6 +188,14 @@ const Cartscreen = ({ navigation }) => {
     navigation.navigate("OrderConfirm");
     dispatch(emptyCart(cart));
   };
+
+  function handleChangeStartDate(propDate) {
+    setStartedDate(propDate);
+  }
+
+  const handleOnPressStartDate = () => {
+    setOpenStartDatePicker(!openStartDatePicker);
+  };
   return (
     <View
       style={[
@@ -220,8 +234,8 @@ const Cartscreen = ({ navigation }) => {
             showsVerticalScrollIndicator={false}
             nestedScrollEnabled={true}
           >
-            <TextB style={{ fontSize: 18, color: "black", marginBottom: "2%" }}>
-              Enter your name:
+            <TextB style={{ fontSize: 16, color: "black", marginBottom: "2%" }}>
+              Enter your Name:
             </TextB>
             <View
               style={{
@@ -246,7 +260,7 @@ const Cartscreen = ({ navigation }) => {
                 onChangeText={setName}
               />
             </View>
-            <TextB style={{ fontSize: 18, color: "black", marginBottom: "2%" }}>
+            <TextB style={{ fontSize: 16, color: "black", marginBottom: "2%" }}>
               Enter your Email:
             </TextB>
             <View
@@ -272,10 +286,11 @@ const Cartscreen = ({ navigation }) => {
                 onChangeText={setEmail}
               />
             </View>
-            <TextB style={{ fontSize: 18, color: "black", marginBottom: "2%" }}>
+            <TextB style={{ fontSize: 16, color: "black", marginBottom: "2%" }}>
               Enter DOB:
             </TextB>
-            <View
+            <TouchableOpacity
+              onPress={handleOnPressStartDate}
               style={{
                 height: height * 0.05,
                 width: width * 0.92,
@@ -286,17 +301,37 @@ const Cartscreen = ({ navigation }) => {
                 padding: "2%",
               }}
             >
-              <TextInput
-                style={{
-                  color: "#005f48",
-                  fontSize: 17,
-                  fontFamily: "Montserrat",
-                }}
-                placeholder="DOB"
-                value={isDOB}
-                onChangeText={setDOB}
-              />
-            </View>
+              <Text style={{ fontSize: 16 }}>{selectedStartDate}</Text>
+            </TouchableOpacity>
+            <Modal
+              animationType="slide"
+              transparent={true}
+              visible={openStartDatePicker}
+            >
+              <View style={styles.centeredView}>
+                <View style={styles.modalView}>
+                  <DatePicker
+                    mode="calendar"
+                    minimumDate={startDate}
+                    selected={startedDate}
+                    onDateChanged={handleChangeStartDate}
+                    onSelectedChange={(date) => setSelectedStartDate(date)}
+                    options={{
+                      backgroundColor: "#00b388",
+                      textHeaderColor: "#004B39",
+                      textDefaultColor: "#FFFFFF",
+                      selectedTextColor: "#FFF",
+                      mainColor: "#004B39",
+                      textSecondaryColor: "#FFFFFF",
+                
+                    }}
+                  />
+                  <TouchableOpacity onPress={handleOnPressStartDate}>
+                    <Text style={{ color: "white" }}>Close</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </Modal>
             <View
               style={{
                 width: width * 0.92,
@@ -971,7 +1006,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "black",
   },
-
   row: {
     flexDirection: "row",
     marginBottom: 10,
@@ -998,5 +1032,38 @@ const styles = StyleSheet.create({
   addIcon: {
     fontSize: 24,
     color: "gray",
+  },
+  inputBtn: {
+    borderWidth: 1,
+    borderRadius: 4,
+    borderColor: "#222",
+    height: 50,
+    paddingLeft: 8,
+    fontSize: 18,
+    justifyContent: "center",
+    marginTop: 14,
+  },
+  centeredView: {
+    flex: 1,
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    justifyContent: "center",
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "#00b388",
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 20,
+    width: "90%",
+    height: "55%",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
   },
 });
