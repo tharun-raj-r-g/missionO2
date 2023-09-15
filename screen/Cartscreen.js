@@ -252,7 +252,7 @@ const Cartscreen = ({ navigation }) => {
 
         if (!result.canceled) {
           const newImages = [...images];
-          newImages[selectedFrame] = result.assets[0].uri;
+          newImages[selectedFrame] = result.uri;
           setImages(newImages);
           if (!imageList.includes(selectedFrame)) {
             setImageList([...imageList, selectedFrame]);
@@ -266,7 +266,7 @@ const Cartscreen = ({ navigation }) => {
 
         if (!result.canceled) {
           const newImages = [...images];
-          newImages[selectedFrame] = result.assets[0].uri;
+          newImages[selectedFrame] = result.uri;
           setImages(newImages);
           if (!imageList.includes(selectedFrame)) {
             setImageList([...imageList, selectedFrame]);
@@ -288,16 +288,21 @@ const Cartscreen = ({ navigation }) => {
     data.append("address.district", selectedDeliveryDistrict);
     data.append("address.taluk", selectedDeliveryTaluk);
     data.append("address.country", "India");
-
-    const localImageUri = FileSystem.documentDirectory + "../assets/jungle.jpg";
-    const imageInfo = await FileSystem.getInfoAsync(localImageUri);
-    if (imageInfo.exists) {
-      data.append("images", {
-        uri: localImageUri,
-        type: "image/jpg",
-        name: "../assets/jungle.jpg",
+    console.log(images);
+    images.forEach((image, index) => {
+      if(image){
+        const uriParts = image.split('.');
+      const fileType = uriParts[uriParts.length - 1];
+      console.log(image);
+      
+      data.append('images', {
+        uri: image,
+        type: `image/${fileType}`,
+        name: `image${index + 1}.${fileType}`,
       });
-    }
+      }
+      
+    });
     
     cart.forEach((product, index) => {
       const productKey = `products[${index}]`;
