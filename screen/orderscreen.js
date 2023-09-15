@@ -49,12 +49,11 @@ const Order = ({ navigation }) => {
         <TextB
           style={{
             color: "white",
-
             fontSize: 25,
             marginLeft: "15%",
           }}
         >
-          Order
+          Plants
         </TextB>
         <TouchableOpacity
           onPress={() => {

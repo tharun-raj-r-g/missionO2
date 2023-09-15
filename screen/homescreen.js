@@ -296,7 +296,7 @@ const HomePage = ({ navigation }) => {
               width: "100%",
               flexDirection: "row",
               justifyContent: "space-between",
-              marginTop: "4%",
+              marginTop: "5%",
               alignItems: "center",
             }}
           >
@@ -315,6 +315,20 @@ const HomePage = ({ navigation }) => {
                 Recent Orders
               </TextB>
             </View>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("OrderHistoryStack");
+              }}
+              style={{
+                height: height * 0.06,
+                marginRight: "5%",
+                marginTop: "2%",
+              }}
+            >
+              <Text style={{ textDecorationLine: "underline", color: "gray" }}>
+                View all
+              </Text>
+            </TouchableOpacity>
           </View>
           {products.length == 0 ? (
             <View style={{ marginTop: "20%" }}>
