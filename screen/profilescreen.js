@@ -7,6 +7,7 @@ import {
   StatusBar,
   ScrollView,
   TouchableOpacity,
+  Modal,
 } from "react-native";
 import Text from "../fonts/Text";
 import TextB from "../fonts/TextBold";
@@ -14,20 +15,24 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import axiosInstance from "../api/api";
 import Icon from "react-native-vector-icons/Feather";
+import DatePicker from "react-native-modern-datepicker";
+import { getFormatedDate } from "react-native-modern-datepicker";
 const { width, height } = Dimensions.get("window");
 const Profile = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [name, setName] = useState("Enter your name");
   const [email, setEmail] = useState("Enter your Email");
-  const [address, setAddress] = useState("");
   const [addressLine1, setAddressLine1] = useState("Enter AddressLine1");
   const [addressLine2, setAddressLine2] = useState("Enter AddressLine2");
   const [pinCode, setPinCode] = useState("Enter Pin Code");
   const [District, setDistrict] = useState("Enter District");
   const [state, setState] = useState("Enter State");
   const [Taluk, setTaluk] = useState("Enter Taluk");
-  const [dob, setDOB] = useState("22-06-2004");
+  const [dob, setDOB] = useState("YYYY/MM/DD");
   const [isProfileData, setProfileData] = useState([]);
+  const [openStartDatePicker, setOpenStartDatePicker] = useState(false);
+  const startDate = getFormatedDate("YYYY/MM/DD");
+  const [startedDate, setStartedDate] = useState("01/01/2015");
 
   const [statelist, setstatelist] = useState([]);
 
@@ -169,6 +174,14 @@ const Profile = () => {
   const handleUpdateProfile = () => {
     setIsEditing(false);
     handleUpload();
+  };
+
+  function handleChangeStartDate(propDate) {
+    setStartedDate(propDate);
+  }
+
+  const handleOnPressStartDate = () => {
+    setOpenStartDatePicker(!openStartDatePicker);
   };
 
   const handleUpload = async () => {
@@ -339,15 +352,39 @@ const Profile = () => {
           >
             <Text style={{ color: "#005f48", fontSize: 20 }}>D.O.B</Text>
             {isEditing ? (
-              <TextInput
-                style={{
-                  color: "white",
-                  fontSize: 16,
-                  fontFamily: "Montserrat",
-                }}
-                value={dob}
-                onChangeText={setDOB}
-              />
+              <View>
+                <TouchableOpacity onPress={handleOnPressStartDate}>
+                  <Text style={{ color: "white", fontSize: 16 }}>{dob}</Text>
+                </TouchableOpacity>
+                <Modal
+                  animationType="slide"
+                  transparent={true}
+                  visible={openStartDatePicker}
+                >
+                  <View style={styles.centeredView}>
+                    <View style={styles.modalView}>
+                      <DatePicker
+                        mode="calendar"
+                        minimumDate={startDate}
+                        selected={startedDate}
+                        onDateChanged={handleChangeStartDate}
+                        onSelectedChange={(date) => setDOB(date)}
+                        options={{
+                          backgroundColor: "#00b388",
+                          textHeaderColor: "#004B39",
+                          textDefaultColor: "#FFFFFF",
+                          selectedTextColor: "#FFF",
+                          mainColor: "#004B39",
+                          textSecondaryColor: "#FFFFFF",
+                        }}
+                      />
+                      <TouchableOpacity onPress={handleOnPressStartDate}>
+                        <Text style={{ color: "white" }}>Select</Text>
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                </Modal>
+              </View>
             ) : (
               <Text style={{ color: "white", fontSize: 16 }}>{dob}</Text>
             )}
@@ -493,20 +530,23 @@ const Profile = () => {
               <View
                 style={{
                   height: height * 0.05,
-                  width: width * 0.92,
+                  width: width * 0.85,
                   alignSelf: "center",
                   flexDirection: "row",
                   justifyContent: "space-between",
                   alignItems: "center",
                 }}
               >
-                <Text style={{ fontSize: 16 }}> Select State :</Text>
+                <Text style={{ fontSize: 16, color: "#005f48" }}>
+                  {" "}
+                  Select State :
+                </Text>
                 <TouchableOpacity
                   style={{
                     height: height * 0.05,
                     width: width * 0.4,
-                    borderWidth:1,
-                    borderColor:"white",
+                    borderWidth: 1,
+                    borderColor: "white",
                     borderRadius: 20,
                     flexDirection: "row",
                     justifyContent: "space-between",
@@ -591,7 +631,7 @@ const Profile = () => {
               <View
                 style={{
                   height: height * 0.05,
-                  width: width * 0.92,
+                  width: width * 0.85,
                   alignSelf: "center",
                   flexDirection: "row",
                   justifyContent: "space-between",
@@ -599,14 +639,17 @@ const Profile = () => {
                   marginTop: "5%",
                 }}
               >
-                <Text style={{ fontSize: 16 }}> Select District :</Text>
+                <Text style={{ fontSize: 16, color: "#005f48" }}>
+                  {" "}
+                  Select District :
+                </Text>
                 {(state != "Select" && (
                   <TouchableOpacity
                     style={{
                       height: height * 0.05,
                       width: width * 0.4,
-                      borderWidth:1,
-                      borderColor:'white',
+                      borderWidth: 1,
+                      borderColor: "white",
                       borderRadius: 20,
                       flexDirection: "row",
                       justifyContent: "space-between",
@@ -724,7 +767,7 @@ const Profile = () => {
               <View
                 style={{
                   height: height * 0.05,
-                  width: width * 0.92,
+                  width: width * 0.85,
                   alignSelf: "center",
                   flexDirection: "row",
                   justifyContent: "space-between",
@@ -732,52 +775,54 @@ const Profile = () => {
                   marginTop: "5%",
                 }}
               >
-                <Text style={{ fontSize: 16 }}> Select Taluk :</Text>
-                {(state != "Select" &&
-                  District != "Select" && (
-                    <TouchableOpacity
+                <Text style={{ fontSize: 16, color: "#005f48" }}>
+                  {" "}
+                  Select Taluk :
+                </Text>
+                {(state != "Select" && District != "Select" && (
+                  <TouchableOpacity
+                    style={{
+                      height: height * 0.05,
+                      width: width * 0.4,
+                      borderWidth: 1,
+                      borderColor: "white",
+                      borderRadius: 20,
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
+                    onPress={handleDeliveryTalukDropdownPress}
+                  >
+                    <Text
+                      numberOfLines={1}
+                      ellipsizeMode={"tail"}
                       style={{
-                        height: height * 0.05,
-                        width: width * 0.4,
-                        borderWidth:1,
-                        borderColor:'white',
-                        borderRadius: 20,
-                        flexDirection: "row",
-                        justifyContent: "space-between",
-                        alignItems: "center",
+                        marginLeft: "10%",
+                        color: "white",
+                        fontSize: 16,
+                        width: width * 0.26,
                       }}
-                      onPress={handleDeliveryTalukDropdownPress}
                     >
-                      <Text
-                        numberOfLines={1}
-                        ellipsizeMode={"tail"}
-                        style={{
-                          marginLeft: "10%",
-                          color: "white",
-                          fontSize: 16,
-                          width: width * 0.26,
-                        }}
-                      >
-                        {Taluk}
-                      </Text>
+                      {Taluk}
+                    </Text>
 
-                      {(isDeliveryTalukDropdownPress && (
-                        <Icon
-                          name="chevron-up"
-                          size={30}
-                          color="white"
-                          style={{ marginRight: "3%" }}
-                        />
-                      )) || (
-                        <Icon
-                          name="chevron-down"
-                          size={30}
-                          color="white"
-                          style={{ marginRight: "3%" }}
-                        />
-                      )}
-                    </TouchableOpacity>
-                  )) || (
+                    {(isDeliveryTalukDropdownPress && (
+                      <Icon
+                        name="chevron-up"
+                        size={30}
+                        color="white"
+                        style={{ marginRight: "3%" }}
+                      />
+                    )) || (
+                      <Icon
+                        name="chevron-down"
+                        size={30}
+                        color="white"
+                        style={{ marginRight: "3%" }}
+                      />
+                    )}
+                  </TouchableOpacity>
+                )) || (
                   <View
                     style={{
                       height: height * 0.05,
@@ -895,5 +940,28 @@ const styles = StyleSheet.create({
     backgroundColor: "#00b388",
     alignItems: "center",
     justifyContent: "center",
+  },
+  centeredView: {
+    flex: 1,
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    justifyContent: "center",
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "#00b388",
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 20,
+    width: width * 0.9,
+    height: width / height + 440,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
   },
 });
