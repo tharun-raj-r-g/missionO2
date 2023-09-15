@@ -99,8 +99,8 @@ const OrderCompleteCard = ({ item, name, fullname, image }) => {
   return (
     <View
       style={{
-        width: width * 0.9,
-        height: height * 0.15,
+        width: width * 0.5,
+        height: height * 0.3,
         backgroundColor: "#fafafa",
         borderRadius: 10,
         elevation: 5,
@@ -108,16 +108,17 @@ const OrderCompleteCard = ({ item, name, fullname, image }) => {
         shadowOffset: { width: 0, height: 5 },
         shadowOpacity: 0.2,
         shadowRadius: 8,
-        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
         marginVertical: 6,
+        marginHorizontal: 20,
       }}
     >
       <View
         style={{
           width: width * 0.45,
           height: height * 0.12,
-          alignSelf: "center",
-          alignItems: "flex-start",
+          alignItems: "center",
           backgroundColor: "#fafafa",
         }}
       >
@@ -125,8 +126,7 @@ const OrderCompleteCard = ({ item, name, fullname, image }) => {
           style={{
             height: height * 0.12,
             width: width * 0.3,
-            resizeMode: "cover",
-            marginLeft: "10%",
+            resizeMode: "contain",
             borderRadius: 10,
           }}
           source={{ uri: `data:image/jpeg;base64,${isimage}` }}
@@ -136,7 +136,7 @@ const OrderCompleteCard = ({ item, name, fullname, image }) => {
         style={{
           width: width * 0.35,
           height: height * 0.12,
-          alignSelf: "center",
+          alignItems: "center",
           justifyContent: "center",
         }}
       >
@@ -151,19 +151,13 @@ const OrderCompleteCard = ({ item, name, fullname, image }) => {
         >
           {name}
         </TextB>
-        <Text
-          numberOfLines={1}
-          ellipsizeMode="tail"
-          style={{ fontSize: 15, marginVertical: "1%" }}
-        >
-          {fullname}
-        </Text>
+
         <Text
           numberOfLines={1}
           ellipsizeMode="tail"
           style={{
             fontSize: 11,
-            marginVertical: "1%",
+            marginVertical: "3%",
             color: orderStatus === "Delivered" ? "green" : "darkorange",
           }}
         >
@@ -181,7 +175,11 @@ const OrderCompleteCard = ({ item, name, fullname, image }) => {
               padding: "4%",
               borderRadius: 5,
               elevation: 5,
-              marginVertical: "2%",
+              shadowColor: "black",
+              shadowOffset: { width: 0, height: 5 },
+              shadowOpacity: 0.5,
+              shadowRadius: 10,
+              marginVertical: "3%",
               backgroundColor: "#005f48",
             }}
           >
@@ -362,36 +360,6 @@ const OrderCompleteCard = ({ item, name, fullname, image }) => {
 export default OrderCompleteCard;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-  },
-  attachButton: {
-    height: height * 0.06,
-    width: width * 0.92,
-    borderRadius: 50,
-    borderWidth: 1,
-    backgroundColor: "white",
-    elevation: 4,
-    shadowColor: "black",
-    shadowOffset: { width: 0, height: 5 },
-    shadowOpacity: 0.5,
-    shadowRadius: 10,
-    alignItems: "center",
-    flexDirection: "row",
-    marginTop: "5%",
-  },
-  icon: {
-    marginLeft: width * 0.03,
-  },
-  attachText: {
-    marginLeft: width * 0.03,
-    fontSize: 16,
-  },
-  attachCount: {
-    marginLeft: width * 0.03,
-    fontSize: 16,
-  },
   modalContainer: {
     flex: 1,
     justifyContent: "center",
@@ -456,9 +424,5 @@ const styles = StyleSheet.create({
     height: "100%",
     resizeMode: "cover",
     borderRadius: 10,
-  },
-  addIcon: {
-    fontSize: 24,
-    color: "gray",
   },
 });

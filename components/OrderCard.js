@@ -149,8 +149,6 @@ const OrderCard = ({ item, name, fullname, image }) => {
             >
               <TextB
                 style={{
-                  color: "#005f48",
-
                   fontSize: 20,
                   color: "white",
                 }}
@@ -197,7 +195,6 @@ const OrderCard = ({ item, name, fullname, image }) => {
             >
               <TextB
                 style={{
-                  color: "#005f48",
                   fontSize: 20,
                   color: "white",
                 }}
@@ -214,7 +211,12 @@ const OrderCard = ({ item, name, fullname, image }) => {
               justifyContent: "center",
               alignItems: "center",
               padding: "4%",
-              borderRadius: 10,
+              borderRadius: 5,
+              elevation: 5,
+              shadowColor: "black",
+              shadowOffset: { width: 0, height: 5 },
+              shadowOpacity: 0.5,
+              shadowRadius: 10,
               marginVertical: "3%",
               backgroundColor: "#005f48",
             }}

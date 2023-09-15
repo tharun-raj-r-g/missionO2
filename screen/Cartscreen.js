@@ -6,7 +6,7 @@ import {
   Image,
   StatusBar,
   ScrollView,
-  ImageBackground,
+  PixelRatio,
   Modal,
   TextInput,
 } from "react-native";
@@ -16,7 +16,6 @@ const { width, height } = Dimensions.get("window");
 import Icon from "react-native-vector-icons/Feather";
 import CartCard from "../components/CartCard";
 import { useDispatch, useSelector } from "react-redux";
-import PlantAddressComp from "../components/plantingaddress";
 import * as ImagePicker from "expo-image-picker";
 import axiosInstance from "../api/api";
 import { useEffect } from "react";
@@ -40,20 +39,28 @@ const Cartscreen = ({ navigation }) => {
   const [DeliveryTalukList, setDeliveryTalukList] = useState([]);
   const [PlantingTalukList, setPlantingTalukList] = useState([]);
 
-  const [isDeliveryStateDropdownPress, setDeliveryStateDropdownOpen] = useState(false);
-  const [isPlantingStateDropdownPress, setPlantingStateDropdownOpen] = useState(false);
+  const [isDeliveryStateDropdownPress, setDeliveryStateDropdownOpen] =
+    useState(false);
+  const [isPlantingStateDropdownPress, setPlantingStateDropdownOpen] =
+    useState(false);
 
-  const [isDeliveryDistrictDropdownOpen, setDeliveryDistrictDropdownOpen] = useState(false);
-  const [isPlantingDistrictDropdownOpen, setPlantingDistrictDropdownOpen] = useState(false);
+  const [isDeliveryDistrictDropdownOpen, setDeliveryDistrictDropdownOpen] =
+    useState(false);
+  const [isPlantingDistrictDropdownOpen, setPlantingDistrictDropdownOpen] =
+    useState(false);
 
-  const [isDeliveryTalukDropdownPress, setDeliveryTalukDropdownOpen] = useState(false);
-  const [isPlantingTalukDropdownPress, setPlantingTalukDropdownOpen] = useState(false);
+  const [isDeliveryTalukDropdownPress, setDeliveryTalukDropdownOpen] =
+    useState(false);
+  const [isPlantingTalukDropdownPress, setPlantingTalukDropdownOpen] =
+    useState(false);
 
   const [selectedDeliveryState, setSelectedDeliveryState] = useState("Select");
   const [selectedPlantingState, setSelectedPlantingState] = useState("Select");
 
-  const [selectedDeliveryDistrict, setSelectedDeliveryDistrict] = useState("Select");
-  const [selectedPlantingDistrict, setSelectedPlantingDistrict] = useState("Select");
+  const [selectedDeliveryDistrict, setSelectedDeliveryDistrict] =
+    useState("Select");
+  const [selectedPlantingDistrict, setSelectedPlantingDistrict] =
+    useState("Select");
 
   const [selectedDeliveryTaluk, setSelectedDeliveryTaluk] = useState("Select");
   const [selectedPlantingTaluk, setSelectedPlantingTaluk] = useState("Select");
@@ -67,13 +74,15 @@ const Cartscreen = ({ navigation }) => {
   const [openStartDatePicker, setOpenStartDatePicker] = useState(false);
   const startDate = getFormatedDate("YYYY/MM/DD");
   const [selectedStartDate, setSelectedStartDate] = useState("YYYY/MM/DD");
-  const [startedDate, setStartedDate] = useState("12/12/2023");
+  const [startedDate, setStartedDate] = useState("01/01/2015");
   const [isDeliveryAddressLine1, setDeliveryAddressLine1] = useState("");
   const [isDeliveryAddressLine2, setDeliveryAddressLine2] = useState("");
   const [isDeliveryPinCode, setDeliveryPinCode] = useState("");
   const [isPlantingAddressLocation, setPlantingAddressLocation] = useState("");
   const [isPlantLatitude, setPlantLatitude] = useState("");
   const [isPlantLongitude, setPlantLongitude] = useState("");
+  const fontSize = PixelRatio.getFontScale() * 13.5;
+
   useEffect(() => {
     getState();
   }, []);
@@ -201,7 +210,7 @@ const Cartscreen = ({ navigation }) => {
     setPlantingTalukList([]);
     setPlantingStateDropdownOpen(false);
   };
-  
+
   const handleDeliveryDistrictSelect = (name) => {
     setSelectedDeliveryDistrict(name);
     setSelectedDeliveryTaluk("Select");
@@ -223,7 +232,6 @@ const Cartscreen = ({ navigation }) => {
     setSelectedPlantingTaluk(name);
     setPlantingTalukDropdownOpen(false);
   };
-  
 
   const pickImage = (index) => {
     setSelectedFrame(index);
@@ -337,7 +345,7 @@ const Cartscreen = ({ navigation }) => {
               <TextInput
                 style={{
                   color: "#005f48",
-                  fontSize: 17,
+                  fontSize,
                   fontFamily: "Montserrat",
                 }}
                 placeholder="Name"
@@ -363,7 +371,7 @@ const Cartscreen = ({ navigation }) => {
               <TextInput
                 style={{
                   color: "#005f48",
-                  fontSize: 17,
+                  fontSize,
                   fontFamily: "Montserrat",
                 }}
                 placeholder="Email"
@@ -388,8 +396,8 @@ const Cartscreen = ({ navigation }) => {
             >
               <Text
                 style={{
-                  fontSize: 16,
-                  color: selectedStartDate == "YYYY/MM/DD" ? "gray" : "black",
+                  fontSize,
+                  color: selectedStartDate == "YYYY/MM/DD" ? "gray" : "#005f48",
                 }}
               >
                 {selectedStartDate}
@@ -525,7 +533,7 @@ const Cartscreen = ({ navigation }) => {
               <TextInput
                 style={{
                   color: "#005f48",
-                  fontSize: 17,
+                  fontSize,
                   fontFamily: "Montserrat",
                 }}
                 placeholder="Enter Address Line 1"
@@ -548,7 +556,7 @@ const Cartscreen = ({ navigation }) => {
               <TextInput
                 style={{
                   color: "#005f48",
-                  fontSize: 17,
+                  fontSize,
                   fontFamily: "Montserrat",
                 }}
                 placeholder="Enter Address Line 2"
@@ -571,7 +579,7 @@ const Cartscreen = ({ navigation }) => {
               <TextInput
                 style={{
                   color: "#005f48",
-                  fontSize: 17,
+                  fontSize,
                   fontFamily: "Montserrat",
                 }}
                 placeholder="Enter Pincode"
@@ -820,49 +828,50 @@ const Cartscreen = ({ navigation }) => {
               }}
             >
               <TextB style={{ fontSize: 16 }}> Select Taluk :</TextB>
-              {(selectedDeliveryState != "Select" && selectedDeliveryDistrict != "Select" && (
-                <TouchableOpacity
-                  style={{
-                    height: height * 0.05,
-                    width: width * 0.4,
-                    backgroundColor: "#00b388",
-                    borderRadius: 20,
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                  }}
-                  onPress={handleDeliveryTalukDropdownPress}
-                >
-                  <Text
-                    numberOfLines={1}
-                    ellipsizeMode={"tail"}
+              {(selectedDeliveryState != "Select" &&
+                selectedDeliveryDistrict != "Select" && (
+                  <TouchableOpacity
                     style={{
-                      marginLeft: "10%",
-                      color: "white",
-                      fontSize: 16,
-                      width: width * 0.26,
+                      height: height * 0.05,
+                      width: width * 0.4,
+                      backgroundColor: "#00b388",
+                      borderRadius: 20,
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                      alignItems: "center",
                     }}
+                    onPress={handleDeliveryTalukDropdownPress}
                   >
-                    {selectedDeliveryTaluk}
-                  </Text>
+                    <Text
+                      numberOfLines={1}
+                      ellipsizeMode={"tail"}
+                      style={{
+                        marginLeft: "10%",
+                        color: "white",
+                        fontSize: 16,
+                        width: width * 0.26,
+                      }}
+                    >
+                      {selectedDeliveryTaluk}
+                    </Text>
 
-                  {(isDeliveryTalukDropdownPress && (
-                    <Icon
-                      name="chevron-up"
-                      size={30}
-                      color="white"
-                      style={{ marginRight: "3%" }}
-                    />
-                  )) || (
-                    <Icon
-                      name="chevron-down"
-                      size={30}
-                      color="white"
-                      style={{ marginRight: "3%" }}
-                    />
-                  )}
-                </TouchableOpacity>
-              )) || (
+                    {(isDeliveryTalukDropdownPress && (
+                      <Icon
+                        name="chevron-up"
+                        size={30}
+                        color="white"
+                        style={{ marginRight: "3%" }}
+                      />
+                    )) || (
+                      <Icon
+                        name="chevron-down"
+                        size={30}
+                        color="white"
+                        style={{ marginRight: "3%" }}
+                      />
+                    )}
+                  </TouchableOpacity>
+                )) || (
                 <View
                   style={{
                     height: height * 0.05,
@@ -942,12 +951,11 @@ const Cartscreen = ({ navigation }) => {
             ) : null}
             <TextB
               style={{
-                alignSelf: "flex-start",
+                alignSelf: "center",
                 marginLeft: width * 0.01,
                 fontSize: 16,
                 marginTop: "5%",
                 marginBottom: "5%",
-                alignSelf: "center",
               }}
             >
               Planting Address
@@ -984,7 +992,7 @@ const Cartscreen = ({ navigation }) => {
                 backgroundColor: "#00b388",
                 alignItems: "center",
                 justifyContent: "center",
-                marginBottom:"5%"
+                marginBottom: "5%",
               }}
               onPress={() => {
                 navigation.navigate("MapScreen", {
@@ -993,9 +1001,7 @@ const Cartscreen = ({ navigation }) => {
               }}
             >
               {isPlantingAddressLocation ? (
-                <TextB style={{ color: "white" }}>
-                  Change Location
-                </TextB>
+                <TextB style={{ color: "white" }}>Change Location</TextB>
               ) : (
                 <TextB style={{ color: "white" }}>
                   Select Location From Map
@@ -1243,49 +1249,50 @@ const Cartscreen = ({ navigation }) => {
               }}
             >
               <TextB style={{ fontSize: 16 }}> Select Taluk :</TextB>
-              {(selectedPlantingState != "Select" && selectedPlantingDistrict != "Select" && (
-                <TouchableOpacity
-                  style={{
-                    height: height * 0.05,
-                    width: width * 0.4,
-                    backgroundColor: "#00b388",
-                    borderRadius: 20,
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                  }}
-                  onPress={handlePlantingTalukDropdownPress}
-                >
-                  <Text
-                    numberOfLines={1}
-                    ellipsizeMode={"tail"}
+              {(selectedPlantingState != "Select" &&
+                selectedPlantingDistrict != "Select" && (
+                  <TouchableOpacity
                     style={{
-                      marginLeft: "10%",
-                      color: "white",
-                      fontSize: 16,
-                      width: width * 0.26,
+                      height: height * 0.05,
+                      width: width * 0.4,
+                      backgroundColor: "#00b388",
+                      borderRadius: 20,
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                      alignItems: "center",
                     }}
+                    onPress={handlePlantingTalukDropdownPress}
                   >
-                    {selectedPlantingTaluk}
-                  </Text>
+                    <Text
+                      numberOfLines={1}
+                      ellipsizeMode={"tail"}
+                      style={{
+                        marginLeft: "10%",
+                        color: "white",
+                        fontSize: 16,
+                        width: width * 0.26,
+                      }}
+                    >
+                      {selectedPlantingTaluk}
+                    </Text>
 
-                  {(isPlantingTalukDropdownPress && (
-                    <Icon
-                      name="chevron-up"
-                      size={30}
-                      color="white"
-                      style={{ marginRight: "3%" }}
-                    />
-                  )) || (
-                    <Icon
-                      name="chevron-down"
-                      size={30}
-                      color="white"
-                      style={{ marginRight: "3%" }}
-                    />
-                  )}
-                </TouchableOpacity>
-              )) || (
+                    {(isPlantingTalukDropdownPress && (
+                      <Icon
+                        name="chevron-up"
+                        size={30}
+                        color="white"
+                        style={{ marginRight: "3%" }}
+                      />
+                    )) || (
+                      <Icon
+                        name="chevron-down"
+                        size={30}
+                        color="white"
+                        style={{ marginRight: "3%" }}
+                      />
+                    )}
+                  </TouchableOpacity>
+                )) || (
                 <View
                   style={{
                     height: height * 0.05,
@@ -1439,8 +1446,7 @@ const Cartscreen = ({ navigation }) => {
               </View>
             </Modal>
 
-            {
-            !isName ? (
+            {!isName ? (
               <TouchableOpacity
                 style={{
                   height: height * 0.06,
@@ -1457,7 +1463,6 @@ const Cartscreen = ({ navigation }) => {
                   marginTop: "10%",
                   alignSelf: "center",
                   justifyContent: "center",
-                  alignItems: "center",
                 }}
                 onPress={handleConfirm}
               >
@@ -1476,7 +1481,6 @@ const Cartscreen = ({ navigation }) => {
                   marginTop: "10%",
                   alignSelf: "center",
                   justifyContent: "center",
-                  alignItems: "center",
                 }}
               >
                 <TextB style={{ fontSize: 18, color: "grey" }}>Confirm</TextB>
@@ -1539,32 +1543,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
   },
-  attachButton: {
-    height: height * 0.06,
-    width: width * 0.92,
-    borderRadius: 50,
-    borderWidth: 1,
-    backgroundColor: "white",
-    elevation: 4,
-    shadowColor: "black",
-    shadowOffset: { width: 0, height: 5 },
-    shadowOpacity: 0.5,
-    shadowRadius: 10,
-    alignItems: "center",
-    flexDirection: "row",
-    marginTop: "5%",
-  },
-  icon: {
-    marginLeft: width * 0.03,
-  },
-  attachText: {
-    marginLeft: width * 0.03,
-    fontSize: 16,
-  },
-  attachCount: {
-    marginLeft: width * 0.03,
-    fontSize: 16,
-  },
   modalContainer: {
     flex: 1,
     justifyContent: "center",
@@ -1617,20 +1595,6 @@ const styles = StyleSheet.create({
     resizeMode: "cover",
     borderRadius: 10,
   },
-  addIcon: {
-    fontSize: 24,
-    color: "gray",
-  },
-  inputBtn: {
-    borderWidth: 1,
-    borderRadius: 4,
-    borderColor: "#222",
-    height: 50,
-    paddingLeft: 8,
-    fontSize: 18,
-    justifyContent: "center",
-    marginTop: 14,
-  },
   centeredView: {
     flex: 1,
     alignItems: "center",
@@ -1643,8 +1607,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 20,
-    width: "90%",
-    height: "55%",
+    width: width * 0.9,
+    height: (width / height) + 440,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,

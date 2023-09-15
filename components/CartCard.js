@@ -179,7 +179,7 @@ const CartCard = ({ name, fullname, image, item }) => {
         >
           <TextInput
             style={{
-              fontWeight: "MontserratB",
+              fontFamily: "MontserratB",
               color: "white",
               alignSelf: "center",
               textAlign: "center",
@@ -207,7 +207,6 @@ const CartCard = ({ name, fullname, image, item }) => {
             style={{
               color: "white",
               fontSize: 20,
-              color: "white",
             }}
           >
             +

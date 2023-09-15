@@ -43,7 +43,6 @@ const Order = ({ navigation }) => {
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "space-between",
-          alignItems: "center",
           paddingTop: "5%",
         }}
       >

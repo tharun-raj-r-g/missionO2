@@ -183,7 +183,6 @@ const CustomDropdown = ({
                   <TouchableOpacity
                     style={{
                       alignSelf: "center",
-                      marginTop: "2%",
                       height: height * 0.05,
                       width: width * 0.25,
                       backgroundColor: "#005f48",
@@ -290,7 +289,6 @@ const CustomDropdown = ({
                     <TouchableOpacity
                       style={{
                         alignSelf: "center",
-                        marginTop: "2%",
                         height: height * 0.05,
                         width: width * 0.25,
                         backgroundColor: "#005f48",
@@ -345,48 +343,6 @@ const styles = StyleSheet.create({
   dropdownButtonText: {
     fontSize: 16,
     color: "#fff",
-  },
-  optionsContainer: {
-    marginTop: 10,
-    backgroundColor: "#fff",
-    borderRadius: 10,
-    elevation: 5,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
-    width: width * 0.92,
-  },
-  optionButton: {
-    paddingVertical: 15,
-    paddingHorizontal: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: "#eee",
-  },
-  optionText: {
-    fontSize: 18,
-    color: "#333",
-  },
-  addressInput: {
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderWidth: 1,
-    borderColor: "#eee",
-  },
-  saveButton: {
-    alignSelf: "flex-end",
-    marginTop: 5,
-    backgroundColor: "#00b388",
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 5,
-    marginRight: 10,
-    marginBottom: 5,
-    elevation: 5,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
   },
 });
 
