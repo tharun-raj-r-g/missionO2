@@ -493,7 +493,7 @@ const Profile = () => {
               <View
                 style={{
                   height: height * 0.05,
-                  width: width * 0.92,
+                  width: width * 0.85,
                   alignSelf: "center",
                   flexDirection: "row",
                   justifyContent: "space-between",
@@ -591,7 +591,7 @@ const Profile = () => {
               <View
                 style={{
                   height: height * 0.05,
-                  width: width * 0.92,
+                  width: width * 0.85,
                   alignSelf: "center",
                   flexDirection: "row",
                   justifyContent: "space-between",
@@ -724,7 +724,7 @@ const Profile = () => {
               <View
                 style={{
                   height: height * 0.05,
-                  width: width * 0.92,
+                  width: width * 0.85,
                   alignSelf: "center",
                   flexDirection: "row",
                   justifyContent: "space-between",
