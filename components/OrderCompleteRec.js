@@ -272,26 +272,49 @@ const OrderCompleteRecCard = ({ item, name, fullname, image }) => {
                 >
                   <TextB style={{ color: "white" }}>Cancel</TextB>
                 </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={handleCompleteOrder}
-                  style={{
-                    width: width * 0.38,
-                    flexDirection: "row",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    padding: "2.5%",
-                    borderRadius: 5,
-                    elevation: 5,
-                    shadowColor: "black",
-                    shadowOffset: { width: 0, height: 5 },
-                    shadowOpacity: 0.5,
-                    shadowRadius: 10,
-                    marginVertical: "2%",
-                    backgroundColor: "#005f48",
-                  }}
-                >
-                  <TextB style={{ color: "white" }}>Complete Order</TextB>
-                </TouchableOpacity>
+                {imageList.length >= 1 ? (
+                  <TouchableOpacity
+                    onPress={handleCompleteOrder}
+                    style={{
+                      width: width * 0.38,
+                      flexDirection: "row",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      padding: "2.5%",
+                      borderRadius: 5,
+                      elevation: 5,
+                      shadowColor: "black",
+                      shadowOffset: { width: 0, height: 5 },
+                      shadowOpacity: 0.5,
+                      shadowRadius: 10,
+                      marginVertical: "2%",
+                      backgroundColor: "#005f48",
+                    }}
+                  >
+                    <TextB style={{ color: "white" }}>Complete Order</TextB>
+                  </TouchableOpacity>
+                ) : (
+                  <View
+                    onPress={handleCompleteOrder}
+                    style={{
+                      width: width * 0.38,
+                      flexDirection: "row",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      padding: "2.5%",
+                      borderRadius: 5,
+                      elevation: 5,
+                      shadowColor: "black",
+                      shadowOffset: { width: 0, height: 5 },
+                      shadowOpacity: 0.5,
+                      shadowRadius: 10,
+                      marginVertical: "2%",
+                      backgroundColor: "gray",
+                    }}
+                  >
+                    <TextB style={{ color: "white" }}>Complete Order</TextB>
+                  </View>
+                )}
               </View>
             </View>
           </View>

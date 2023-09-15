@@ -101,7 +101,13 @@ const Cartscreen = ({ navigation }) => {
       .then((response) => {
         setName(response.data.name);
         setEmail(response.data.email);
-        setSelectedStartDate(response.data.dob);
+        setSelectedStartDate(response.data.dob.slice(0,10));
+        setDeliveryAddressLine1(response.data.address.addressLine1);
+        setDeliveryAddressLine2(response.data.address.addressLine2);
+        setDeliveryPinCode(response.data.address.pinCode);
+        setSelectedDeliveryState(response.data.address.state);
+        setSelectedDeliveryDistrict(response.data.address.district);
+        setSelectedDeliveryTaluk(response.data.address.taluk);
         console.log(isName);
         console.log(isEmail);
         console.log(response.data.dob);
