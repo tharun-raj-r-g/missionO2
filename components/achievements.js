@@ -10,7 +10,6 @@ const Achievements = ({ title, description }) => {
       <View style={styles.content}>
         <TextB style={styles.title}>{title}</TextB>
         <Text style={styles.description}>{description}</Text>
-        <TextB style={styles.learnMoreText}>Learn More</TextB>
       </View>
     </Pressable>
   );
@@ -50,10 +49,11 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   description: {
-    fontSize: 12,
+    fontSize: 12.5,
     marginBottom: 8,
     width: 200,
     textAlign: "center",
+    padding: 10,
   },
   learnMoreText: {
     fontSize: 12,
