@@ -120,7 +120,7 @@ const MapScreen = ({ navigation }) => {
         style={{
           backgroundColor: "white",
           position: "absolute",
-          bottom: 220,
+          bottom: 260,
           right: 20,
           height: 50,
           width: 50,
