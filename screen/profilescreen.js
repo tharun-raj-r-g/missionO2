@@ -31,14 +31,7 @@ const Profile = () => {
     setIsEditing(false);
   };
 
-  const govtproof =
-    "https://aadhaarcard.co.in/wp-content/uploads/2023/04/aadhaar-card.webp";
-  const [proofOpen, setProofOpen] = useState(false);
-  const calculateFontSize = (baseFontSize) => {
-    const { width } = Dimensions.get("window");
-    const scaleFactor = 0.05;
-    return baseFontSize + width * scaleFactor;
-  };
+  
   return (
     <View style={styles.container}>
       <StatusBar
@@ -290,7 +283,7 @@ const Profile = () => {
               shadowOffset: { width: 0, height: 5 },
               shadowOpacity: 0.5,
               shadowRadius: 10,
-              marginTop: proofOpen ? "0%" : "8%",
+              marginTop: "8%",
             }}
             onPress={isEditing ? handleUpdateProfile : handleEditProfile}
           >

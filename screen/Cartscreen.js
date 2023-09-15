@@ -26,6 +26,8 @@ import Text from "../fonts/Text";
 import TextB from "../fonts/TextBold";
 import DatePicker from "react-native-modern-datepicker";
 import { getFormatedDate } from "react-native-modern-datepicker";
+import FormData from "form-data";
+import * as FileSystem from "expo-file-system";
 
 const Cartscreen = ({ navigation }) => {
   const route = useRoute();
@@ -40,20 +42,28 @@ const Cartscreen = ({ navigation }) => {
   const [DeliveryTalukList, setDeliveryTalukList] = useState([]);
   const [PlantingTalukList, setPlantingTalukList] = useState([]);
 
-  const [isDeliveryStateDropdownPress, setDeliveryStateDropdownOpen] = useState(false);
-  const [isPlantingStateDropdownPress, setPlantingStateDropdownOpen] = useState(false);
+  const [isDeliveryStateDropdownPress, setDeliveryStateDropdownOpen] =
+    useState(false);
+  const [isPlantingStateDropdownPress, setPlantingStateDropdownOpen] =
+    useState(false);
 
-  const [isDeliveryDistrictDropdownOpen, setDeliveryDistrictDropdownOpen] = useState(false);
-  const [isPlantingDistrictDropdownOpen, setPlantingDistrictDropdownOpen] = useState(false);
+  const [isDeliveryDistrictDropdownOpen, setDeliveryDistrictDropdownOpen] =
+    useState(false);
+  const [isPlantingDistrictDropdownOpen, setPlantingDistrictDropdownOpen] =
+    useState(false);
 
-  const [isDeliveryTalukDropdownPress, setDeliveryTalukDropdownOpen] = useState(false);
-  const [isPlantingTalukDropdownPress, setPlantingTalukDropdownOpen] = useState(false);
+  const [isDeliveryTalukDropdownPress, setDeliveryTalukDropdownOpen] =
+    useState(false);
+  const [isPlantingTalukDropdownPress, setPlantingTalukDropdownOpen] =
+    useState(false);
 
   const [selectedDeliveryState, setSelectedDeliveryState] = useState("Select");
   const [selectedPlantingState, setSelectedPlantingState] = useState("Select");
 
-  const [selectedDeliveryDistrict, setSelectedDeliveryDistrict] = useState("Select");
-  const [selectedPlantingDistrict, setSelectedPlantingDistrict] = useState("Select");
+  const [selectedDeliveryDistrict, setSelectedDeliveryDistrict] =
+    useState("Select");
+  const [selectedPlantingDistrict, setSelectedPlantingDistrict] =
+    useState("Select");
 
   const [selectedDeliveryTaluk, setSelectedDeliveryTaluk] = useState("Select");
   const [selectedPlantingTaluk, setSelectedPlantingTaluk] = useState("Select");
@@ -201,7 +211,7 @@ const Cartscreen = ({ navigation }) => {
     setPlantingTalukList([]);
     setPlantingStateDropdownOpen(false);
   };
-  
+
   const handleDeliveryDistrictSelect = (name) => {
     setSelectedDeliveryDistrict(name);
     setSelectedDeliveryTaluk("Select");
@@ -223,7 +233,6 @@ const Cartscreen = ({ navigation }) => {
     setSelectedPlantingTaluk(name);
     setPlantingTalukDropdownOpen(false);
   };
-  
 
   const pickImage = (index) => {
     setSelectedFrame(index);
@@ -268,10 +277,59 @@ const Cartscreen = ({ navigation }) => {
     }
   };
   const dispatch = useDispatch();
+  const handleUpload = async () => {
+    const data = new FormData();
+    data.append("locationURL", isPlantLatitude + " " + isPlantLongitude);
+    data.append("address.addressLine1.", isDeliveryAddressLine1);
+    data.append("address.addressLine2", isDeliveryAddressLine2);
+    data.append("address.pinCode", isDeliveryPinCode);
+    data.append("address.state", selectedDeliveryState);
+    data.append("address.district", selectedDeliveryDistrict);
+    data.append("address.taluk", selectedDeliveryTaluk);
+    data.append("address.country", "India");
+
+    const localImageUri = FileSystem.documentDirectory + "../assets/jungle.jpg";
+    const imageInfo = await FileSystem.getInfoAsync(localImageUri);
+    if (imageInfo.exists) {
+      data.append("images", {
+        uri: localImageUri,
+        type: "image/jpg",
+        name: "../assets/jungle.jpg",
+      });
+    }
+    
+    cart.forEach((product, index) => {
+      const productKey = `products[${index}]`;
+
+      data.append(`${productKey}.plantId`, product.id);
+      data.append(`${productKey}.plantName`, product.name);
+      data.append(`${productKey}.type`, "plant");
+      data.append(`${productKey}.quantity`, product.quantity);
+    });
+    data.append("state", selectedPlantingState);
+    data.append("district", selectedPlantingDistrict);
+    data.append("taluk", selectedDeliveryTaluk);
+    axiosInstance
+      .post("/orders/create", data, {
+        headers: {
+          Authorization:
+            "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlMThhZDY4Zi0wODgzLTRhMWUtYTk2OC05YjhjY2UwMzZjMWQiLCJpYXQiOjE2OTQ2NjY0MTAsImV4cCI6MTY5NzI1ODQxMH0.2cAX_tSAb-hUalbhi-do0GX9r5gCGK3vFQDEANtM5LFLLdpojuYFZSVKzo_Mx3L5ttEqweGlua_MFcprr0o5Zg",
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((response) => {
+        console.log(JSON.stringify(response.data));
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
   const handleConfirm = () => {
-    navigation.navigate("OrderConfirm");
+    handleUpload();
     dispatch(emptyCart(cart));
     dispatch(zeroQuantityAll(products));
+    navigation.navigate("OrderConfirm");
   };
 
   function handleChangeStartDate(propDate) {
@@ -820,49 +878,50 @@ const Cartscreen = ({ navigation }) => {
               }}
             >
               <TextB style={{ fontSize: 16 }}> Select Taluk :</TextB>
-              {(selectedDeliveryState != "Select" && selectedDeliveryDistrict != "Select" && (
-                <TouchableOpacity
-                  style={{
-                    height: height * 0.05,
-                    width: width * 0.4,
-                    backgroundColor: "#00b388",
-                    borderRadius: 20,
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                  }}
-                  onPress={handleDeliveryTalukDropdownPress}
-                >
-                  <Text
-                    numberOfLines={1}
-                    ellipsizeMode={"tail"}
+              {(selectedDeliveryState != "Select" &&
+                selectedDeliveryDistrict != "Select" && (
+                  <TouchableOpacity
                     style={{
-                      marginLeft: "10%",
-                      color: "white",
-                      fontSize: 16,
-                      width: width * 0.26,
+                      height: height * 0.05,
+                      width: width * 0.4,
+                      backgroundColor: "#00b388",
+                      borderRadius: 20,
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                      alignItems: "center",
                     }}
+                    onPress={handleDeliveryTalukDropdownPress}
                   >
-                    {selectedDeliveryTaluk}
-                  </Text>
+                    <Text
+                      numberOfLines={1}
+                      ellipsizeMode={"tail"}
+                      style={{
+                        marginLeft: "10%",
+                        color: "white",
+                        fontSize: 16,
+                        width: width * 0.26,
+                      }}
+                    >
+                      {selectedDeliveryTaluk}
+                    </Text>
 
-                  {(isDeliveryTalukDropdownPress && (
-                    <Icon
-                      name="chevron-up"
-                      size={30}
-                      color="white"
-                      style={{ marginRight: "3%" }}
-                    />
-                  )) || (
-                    <Icon
-                      name="chevron-down"
-                      size={30}
-                      color="white"
-                      style={{ marginRight: "3%" }}
-                    />
-                  )}
-                </TouchableOpacity>
-              )) || (
+                    {(isDeliveryTalukDropdownPress && (
+                      <Icon
+                        name="chevron-up"
+                        size={30}
+                        color="white"
+                        style={{ marginRight: "3%" }}
+                      />
+                    )) || (
+                      <Icon
+                        name="chevron-down"
+                        size={30}
+                        color="white"
+                        style={{ marginRight: "3%" }}
+                      />
+                    )}
+                  </TouchableOpacity>
+                )) || (
                 <View
                   style={{
                     height: height * 0.05,
@@ -984,7 +1043,7 @@ const Cartscreen = ({ navigation }) => {
                 backgroundColor: "#00b388",
                 alignItems: "center",
                 justifyContent: "center",
-                marginBottom:"5%"
+                marginBottom: "5%",
               }}
               onPress={() => {
                 navigation.navigate("MapScreen", {
@@ -993,9 +1052,7 @@ const Cartscreen = ({ navigation }) => {
               }}
             >
               {isPlantingAddressLocation ? (
-                <TextB style={{ color: "white" }}>
-                  Change Location
-                </TextB>
+                <TextB style={{ color: "white" }}>Change Location</TextB>
               ) : (
                 <TextB style={{ color: "white" }}>
                   Select Location From Map
@@ -1243,49 +1300,50 @@ const Cartscreen = ({ navigation }) => {
               }}
             >
               <TextB style={{ fontSize: 16 }}> Select Taluk :</TextB>
-              {(selectedPlantingState != "Select" && selectedPlantingDistrict != "Select" && (
-                <TouchableOpacity
-                  style={{
-                    height: height * 0.05,
-                    width: width * 0.4,
-                    backgroundColor: "#00b388",
-                    borderRadius: 20,
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                  }}
-                  onPress={handlePlantingTalukDropdownPress}
-                >
-                  <Text
-                    numberOfLines={1}
-                    ellipsizeMode={"tail"}
+              {(selectedPlantingState != "Select" &&
+                selectedPlantingDistrict != "Select" && (
+                  <TouchableOpacity
                     style={{
-                      marginLeft: "10%",
-                      color: "white",
-                      fontSize: 16,
-                      width: width * 0.26,
+                      height: height * 0.05,
+                      width: width * 0.4,
+                      backgroundColor: "#00b388",
+                      borderRadius: 20,
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                      alignItems: "center",
                     }}
+                    onPress={handlePlantingTalukDropdownPress}
                   >
-                    {selectedPlantingTaluk}
-                  </Text>
+                    <Text
+                      numberOfLines={1}
+                      ellipsizeMode={"tail"}
+                      style={{
+                        marginLeft: "10%",
+                        color: "white",
+                        fontSize: 16,
+                        width: width * 0.26,
+                      }}
+                    >
+                      {selectedPlantingTaluk}
+                    </Text>
 
-                  {(isPlantingTalukDropdownPress && (
-                    <Icon
-                      name="chevron-up"
-                      size={30}
-                      color="white"
-                      style={{ marginRight: "3%" }}
-                    />
-                  )) || (
-                    <Icon
-                      name="chevron-down"
-                      size={30}
-                      color="white"
-                      style={{ marginRight: "3%" }}
-                    />
-                  )}
-                </TouchableOpacity>
-              )) || (
+                    {(isPlantingTalukDropdownPress && (
+                      <Icon
+                        name="chevron-up"
+                        size={30}
+                        color="white"
+                        style={{ marginRight: "3%" }}
+                      />
+                    )) || (
+                      <Icon
+                        name="chevron-down"
+                        size={30}
+                        color="white"
+                        style={{ marginRight: "3%" }}
+                      />
+                    )}
+                  </TouchableOpacity>
+                )) || (
                 <View
                   style={{
                     height: height * 0.05,
@@ -1439,8 +1497,20 @@ const Cartscreen = ({ navigation }) => {
               </View>
             </Modal>
 
-            {
-            !isName ? (
+            {isName &&
+            isEmail &&
+            selectedStartDate &&
+            isDeliveryAddressLine1 &&
+            isDeliveryAddressLine2 &&
+            isDeliveryPinCode &&
+            selectedDeliveryState != "Select" &&
+            selectedDeliveryDistrict != "Select" &&
+            selectedDeliveryTaluk != "Select" &&
+            isPlantingAddressLocation &&
+            selectedPlantingState != "Select" &&
+            selectedPlantingDistrict != "Select" &&
+            selectedPlantingTaluk != "Select" &&
+            imageList.length >= 2 ? (
               <TouchableOpacity
                 style={{
                   height: height * 0.06,
