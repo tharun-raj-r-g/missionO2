@@ -101,7 +101,7 @@ const Cartscreen = ({ navigation }) => {
       .then((response) => {
         setName(response.data.name);
         setEmail(response.data.email);
-        setSelectedStartDate(response.data.dob.slice(0,10));
+        setSelectedStartDate(response.data.dob.slice(0, 10));
         setDeliveryAddressLine1(response.data.address.addressLine1);
         setDeliveryAddressLine2(response.data.address.addressLine2);
         setDeliveryPinCode(response.data.address.pinCode);
@@ -324,20 +324,19 @@ const Cartscreen = ({ navigation }) => {
     data.append("address.country", "India");
     console.log(images);
     images.forEach((image, index) => {
-      if(image){
-        const uriParts = image.split('.');
-      const fileType = uriParts[uriParts.length - 1];
-      console.log(image);
-      
-      data.append('images', {
-        uri: image,
-        type: `image/${fileType}`,
-        name: `image${index + 1}.${fileType}`,
-      });
+      if (image) {
+        const uriParts = image.split(".");
+        const fileType = uriParts[uriParts.length - 1];
+        console.log(image);
+
+        data.append("images", {
+          uri: image,
+          type: `image/${fileType}`,
+          name: `image${index + 1}.${fileType}`,
+        });
       }
-      
     });
-    
+
     cart.forEach((product, index) => {
       const productKey = `products[${index}]`;
 
@@ -1711,7 +1710,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     borderRadius: 20,
     width: width * 0.9,
-    height: (width / height) + 440,
+    height: width / height + 440,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,

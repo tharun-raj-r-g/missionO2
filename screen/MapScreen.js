@@ -68,9 +68,12 @@ const MapScreen = ({ navigation, route }) => {
   };
 
   const handleConfirmAndContinue = () => {
-    ConfirmPlantingAddress(currentAddress,centerCoordinate.latitude.toFixed(6),centerCoordinate.longitude.toFixed(6));
+    ConfirmPlantingAddress(
+      currentAddress,
+      centerCoordinate.latitude.toFixed(6),
+      centerCoordinate.longitude.toFixed(6)
+    );
     navigation.navigate("Cart");
-
   };
 
   return (
