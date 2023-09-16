@@ -26,7 +26,7 @@ import TextB from "../fonts/TextBold";
 import DatePicker from "react-native-modern-datepicker";
 import { getFormatedDate } from "react-native-modern-datepicker";
 import FormData from "form-data";
-import * as FileSystem from "expo-file-system";
+import * as Permissions from "expo-permissions";
 
 const Cartscreen = ({ navigation }) => {
   const route = useRoute();
@@ -278,13 +278,22 @@ const Cartscreen = ({ navigation }) => {
     try {
       setModalVisible(false);
 
+      const { status } = await Permissions.askAsync(Permissions.CAMERA);
+
+      if (status !== "granted") {
+        alert(
+          "Camera roll permission denied. Please enable it in your device settings to use the camera."
+        );
+        return;
+      }
+
       if (option === "gallery") {
         const result = await ImagePicker.launchImageLibraryAsync({
           mediaTypes: ImagePicker.MediaTypeOptions.Images,
           quality: 1,
         });
 
-        if (!result.canceled) {
+        if (!result.cancelled) {
           const newImages = [...images];
           newImages[selectedFrame] = result.uri;
           setImages(newImages);
@@ -298,7 +307,7 @@ const Cartscreen = ({ navigation }) => {
           quality: 1,
         });
 
-        if (!result.canceled) {
+        if (!result.cancelled) {
           const newImages = [...images];
           newImages[selectedFrame] = result.uri;
           setImages(newImages);
