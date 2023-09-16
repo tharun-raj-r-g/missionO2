@@ -16,7 +16,6 @@ import { useEffect } from "react";
 import axiosInstance from "../api/api";
 import Icon from "react-native-vector-icons/Feather";
 import DatePicker from "react-native-modern-datepicker";
-import { getFormatedDate } from "react-native-modern-datepicker";
 const { width, height } = Dimensions.get("window");
 const Profile = () => {
   const [isEditing, setIsEditing] = useState(false);
@@ -31,7 +30,14 @@ const Profile = () => {
   const [dob, setDOB] = useState("YYYY/MM/DD");
   const [isProfileData, setProfileData] = useState([]);
   const [openStartDatePicker, setOpenStartDatePicker] = useState(false);
-  const startDate = getFormatedDate("YYYY/MM/DD");
+  const currentDate = new Date();
+  const formattedStartDate = currentDate
+    .toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    })
+    .replace(/\//g, "-");
   const [startedDate, setStartedDate] = useState("01/01/2015");
 
   const [statelist, setstatelist] = useState([]);
@@ -365,7 +371,7 @@ const Profile = () => {
                     <View style={styles.modalView}>
                       <DatePicker
                         mode="calendar"
-                        minimumDate={startDate}
+                        minimumDate={formattedStartDate}
                         selected={startedDate}
                         onDateChanged={handleChangeStartDate}
                         onSelectedChange={(date) => setDOB(date)}
@@ -925,7 +931,29 @@ const Profile = () => {
               {isEditing ? "Update Profile" : "Edit Profile"}
             </TextB>
           </TouchableOpacity>
-          <View style={{ height: height * 0.2 }}></View>
+
+          {!isEditing ? (
+            <TouchableOpacity
+              style={{
+                height: height * 0.07,
+                width: width * 0.6,
+                borderRadius: 30,
+                backgroundColor: "#fff",
+                alignSelf: "center",
+                justifyContent: "center",
+                alignItems: "center",
+                elevation: 4,
+                shadowColor: "black",
+                shadowOffset: { width: 0, height: 5 },
+                shadowOpacity: 0.5,
+                shadowRadius: 10,
+                marginTop: "8%",
+              }}
+            >
+              <TextB style={{ color: "#005f48", fontSize: 18 }}>Sign out</TextB>
+            </TouchableOpacity>
+          ) : null}
+          <View style={{ height: height * 0.15 }}></View>
         </ScrollView>
       </View>
     </View>

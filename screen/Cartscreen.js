@@ -24,7 +24,6 @@ import { emptyCart } from "../redux/reducers/cartReducers";
 import Text from "../fonts/Text";
 import TextB from "../fonts/TextBold";
 import DatePicker from "react-native-modern-datepicker";
-import { getFormatedDate } from "react-native-modern-datepicker";
 import FormData from "form-data";
 import * as Permissions from "expo-permissions";
 
@@ -74,7 +73,14 @@ const Cartscreen = ({ navigation }) => {
   const [isName, setName] = useState("");
   const [isEmail, setEmail] = useState("");
   const [openStartDatePicker, setOpenStartDatePicker] = useState(false);
-  const startDate = getFormatedDate("YYYY/MM/DD");
+  const currentDate = new Date();
+  const formattedStartDate = currentDate
+    .toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    })
+    .replace(/\//g, "-");
   const [selectedStartDate, setSelectedStartDate] = useState("YYYY/MM/DD");
   const [startedDate, setStartedDate] = useState("01/01/2015");
   const [isDeliveryAddressLine1, setDeliveryAddressLine1] = useState("");
@@ -293,7 +299,7 @@ const Cartscreen = ({ navigation }) => {
           quality: 1,
         });
 
-        if (!result.cancelled) {
+        if (!result.canceled) {
           const newImages = [...images];
           newImages[selectedFrame] = result.uri;
           setImages(newImages);
@@ -307,7 +313,7 @@ const Cartscreen = ({ navigation }) => {
           quality: 1,
         });
 
-        if (!result.cancelled) {
+        if (!result.canceled) {
           const newImages = [...images];
           newImages[selectedFrame] = result.uri;
           setImages(newImages);
@@ -510,7 +516,7 @@ const Cartscreen = ({ navigation }) => {
                 <View style={styles.modalView}>
                   <DatePicker
                     mode="calendar"
-                    minimumDate={startDate}
+                    minimumDate={formattedStartDate}
                     selected={startedDate}
                     onDateChanged={handleChangeStartDate}
                     onSelectedChange={(date) => setSelectedStartDate(date)}
@@ -529,6 +535,7 @@ const Cartscreen = ({ navigation }) => {
                 </View>
               </View>
             </Modal>
+
             <View
               style={{
                 width: width * 0.92,

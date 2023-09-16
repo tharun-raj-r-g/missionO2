@@ -1,7 +1,7 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import VerificationPage from "../screen/verficationpage";
-import ProfileFirst from "../screen/profilefirst";
+import Login from "../screen/Login";
+import Signup from "../screen/Signup";
 
 const Stack = createStackNavigator();
 function LoginStack() {
@@ -12,8 +12,8 @@ function LoginStack() {
         headerShown: false,
       }}
     >
-      <Stack.Screen name="VerificationPage" component={VerificationPage} />
-      <Stack.Screen name="ProfileFirst" component={ProfileFirst} />
+      <Stack.Screen name="Login" component={Login} />
+      <Stack.Screen name="Signup" component={Signup} />
     </Stack.Navigator>
   );
 }
