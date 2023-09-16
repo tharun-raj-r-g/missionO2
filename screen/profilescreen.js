@@ -8,6 +8,7 @@ import {
   ScrollView,
   TouchableOpacity,
   Modal,
+  Button,
 } from "react-native";
 import Text from "../fonts/Text";
 import TextB from "../fonts/TextBold";
@@ -16,7 +17,9 @@ import { useEffect } from "react";
 import axiosInstance from "../api/api";
 import Icon from "react-native-vector-icons/Feather";
 import DatePicker from "react-native-modern-datepicker";
+import * as ImagePicker from "expo-image-picker";
 const { width, height } = Dimensions.get("window");
+const defaultProfileImage = require("../assets/profile.webp");
 const Profile = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [name, setName] = useState("Enter your name");
@@ -54,6 +57,9 @@ const Profile = () => {
 
   const [isDeliveryTalukDropdownPress, setDeliveryTalukDropdownOpen] =
     useState(false);
+
+  const [profileImage, setProfileImage] = useState(defaultProfileImage);
+  const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
     getState();
@@ -219,6 +225,33 @@ const Profile = () => {
       });
   };
 
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      setProfileImage({ uri: result.assets[0].uri });
+      setModalVisible(false);
+    }
+  };
+
+  const removeImage = () => {
+    setProfileImage(defaultProfileImage);
+    setModalVisible(false);
+  };
+
+  const toggleModal = () => {
+    if (profileImage.uri !== defaultProfileImage.uri) {
+      setModalVisible(!modalVisible);
+    } else {
+      pickImage();
+    }
+  };
+
   return (
     <View style={styles.container}>
       <StatusBar
@@ -276,15 +309,76 @@ const Profile = () => {
             alignItems: "center",
           }}
         >
-          <Image
-            style={{
-              height: height * 0.14,
-              width: width * 0.3,
-              borderRadius: 70,
-              marginTop: "2%",
-            }}
-            source={require("../assets/boy1.png")}
-          />
+          {isEditing ? (
+            <View>
+              <Modal
+                animationType="slide"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => setModalVisible(false)}
+              >
+                <View style={styles.modalContainer}>
+                  <View style={styles.modalContent}>
+                    <TextB style={styles.modalTitle}>Select an option</TextB>
+                    <TouchableOpacity
+                      style={styles.modalOption}
+                      onPress={pickImage}
+                    >
+                      <Text style={styles.modalOptionText}>Change Image</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={styles.modalOption}
+                      onPress={removeImage}
+                    >
+                      <Text style={styles.modalOptionText}>Remove Image</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={styles.modalOption}
+                      onPress={() => setModalVisible(false)}
+                    >
+                      <Text style={styles.modalOptionText}>Cancel</Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              </Modal>
+
+              <View style={{ alignItems: "center" }}>
+                <TouchableOpacity onPress={toggleModal}>
+                  <Image
+                    style={{
+                      height: height * 0.14,
+                      width: width * 0.3,
+                      borderRadius: 70,
+                      marginTop: "2%",
+                      opacity: 0.5,
+                    }}
+                    source={profileImage}
+                  />
+                  <Icon
+                    name="edit"
+                    size={30}
+                    color="white"
+                    style={{
+                      position: "absolute",
+                      top: "50%",
+                      left: "50%",
+                      transform: [{ translateX: -15 }, { translateY: -15 }],
+                    }}
+                  />
+                </TouchableOpacity>
+              </View>
+            </View>
+          ) : (
+            <Image
+              style={{
+                height: height * 0.14,
+                width: width * 0.3,
+                borderRadius: 70,
+                marginTop: "2%",
+              }}
+              source={profileImage}
+            />
+          )}
         </View>
       </View>
       <View
@@ -991,5 +1085,34 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  modalContent: {
+    backgroundColor: "white",
+    padding: 20,
+    borderRadius: 10,
+    elevation: 5,
+    shadowColor: "black",
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 0.5,
+    shadowRadius: 10,
+  },
+  modalTitle: {
+    fontSize: 20,
+    marginBottom: 20,
+  },
+  modalOption: {
+    paddingVertical: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: "rgba(0, 0, 0, 0.1)",
+  },
+  modalOptionText: {
+    fontSize: 16,
+    color: "black",
   },
 });
