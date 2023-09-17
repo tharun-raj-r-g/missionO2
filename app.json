@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "missiono2",
-    "slug": "missiono2",
-    "version": "1.0.0",
+    "name": "Mission O₂",
+    "slug": "MissionO2",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -11,7 +11,9 @@
       "resizeMode": "cover",
       "backgroundColor": "#00b388"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true
     },
@@ -20,14 +22,14 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#00b388"
       },
-      "package": "com.sec21cb004.missiono2"
+      "package": "com.lrcindia.missiono2"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
       "eas": {
-        "projectId": "a96f9ff2-5c14-4c6c-9ca6-5b5278951bdd"
+        "projectId": "bedeed21-b9b7-4f81-b3b3-b6a1b7e56213"
       }
     }
   }

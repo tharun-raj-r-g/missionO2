@@ -38,6 +38,10 @@ const App = () => {
                   {
                     backgroundColor: focused ? "#00a079" : null,
                     elevation: focused ? 5 : null,
+                    shadowColor: focused ? "#000" : null,
+                    shadowOffset: focused ? { width: 0, height: 2 } : null,
+                    shadowOpacity: focused ? 0.2 : null,
+                    shadowRadius: focused ? 4 : null,
                   },
                 ]}
               >
@@ -69,6 +73,10 @@ const App = () => {
                   {
                     backgroundColor: focused ? "#00a079" : null,
                     elevation: focused ? 5 : null,
+                    shadowColor: focused ? "#000" : null,
+                    shadowOffset: focused ? { width: 0, height: 2 } : null,
+                    shadowOpacity: focused ? 0.2 : null,
+                    shadowRadius: focused ? 4 : null,
                   },
                 ]}
               >
@@ -101,6 +109,10 @@ const App = () => {
                   {
                     backgroundColor: focused ? "#00a079" : null,
                     elevation: focused ? 5 : null,
+                    shadowColor: focused ? "#000" : null,
+                    shadowOffset: focused ? { width: 0, height: 2 } : null,
+                    shadowOpacity: focused ? 0.2 : null,
+                    shadowRadius: focused ? 4 : null,
                   },
                 ]}
               >
@@ -132,6 +144,10 @@ const App = () => {
                   {
                     backgroundColor: focused ? "#00a079" : null,
                     elevation: focused ? 5 : null,
+                    shadowColor: focused ? "#000" : null,
+                    shadowOffset: focused ? { width: 0, height: 2 } : null,
+                    shadowOpacity: focused ? 0.2 : null,
+                    shadowRadius: focused ? 4 : null,
                   },
                 ]}
               >

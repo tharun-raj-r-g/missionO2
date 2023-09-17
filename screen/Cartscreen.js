@@ -25,7 +25,7 @@ import Text from "../fonts/Text";
 import TextB from "../fonts/TextBold";
 import DatePicker from "react-native-modern-datepicker";
 import FormData from "form-data";
-import * as Permissions from "expo-permissions";
+import { Camera } from "expo-camera";
 
 const Cartscreen = ({ navigation }) => {
   const route = useRoute();
@@ -284,11 +284,11 @@ const Cartscreen = ({ navigation }) => {
     try {
       setModalVisible(false);
 
-      const { status } = await Permissions.askAsync(Permissions.CAMERA);
+      const { status } = await Camera.requestCameraPermissionsAsync();
 
       if (status !== "granted") {
         alert(
-          "Camera roll permission denied. Please enable it in your device settings to use the camera."
+          "Camera permission denied. Please enable it in your device settings to use the camera."
         );
         return;
       }
@@ -301,7 +301,7 @@ const Cartscreen = ({ navigation }) => {
 
         if (!result.canceled) {
           const newImages = [...images];
-          newImages[selectedFrame] = result.uri;
+          newImages[selectedFrame] = result.assets[0].uri;
           setImages(newImages);
           if (!imageList.includes(selectedFrame)) {
             setImageList([...imageList, selectedFrame]);
@@ -315,7 +315,7 @@ const Cartscreen = ({ navigation }) => {
 
         if (!result.canceled) {
           const newImages = [...images];
-          newImages[selectedFrame] = result.uri;
+          newImages[selectedFrame] = result.assets[0].uri;
           setImages(newImages);
           if (!imageList.includes(selectedFrame)) {
             setImageList([...imageList, selectedFrame]);
@@ -326,6 +326,7 @@ const Cartscreen = ({ navigation }) => {
       console.error("Error picking images: ", error);
     }
   };
+
   const dispatch = useDispatch();
   const handleUpload = async () => {
     const data = new FormData();
